@@ -26,8 +26,7 @@ export default function RegisterPage() {
         emailRedirectTo: 'https://www.promptiapro.com.br/auth/login'
       }
     })
-    })
-    if (error) {
+       if (error) {
       setError(error.message)
       setLoading(false)
     } else {
