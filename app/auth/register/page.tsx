@@ -19,8 +19,13 @@ export default function RegisterPage() {
     setLoading(true)
     setError('')
     const { error } = await supabase.auth.signUp({
-      email, password,
-      options: { data: { full_name: name } }
+      email,
+      password,
+      options: {
+        data: { full_name: name },
+        emailRedirectTo: 'https://www.promptiapro.com.br/auth/login'
+      }
+    })
     })
     if (error) {
       setError(error.message)
