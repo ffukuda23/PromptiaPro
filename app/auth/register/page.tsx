@@ -22,8 +22,7 @@ export default function RegisterPage() {
       email,
       password,
       options: {
-        data: { full_name: name },
-        emailRedirectTo: 'https://www.promptiapro.com.br/auth/login'
+        data: { full_name: name }
       }
     })
        if (error) {
