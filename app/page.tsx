@@ -166,7 +166,7 @@ export default function Home() {
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>para sempre gratuito</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
-              {['30 prompts gratuitos', '14 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
+              {['50 prompts gratuitos', '14 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
               {['Prompts Pro exclusivos', 'Novidades mensais'].map(f => (
@@ -181,8 +181,8 @@ export default function Home() {
           <div className="relative p-8 rounded-2xl border-2" style={{ background: 'linear-gradient(145deg, rgba(124,111,247,0.08) 0%, var(--surface) 60%)', borderColor: 'rgba(124,111,247,0.5)' }}>
             <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Mais popular</span>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Mensal</div>
-            <div className="font-display text-5xl font-black mb-1"><sup className="text-2xl align-top mt-2 inline-block">R$</sup>39</div>
-            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · cancele quando quiser</div>
+            <div className="font-display text-5xl font-black mb-1"><sup className="text-2xl align-top mt-2 inline-block">R$</sup>19,90</div>
+            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · garantia de 7 dias</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
               {['800+ prompts completos', '14 categorias completas', '+30 novos prompts/mês', 'Busca avançada', 'Favoritos ilimitados', 'Suporte por WhatsApp'].map(f => (
@@ -196,11 +196,11 @@ export default function Home() {
           {/* PRO ANUAL */}
           <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Anual</div>
-            <div className="font-display text-5xl font-black mb-1"><sup className="text-2xl align-top mt-2 inline-block">R$</sup>29</div>
-            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · R$ 348/ano · economize 26%</div>
+            <div className="font-display text-5xl font-black mb-1"><sup className="text-2xl align-top mt-2 inline-block">R$</sup>12,50</div>
+            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · R$ 150/ano · economize 37%</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
-              {['Tudo do Pro Mensal', 'Economia de R$ 120/ano', 'Acesso antecipado a novidades', '1 consultoria de 30 min', 'Garantia de 30 dias'].map(f => (
+              {['Tudo do Pro Mensal', 'Economia de R$ 89/ano', 'Acesso antecipado a novidades', '1 consultoria de 30 min', 'Garantia de 7 dias'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
             </ul>
