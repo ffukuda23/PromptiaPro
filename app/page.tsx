@@ -157,7 +157,7 @@ export default function Home() {
       <section id="planos" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Planos e preços</div>
         <h2 className="font-display text-4xl font-black tracking-tight mb-3">Invista menos do que 1 hora do seu tempo</h2>
-        <p className="mb-12" style={{ color: 'var(--muted)' }}>Cancele quando quiser, sem burocracia.</p>
+        <p className="mb-12" style={{ color: 'var(--muted)' }}></p>
         <div className="grid md:grid-cols-3 gap-4">
           {/* FREE */}
           <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
@@ -181,7 +181,7 @@ export default function Home() {
           <div className="relative p-8 rounded-2xl border-2" style={{ background: 'linear-gradient(145deg, rgba(124,111,247,0.08) 0%, var(--surface) 60%)', borderColor: 'rgba(124,111,247,0.5)' }}>
             <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Mais popular</span>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Mensal</div>
-            <div className="font-display text-5xl font-black mb-1"><sup className="text-2xl align-top mt-2 inline-block">R$</sup>19,90</div>
+            <div className="font-display text-5xl font-black mb-1">R$ 19,90</div>
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · garantia de 7 dias</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
@@ -196,7 +196,7 @@ export default function Home() {
           {/* PRO ANUAL */}
           <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Anual</div>
-            <div className="font-display text-5xl font-black mb-1"><sup className="text-2xl align-top mt-2 inline-block">R$</sup>12,50</div>
+            <div className="font-display text-5xl font-black mb-1">R$ 12,50</div>
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · R$ 150/ano · economize 37%</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
