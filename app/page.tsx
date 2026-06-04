@@ -80,6 +80,7 @@ export default function Home() {
             </a>
           </div>
         </div>
+<div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
         <div className="flex gap-12 mt-16 flex-wrap justify-center">
           {[['800+', 'Prompts profissionais'], ['14', 'Áreas de atuação'], ['+30', 'Novos/mês'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
