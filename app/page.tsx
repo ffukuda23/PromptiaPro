@@ -81,7 +81,10 @@ export default function Home() {
           </div>
         </div>
 <div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
-        <div className="flex gap-12 mt-16 flex-wrap justify-center">
+<div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
+
+<div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>        
+<div className="flex gap-12 mt-16 flex-wrap justify-center">
           {[['800+', 'Prompts profissionais'], ['14', 'Áreas de atuação'], ['+30', 'Novos/mês'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl font-black">{num}</div>
