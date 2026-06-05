@@ -20,6 +20,7 @@ const GROUPS = [
   { key: 'Novos Idiomas', icon: '🌍', subs: ['Inglês', 'Espanhol', 'Mandarim'] },
   { key: 'Carreira', icon: '🎯', subs: ['Currículo', 'Entrevistas'] },
   { key: 'IA no Trabalho', icon: '🤖', subs: ['Automação', 'Produtividade'] },
+{ key: 'Festas e Eventos', icon: '🎉', subs: ['Confeiteiras', 'Decoradores de Festa'] },
 ]
 
 export default function DashboardPage() {
