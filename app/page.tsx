@@ -266,9 +266,9 @@ export default function Home() {
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
         <span className="font-display text-lg font-black">Prompt<span style={{ color: 'var(--accent)' }}>IA</span>Pro</span>
         <div className="flex gap-6">
-          {['Termos', 'Privacidade', 'Contato'].map(l => (
-            <a key={l} href="#" className="text-sm transition-colors" style={{ color: 'var(--subtle)' }}>{l}</a>
-          ))}
+          <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
+          <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
+          <a href="mailto:suporte@promptiapro.com.br" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Contato</a>
         </div>
         <span className="text-sm" style={{ color: 'var(--subtle)' }}>© 2025 PromptIAPro</span>
       </footer>
