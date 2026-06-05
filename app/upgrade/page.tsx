@@ -32,7 +32,7 @@ export default function UpgradePage() {
               <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
             ))}
           </ul>
-          <a href={https://buy.stripe.com/6oU14f26iagy1QfgIU97G00} className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90 mt-auto" style={{ background: 'var(--accent)' }}>
+          <a href={LINK_MENSAL} className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90 mt-auto" style={{ background: 'var(--accent)' }}>
             Assinar mensal →
           </a>
         </div>
@@ -50,7 +50,7 @@ export default function UpgradePage() {
               <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
             ))}
           </ul>
-          <a href={https://buy.stripe.com/fZudR1cKWfASbqP64g97G02} className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90 mt-auto" style={{ background: 'var(--accent)' }}>
+          <a href={LINK_ANUAL} className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90 mt-auto" style={{ background: 'var(--accent)' }}>
             Assinar anual →
           </a>
         </div>
