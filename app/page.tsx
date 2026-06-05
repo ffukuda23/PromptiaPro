@@ -189,7 +189,7 @@ export default function Home() {
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
             </ul>
-            <Link href="/auth/register?plan=pro_mensal" className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
+            <Link href="https://buy.stripe.com/6oU14f26iagy1QfgIU97G00" className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
               Assinar agora →
             </Link>
           </div>
@@ -204,7 +204,7 @@ export default function Home() {
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
             </ul>
-            <Link href="/auth/register?plan=pro_anual" className="block w-full text-center py-3 rounded-xl text-sm font-medium border transition-all hover:opacity-80" style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}>
+            <Link href="https://buy.stripe.com/fZudR1cKWfASbqP64g97G02" className="block w-full text-center py-3 rounded-xl text-sm font-medium border transition-all hover:opacity-80" style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}>
               Assinar anual →
             </Link>
           </div>
