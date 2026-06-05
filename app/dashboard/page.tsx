@@ -110,7 +110,7 @@ export default function DashboardPage() {
               className="flex-1 bg-transparent outline-none text-sm" style={{ color: '#F0EFF8' }} />
           </div>
           {user?.plan !== 'pro' && (
-            <a href="https://buy.stripe.com/6oU14f26iagy1QfgIU97G00" className="px-4 py-1.5 rounded-lg text-xs font-medium text-white whitespace-nowrap" style={{ background: 'var(--accent)' }}>
+            <a href="/upgrade" className="px-4 py-1.5 rounded-lg text-xs font-medium text-white whitespace-nowrap" style={{ background: 'var(--accent)' }}>
               Upgrade Pro
             </a>
           )}
