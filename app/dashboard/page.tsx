@@ -28,6 +28,7 @@ export default function DashboardPage() {
   const [user, setUser] = useState<UserProfile | null>(null)
   const [prompts, setPrompts] = useState<Prompt[]>([])
   const [selectedGroup, setSelectedGroup] = useState(GROUPS[0].key)
+const [selectedSub, setSelectedSub] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
   const [copied, setCopied] = useState(false)
@@ -73,7 +74,10 @@ export default function DashboardPage() {
   const filtered = prompts.filter(p => {
     const matchGroup = p.group_name === selectedGroup
     const matchSearch = search ? p.title.toLowerCase().includes(search.toLowerCase()) || p.description?.toLowerCase().includes(search.toLowerCase()) : true
-    return matchGroup && matchSearch
+    const currentGroup = GROUPS.find(g => g.key === setSelectedSub(null))
+    const hasSubs = currentGroup?.subs && currentGroup.subs.length > 0
+    const matchSub = hasSubs && selectedSub ? p.subgroup === selectedSub : true
+    return matchGroup && matchSearch && matchSub
   })
 
   const currentGroup = GROUPS.find(g => g.key === selectedGroup)
@@ -91,7 +95,7 @@ export default function DashboardPage() {
         </div>
         <div className="overflow-y-auto h-full pb-20">
           {GROUPS.map(g => (
-            <button key={g.key} onClick={() => setSelectedGroup(g.key)}
+            <button key={g.key} onClick={() => { setSelectedGroup(g.key); setSelectedSub(null); }}
               className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-xs transition-colors"
               style={{ background: selectedGroup === g.key ? 'var(--surface)' : 'transparent', color: selectedGroup === g.key ? '#F0EFF8' : 'var(--muted)', fontWeight: selectedGroup === g.key ? '500' : '400' }}>
               <span>{g.icon}</span>{g.key}
@@ -128,12 +132,23 @@ export default function DashboardPage() {
 
           {/* SUBGROUP TABS */}
           {currentGroup?.subs && (
-            <div className="flex gap-2 flex-wrap mb-5">
-              {currentGroup.subs.map(s => (
-                <span key={s} className="text-xs px-3 py-1 rounded-full border cursor-default" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>{s}</span>
-              ))}
-            </div>
-          )}
+          <div className="flex gap-2 flex-wrap mb-5">
+            <button
+              onClick={() => setSelectedSub(null)}
+              className="text-xs px-3 py-1 rounded-full border transition-colors"
+              style={{ borderColor: selectedSub === null ? 'var(--accent)' : 'var(--border)', color: selectedSub === null ? 'var(--accent2)' : 'var(--muted)', background: selectedSub === null ? 'rgba(124,111,247,0.1)' : 'transparent' }}>
+              Todos
+            </button>
+            {currentGroup.subs.map(s => (
+              <button key={s}
+                onClick={() => setSelectedSub(s)}
+                className="text-xs px-3 py-1 rounded-full border transition-colors"
+                style={{ borderColor: selectedSub === s ? 'var(--accent)' : 'var(--border)', color: selectedSub === s ? 'var(--accent2)' : 'var(--muted)', background: selectedSub === s ? 'rgba(124,111,247,0.1)' : 'transparent' }}>
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
 
           {filtered.length === 0 ? (
             <div className="text-center py-16" style={{ color: 'var(--muted)' }}>
