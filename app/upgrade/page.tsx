@@ -56,7 +56,36 @@ export default function UpgradePage() {
         </div>
 
       </div>
-
+<div className="mt-10 flex flex-col items-center gap-3">
+  <svg width="140" height="140" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="goldOuter" cx="38%" cy="30%" r="70%"><stop offset="0%" stopColor="#fff5b0"/><stop offset="40%" stopColor="#E8C96B"/><stop offset="100%" stopColor="#9a7010"/></radialGradient>
+      <radialGradient id="goldRing3" cx="40%" cy="30%" r="70%"><stop offset="0%" stopColor="#fff0a0"/><stop offset="45%" stopColor="#E8C96B"/><stop offset="100%" stopColor="#9a7010"/></radialGradient>
+      <radialGradient id="centerGrad3" cx="38%" cy="32%" r="68%"><stop offset="0%" stopColor="#9d8ff9"/><stop offset="55%" stopColor="#7C6FF7"/><stop offset="100%" stopColor="#4a3fd4"/></radialGradient>
+      <linearGradient id="shineGrad3" x1="0%" y1="0%" x2="55%" y2="100%"><stop offset="0%" stopColor="white" stopOpacity="0.18"/><stop offset="100%" stopColor="white" stopOpacity="0"/></linearGradient>
+      <filter id="glow3"><feDropShadow dx="0" dy="1" stdDeviation="2" floodColor="#000" floodOpacity="0.4"/></filter>
+      <filter id="textBright3"><feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#E8C96B" floodOpacity="0.8"/></filter>
+      <path id="topCurve3" d="M 26,100 A 74,74 0 0,1 174,100"/>
+      <path id="botCurve3" d="M 36,118 A 66,66 0 0,0 164,118"/>
+    </defs>
+    <circle cx="100" cy="100" r="95" fill="url(#goldOuter)"/>
+    <circle cx="100" cy="100" r="88" fill="#b8920a"/>
+    <circle cx="100" cy="100" r="85" fill="url(#goldOuter)"/>
+    <circle cx="100" cy="100" r="80" fill="url(#goldRing3)"/>
+    <circle cx="100" cy="100" r="66" fill="url(#centerGrad3)"/>
+    <ellipse cx="84" cy="72" rx="26" ry="15" fill="white" opacity="0.13"/>
+    <line x1="44" y1="67" x2="156" y2="67" stroke="#E8C96B" strokeWidth="0.8" opacity="0.6"/>
+    <text fontFamily="Arial, sans-serif" fontSize="11" fontWeight="900" fill="#fff8e0" letterSpacing="1.2" filter="url(#textBright3)"><textPath href="#topCurve3" startOffset="50%" textAnchor="middle">100% DINHEIRO DE VOLTA</textPath></text>
+    <text x="102" y="116" textAnchor="middle" fontFamily="Arial Black, sans-serif" fontSize="58" fontWeight="900" fill="#0d0840" opacity="0.6">7</text>
+    <text x="100" y="114" textAnchor="middle" fontFamily="Arial Black, sans-serif" fontSize="58" fontWeight="900" fill="white" filter="url(#glow3)">7</text>
+    <text x="100" y="136" textAnchor="middle" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="800" fill="#E8C96B" letterSpacing="5" filter="url(#glow3)">DIAS</text>
+    <text x="58" y="154" textAnchor="middle" fontSize="11" fill="#E8C96B">★</text>
+    <text x="142" y="154" textAnchor="middle" fontSize="11" fill="#E8C96B">★</text>
+    <text fontFamily="Arial, sans-serif" fontSize="11" fontWeight="900" fill="#fff8e0" letterSpacing="3" filter="url(#textBright3)"><textPath href="#botCurve3" startOffset="50%" textAnchor="middle">GARANTIDO</textPath></text>
+    <circle cx="100" cy="100" r="80" fill="url(#shineGrad3)"/>
+  </svg>
+  <p className="text-xs font-medium text-center" style={{ color: 'var(--muted)' }}>Garantia incondicional de 7 dias — se não gostar, devolvemos 100% do valor</p>
+</div>
       <p className="text-xs mt-8 text-center" style={{ color: 'var(--subtle)' }}>
         Pagamento seguro via Stripe · Cartão de crédito, débito e PIX
       </p>
