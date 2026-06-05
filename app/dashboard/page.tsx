@@ -74,7 +74,7 @@ const [selectedSub, setSelectedSub] = useState<string | null>(null)
   const filtered = prompts.filter(p => {
     const matchGroup = p.group_name === selectedGroup
     const matchSearch = search ? p.title.toLowerCase().includes(search.toLowerCase()) || p.description?.toLowerCase().includes(search.toLowerCase()) : true
-    const currentGroup = GROUPS.find(g => g.key === setSelectedSub(null))
+    const currentGroup = GROUPS.find(g => g.key === selectedGroup)
     const hasSubs = currentGroup?.subs && currentGroup.subs.length > 0
     const matchSub = hasSubs && selectedSub ? p.subgroup === selectedSub : true
     return matchGroup && matchSearch && matchSub
