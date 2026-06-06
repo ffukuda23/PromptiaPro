@@ -79,9 +79,9 @@ const LogoHero = () => (
       <circle cx="28" cy="0" r="9" fill="#e879f9"/>
     </g>
     <text x="240" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
-    <rect x="570" y="118" width="118" height="90" rx="12" fill="#7c3aed"/>
-    <text x="629" y="190" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="700" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#c084fc"> Pro</text>
+   <rect x="620" y="118" width="118" height="90" rx="12" fill="#7c3aed"/>
+<text x="679" y="190" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+<text x="750" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#c084fc"> Pro</text>
     <text x="490" y="255" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="18" fill="#9333ea" textAnchor="middle" letterSpacing="5">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
   </svg>
 )
