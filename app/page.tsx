@@ -268,7 +268,7 @@ export default function Home() {
         <div className="flex gap-6">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
           <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
-          <a href="mailto:suporte@promptiapro.com.br" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Contato</a>
+          <a href="/contato" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Contato</a>
         </div>
         <span className="text-sm" style={{ color: 'var(--subtle)' }}>© 2025 PromptIAPro</span>
       </footer>
