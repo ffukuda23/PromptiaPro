@@ -77,7 +77,8 @@ export default function Home() {
             ✦ Biblioteca profissional de prompts
           </span>
          <div className="flex flex-col items-center mb-6">
-  <svg width="420" height="180" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
+ <div className="flex flex-col items-center mb-6">
+  <svg width="680" height="260" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(90,90)">
       <polygon points="0,-52 37,-37 52,0 37,37 0,52 -37,37 -52,0 -37,-37" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-16" cy="0" r="5" fill="#e879f9"/>
