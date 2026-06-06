@@ -53,7 +53,8 @@ export default function Home() {
     <circle cx="12" cy="0" r="4" fill="#e879f9"/>
   </g>
   <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-  <rect x="263" y="28" width="56" height="40" rx="6" fill="#7c3aed"/>
+ <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
+<text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
   <text x="291" y="58" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
   <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
 </svg>
@@ -295,7 +296,8 @@ export default function Home() {
     <circle cx="12" cy="0" r="4" fill="#e879f9"/>
   </g>
   <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-  <rect x="263" y="28" width="56" height="40" rx="6" fill="#7c3aed"/>
+  <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
+<text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
   <text x="291" y="58" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
   <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
 </svg>
