@@ -275,7 +275,18 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
-        <img src="/logo-transparente.svg" alt="PromptIA Pro" height="28" style={{ height: '28px' }} />
+        <svg width="140" height="28" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(48,50)">
+    <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
+    <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
+    <circle cx="0" cy="0" r="4" fill="#c084fc"/>
+    <circle cx="12" cy="0" r="4" fill="#e879f9"/>
+  </g>
+  <text x="108" y="40" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+  <rect x="263" y="8" width="56" height="40" rx="6" fill="#7c3aed"/>
+  <text x="291" y="38" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+  <text x="328" y="40" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+</svg>
         <div className="flex gap-6">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
           <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
