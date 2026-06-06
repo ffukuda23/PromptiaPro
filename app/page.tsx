@@ -43,7 +43,7 @@ const faqs = [
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(48,55)">
-      <polygon points="0,-40 30,-25 40,0 30,25 0,40 -30,25 -40,0 -30,-25" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
       <circle cx="0" cy="0" r="4" fill="#c084fc"/>
       <circle cx="12" cy="0" r="4" fill="#e879f9"/>
@@ -58,7 +58,7 @@ const LogoNavbar = () => (
 const LogoFooter = () => (
   <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(48,55)">
-      <polygon points="0,-40 30,-25 40,0 30,25 0,40 -30,25 -40,0 -30,-25" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
       <circle cx="0" cy="0" r="4" fill="#c084fc"/>
       <circle cx="12" cy="0" r="4" fill="#e879f9"/>
@@ -71,25 +71,24 @@ const LogoFooter = () => (
 )
 
 const LogoHero = () => (
-  <svg width="100%" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(120,190)">
-      <polygon points="0,-90 65,-55 85,0 65,55 0,90 -65,55 -85,0 -65,-55" fill="#1a0a2e" stroke="#a855f7" strokeWidth="3"/>
+  <svg width="100%" height="380" viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(120,170)">
+      <polygon points="0,-90 64,-64 90,0 64,64 0,90 -64,64 -90,0 -64,-64" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
       <circle cx="-28" cy="0" r="9" fill="#e879f9"/>
       <circle cx="0" cy="0" r="9" fill="#c084fc"/>
       <circle cx="28" cy="0" r="9" fill="#e879f9"/>
     </g>
-    <text x="240" y="215" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
-    <rect x="570" y="128" width="118" height="94" rx="12" fill="#7c3aed"/>
-    <text x="629" y="200" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="700" y="215" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#c084fc"> Pro</text>
-    <text x="490" y="275" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="18" fill="#9333ea" textAnchor="middle" letterSpacing="5">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+    <text x="240" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
+    <rect x="570" y="118" width="118" height="90" rx="12" fill="#7c3aed"/>
+    <text x="629" y="190" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="700" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="490" y="255" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="18" fill="#9333ea" textAnchor="middle" letterSpacing="5">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
   </svg>
 )
 
 export default function Home() {
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-12 py-4 border-b" style={{ background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderColor: 'var(--border)' }}>
         <LogoNavbar />
         <div className="hidden md:flex gap-8">
@@ -104,7 +103,6 @@ export default function Home() {
         </Link>
       </nav>
 
-      {/* HERO */}
       <section className="flex flex-col items-center justify-center text-center pt-32 pb-20 px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(ellipse, rgba(124,111,247,0.15) 0%, transparent 70%)' }} />
         <div className="animate-fade-up w-full">
@@ -128,7 +126,6 @@ export default function Home() {
         </div>
 
         <div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
-
         <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
 
         <div className="flex gap-12 mt-16 flex-wrap justify-center">
@@ -141,7 +138,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CATEGORIAS */}
       <section id="categorias" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Biblioteca completa</div>
         <h2 className="font-display text-4xl font-black tracking-tight mb-3">14 áreas do conhecimento</h2>
@@ -159,7 +155,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROMPTS PREVIEW */}
       <section className="max-w-5xl mx-auto px-6 py-10">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Exemplos da biblioteca</div>
         <h2 className="font-display text-4xl font-black tracking-tight mb-12">Prompts que entregam resultados reais</h2>
@@ -180,7 +175,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* COMO FUNCIONA */}
       <section id="como-funciona" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Como funciona</div>
         <h2 className="font-display text-4xl font-black tracking-tight mb-12">Do acesso ao resultado em 3 passos</h2>
@@ -200,7 +194,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PLANOS */}
       <section id="planos" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Planos e preços</div>
         <h2 className="font-display text-4xl font-black tracking-tight mb-3">Invista menos do que 1 hora do seu tempo</h2>
@@ -255,7 +248,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DEPOIMENTOS */}
       <section className="max-w-5xl mx-auto px-6 py-10">
         <h2 className="font-display text-4xl font-black tracking-tight mb-12">Quem já usa</h2>
         <div className="grid md:grid-cols-3 gap-4">
@@ -275,7 +267,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
       <section id="faq" className="max-w-5xl mx-auto px-6 py-20">
         <h2 className="font-display text-4xl font-black tracking-tight mb-12">Dúvidas frequentes</h2>
         <div className="flex flex-col gap-2">
@@ -291,7 +282,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA FINAL */}
       <section className="text-center py-24 px-6 border-y" style={{ background: 'var(--bg2)', borderColor: 'var(--border)' }}>
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Comece hoje</div>
         <h2 className="font-display text-5xl font-black tracking-tight mb-4">Pronto para trabalhar<br /><span style={{ color: 'var(--accent)' }}>10x mais rápido?</span></h2>
@@ -306,7 +296,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
         <LogoFooter />
         <div className="flex gap-6">
