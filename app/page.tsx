@@ -42,12 +42,12 @@ const faqs = [
 
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(48,55)">
-      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
-      <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
-      <circle cx="0" cy="0" r="4" fill="#c084fc"/>
-      <circle cx="12" cy="0" r="4" fill="#e879f9"/>
-    </g>
+    <g transform="translate(-10, 5) scale(0.38)">
+  <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
+  <circle cx="88" cy="107" r="11" fill="#e879f9"/>
+  <circle cx="110" cy="107" r="11" fill="#c084fc"/>
+  <circle cx="132" cy="107" r="11" fill="#e879f9"/>
+</g>
     <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
     <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
     <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
@@ -57,12 +57,12 @@ const LogoNavbar = () => (
 
 const LogoFooter = () => (
   <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(48,55)">
-      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
-      <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
-      <circle cx="0" cy="0" r="4" fill="#c084fc"/>
-      <circle cx="12" cy="0" r="4" fill="#e879f9"/>
-    </g>
+    <g transform="translate(-10, 5) scale(0.38)">
+  <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
+  <circle cx="88" cy="107" r="11" fill="#e879f9"/>
+  <circle cx="110" cy="107" r="11" fill="#c084fc"/>
+  <circle cx="132" cy="107" r="11" fill="#e879f9"/>
+</g>
     <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
     <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
     <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
@@ -72,12 +72,12 @@ const LogoFooter = () => (
 
 const LogoHero = () => (
   <svg width="100%" height="380" viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(120,170)">
-      <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
-      <circle cx="-28" cy="0" r="9" fill="#e879f9"/>
-      <circle cx="0" cy="0" r="9" fill="#c084fc"/>
-      <circle cx="28" cy="0" r="9" fill="#e879f9"/>
-    </g>
+    <g transform="translate(-30, 10)">
+  <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
+  <circle cx="88" cy="107" r="9" fill="#e879f9"/>
+  <circle cx="110" cy="107" r="9" fill="#c084fc"/>
+  <circle cx="132" cy="107" r="9" fill="#e879f9"/>
+</g>
     <text x="240" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
    <rect x="620" y="118" width="118" height="90" rx="12" fill="#7c3aed"/>
 <text x="679" y="190" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
