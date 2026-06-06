@@ -45,17 +45,17 @@ export default function Home() {
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-12 py-4 border-b" style={{ background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderColor: 'var(--border)' }}>
-       <svg width="180" height="36" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(48,50)">
+       <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(48,55)">
     <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
     <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
     <circle cx="0" cy="0" r="4" fill="#c084fc"/>
     <circle cx="12" cy="0" r="4" fill="#e879f9"/>
   </g>
-  <text x="108" y="40" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-  <rect x="263" y="8" width="56" height="40" rx="6" fill="#7c3aed"/>
-  <text x="291" y="38" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-  <text x="328" y="40" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+  <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+  <rect x="263" y="28" width="56" height="40" rx="6" fill="#7c3aed"/>
+  <text x="291" y="58" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+  <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
 </svg>
         <div className="hidden md:flex gap-8">
           {['Categorias', 'Como funciona', 'Planos', 'FAQ'].map(item => (
@@ -275,17 +275,17 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
-        <svg width="140" height="28" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(48,50)">
+       <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(48,55)">
     <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
     <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
     <circle cx="0" cy="0" r="4" fill="#c084fc"/>
     <circle cx="12" cy="0" r="4" fill="#e879f9"/>
   </g>
-  <text x="108" y="40" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-  <rect x="263" y="8" width="56" height="40" rx="6" fill="#7c3aed"/>
-  <text x="291" y="38" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-  <text x="328" y="40" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+  <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+  <rect x="263" y="28" width="56" height="40" rx="6" fill="#7c3aed"/>
+  <text x="291" y="58" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+  <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
 </svg>
         <div className="flex gap-6">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
