@@ -43,7 +43,7 @@ const faqs = [
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(48,55)">
-     <polygon points="0,-40 28,-40 40,-20 40,20 28,40 -28,40 -40,20 -40,-20" fill="none" stroke="#a855f7" strokeWidth="2"/>
+     <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
       <circle cx="0" cy="0" r="4" fill="#c084fc"/>
       <circle cx="12" cy="0" r="4" fill="#e879f9"/>
@@ -58,7 +58,7 @@ const LogoNavbar = () => (
 const LogoFooter = () => (
   <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(48,55)">
-      <polygon points="0,-40 28,-40 40,-20 40,20 28,40 -28,40 -40,20 -40,-20" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
       <circle cx="0" cy="0" r="4" fill="#c084fc"/>
       <circle cx="12" cy="0" r="4" fill="#e879f9"/>
@@ -73,7 +73,7 @@ const LogoFooter = () => (
 const LogoHero = () => (
   <svg width="100%" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(120,190)">
-     <polygon points="0,-90 65,-90 85,-45 85,45 65,90 -65,90 -85,45 -85,-45" fill="#1a0a2e" stroke="#a855f7" strokeWidth="3"/>
+    <polygon points="0,-90 64,-64 90,0 64,64 0,90 -64,64 -90,0 -64,-64" fill="#1a0a2e" stroke="#a855f7" strokeWidth="3"/>
       <circle cx="-28" cy="0" r="9" fill="#e879f9"/>
       <circle cx="0" cy="0" r="9" fill="#c084fc"/>
       <circle cx="28" cy="0" r="9" fill="#e879f9"/>
