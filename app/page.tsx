@@ -76,9 +76,21 @@ export default function Home() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border" style={{ background: 'rgba(124,111,247,0.12)', borderColor: 'rgba(124,111,247,0.3)', color: 'var(--accent2)' }}>
             ✦ Biblioteca profissional de prompts
           </span>
-          <h1 className="font-display text-5xl md:text-7xl font-black tracking-tight mb-6 leading-none">
-            Resultados profissionais<br /><span style={{ color: 'var(--accent)' }}>com os prompts certos</span>
-          </h1>
+         <div className="flex flex-col items-center mb-6">
+  <svg width="420" height="180" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(90,90)">
+      <polygon points="0,-52 37,-37 52,0 37,37 0,52 -37,37 -52,0 -37,-37" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2"/>
+      <circle cx="-16" cy="0" r="5" fill="#e879f9"/>
+      <circle cx="0" cy="0" r="5" fill="#c084fc"/>
+      <circle cx="16" cy="0" r="5" fill="#e879f9"/>
+    </g>
+    <text x="165" y="105" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+    <rect x="364" y="60" width="72" height="52" rx="8" fill="#7c3aed"/>
+    <text x="400" y="101" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="46" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="447" y="105" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="305" y="148" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="13" fill="#9333ea" textAnchor="middle" letterSpacing="3">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+  </svg>
+</div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
             Mais de 800 prompts testados em finanças, direito, saúde, vendas, idiomas e muito mais. Economize horas todo dia.
           </p>
