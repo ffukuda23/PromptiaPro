@@ -42,7 +42,7 @@ const faqs = [
 
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(-10, 5) scale(0.38)">
+    <g transform="translate(2, 18) scale(0.32)">
   <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
   <circle cx="88" cy="107" r="11" fill="#e879f9"/>
   <circle cx="110" cy="107" r="11" fill="#c084fc"/>
@@ -57,7 +57,7 @@ const LogoNavbar = () => (
 
 const LogoFooter = () => (
   <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(-10, 5) scale(0.38)">
+    <g transform="translate(2, 18) scale(0.32)">
   <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
   <circle cx="88" cy="107" r="11" fill="#e879f9"/>
   <circle cx="110" cy="107" r="11" fill="#c084fc"/>
@@ -72,7 +72,7 @@ const LogoFooter = () => (
 
 const LogoHero = () => (
   <svg width="100%" height="380" viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(-30, 10)">
+    <g transform="translate(20, 60)">
   <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
   <circle cx="88" cy="107" r="9" fill="#e879f9"/>
   <circle cx="110" cy="107" r="9" fill="#c084fc"/>
