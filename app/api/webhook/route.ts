@@ -50,11 +50,12 @@ export async function POST(req: NextRequest) {
         if (!user) break
 
         // Verificar se já existe assinatura
-        const { data: existing } = await supabase
-          .from('subscriptions')
-          .select('id')
-          .eq('user_id', user.id)
-          .single()
+        const { data: existingList } = await supabase
+  .from('subscriptions')
+  .select('id')
+  .eq('user_id', user.id)
+
+const existing = existingList && existingList.length > 0
 
         if (existing) {
           // Atualizar assinatura existente
