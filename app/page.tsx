@@ -71,21 +71,21 @@ const LogoFooter = () => (
 )
 
 const LogoHero = () => (
-  <svg width="680" height="260" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(90,95)">
-      <polygon points="0,-52 37,-37 52,0 37,37 0,52 -37,37 -52,0 -37,-37" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2"/>
-      <circle cx="-16" cy="0" r="5" fill="#e879f9"/>
-      <circle cx="0" cy="0" r="5" fill="#c084fc"/>
-      <circle cx="16" cy="0" r="5" fill="#e879f9"/>
+  const LogoHero = () => (
+  <svg width="100%" height="320" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(110,145)">
+      <polygon points="0,-70 50,-50 70,0 50,50 0,70 -50,50 -70,0 -50,-70" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
+      <circle cx="-22" cy="0" r="7" fill="#e879f9"/>
+      <circle cx="0" cy="0" r="7" fill="#c084fc"/>
+      <circle cx="22" cy="0" r="7" fill="#e879f9"/>
     </g>
-    <text x="165" y="110" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-    <rect x="364" y="65" width="72" height="52" rx="8" fill="#7c3aed"/>
-    <text x="400" y="106" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="46" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="447" y="110" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#c084fc"> Pro</text>
-    <text x="305" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="13" fill="#9333ea" textAnchor="middle" letterSpacing="3">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+    <text x="210" y="165" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="80" fontWeight="700" fill="#ffffff" letterSpacing="-2">Prompt</text>
+    <rect x="500" y="95" width="100" height="76" rx="10" fill="#7c3aed"/>
+    <text x="550" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="68" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="612" y="165" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="80" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="415" y="220" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="16" fill="#9333ea" textAnchor="middle" letterSpacing="4">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
   </svg>
 )
-
 export default function Home() {
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
