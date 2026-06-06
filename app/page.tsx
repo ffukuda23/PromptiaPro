@@ -264,7 +264,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
-        <span className="font-display text-lg font-black">Prompt<span style={{ color: 'var(--accent)' }}>IA</span>Pro</span>
+        <img src="/logo-transparente.svg" alt="PromptIA Pro" height="28" style={{ height: '28px' }} />
         <div className="flex gap-6">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
           <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
