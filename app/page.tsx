@@ -71,7 +71,7 @@ const LogoFooter = () => (
 )
 
 const LogoHero = () => (
-  <svg width="100%" height="auto" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '860px', margin: '0 auto', display: 'block' }}>
+  <svg width="100%" height="auto" viewBox="0 0 820 300" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '860px', margin: '0 auto', display: 'block' }}>
     <g transform="translate(20, 45)">
       <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
       <circle cx="88" cy="107" r="9" fill="#e879f9"/>
