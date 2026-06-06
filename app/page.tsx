@@ -43,7 +43,7 @@ const faqs = [
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(48,55)">
-      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <polygon points="0,-40 30,-25 40,0 30,25 0,40 -30,25 -40,0 -30,-25" fill="none" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
       <circle cx="0" cy="0" r="4" fill="#c084fc"/>
       <circle cx="12" cy="0" r="4" fill="#e879f9"/>
@@ -58,7 +58,7 @@ const LogoNavbar = () => (
 const LogoFooter = () => (
   <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(48,55)">
-      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <polygon points="0,-40 30,-25 40,0 30,25 0,40 -30,25 -40,0 -30,-25" fill="none" stroke="#a855f7" strokeWidth="2"/>
       <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
       <circle cx="0" cy="0" r="4" fill="#c084fc"/>
       <circle cx="12" cy="0" r="4" fill="#e879f9"/>
@@ -71,20 +71,21 @@ const LogoFooter = () => (
 )
 
 const LogoHero = () => (
-  <svg width="100%" height="320" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(110,145)">
-      <polygon points="0,-70 50,-50 70,0 50,50 0,70 -50,50 -70,0 -50,-70" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
-      <circle cx="-22" cy="0" r="7" fill="#e879f9"/>
-      <circle cx="0" cy="0" r="7" fill="#c084fc"/>
-      <circle cx="22" cy="0" r="7" fill="#e879f9"/>
+  <svg width="100%" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(120,190)">
+      <polygon points="0,-90 65,-55 85,0 65,55 0,90 -65,55 -85,0 -65,-55" fill="#1a0a2e" stroke="#a855f7" strokeWidth="3"/>
+      <circle cx="-28" cy="0" r="9" fill="#e879f9"/>
+      <circle cx="0" cy="0" r="9" fill="#c084fc"/>
+      <circle cx="28" cy="0" r="9" fill="#e879f9"/>
     </g>
-    <text x="210" y="165" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="80" fontWeight="700" fill="#ffffff" letterSpacing="-2">Prompt</text>
-    <rect x="500" y="95" width="100" height="76" rx="10" fill="#7c3aed"/>
-    <text x="550" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="68" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="612" y="165" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="80" fontWeight="700" fill="#c084fc"> Pro</text>
-    <text x="415" y="220" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="16" fill="#9333ea" textAnchor="middle" letterSpacing="4">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+    <text x="240" y="215" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
+    <rect x="570" y="128" width="118" height="94" rx="12" fill="#7c3aed"/>
+    <text x="629" y="200" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="700" y="215" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="490" y="275" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="18" fill="#9333ea" textAnchor="middle" letterSpacing="5">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
   </svg>
 )
+
 export default function Home() {
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
@@ -106,11 +107,11 @@ export default function Home() {
       {/* HERO */}
       <section className="flex flex-col items-center justify-center text-center pt-32 pb-20 px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(ellipse, rgba(124,111,247,0.15) 0%, transparent 70%)' }} />
-        <div className="animate-fade-up">
+        <div className="animate-fade-up w-full">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border" style={{ background: 'rgba(124,111,247,0.12)', borderColor: 'rgba(124,111,247,0.3)', color: 'var(--accent2)' }}>
             ✦ Biblioteca profissional de prompts
           </span>
-          <div className="flex justify-center mb-6">
+          <div className="w-full">
             <LogoHero />
           </div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
