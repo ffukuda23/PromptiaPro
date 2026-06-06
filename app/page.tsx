@@ -71,18 +71,18 @@ const LogoFooter = () => (
 )
 
 const LogoHero = () => (
-  <svg width="100%" height="auto" viewBox="0 0 900 380" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '900px', overflow: 'visible' }}>
-    <g transform="translate(20, 60)">
+  <svg width="100%" height="auto" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '860px', margin: '0 auto', display: 'block' }}>
+    <g transform="translate(20, 45)">
       <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
       <circle cx="88" cy="107" r="9" fill="#e879f9"/>
       <circle cx="110" cy="107" r="9" fill="#c084fc"/>
       <circle cx="132" cy="107" r="9" fill="#e879f9"/>
     </g>
-    <text x="240" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
-    <rect x="620" y="118" width="118" height="90" rx="12" fill="#7c3aed"/>
-    <text x="679" y="190" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="84" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="750" y="195" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="100" fontWeight="700" fill="#c084fc"> Pro</text>
-    <text x="540" y="255" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="18" fill="#9333ea" textAnchor="middle" letterSpacing="5">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+    <text x="200" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="90" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
+    <rect x="508" y="88" width="105" height="82" rx="10" fill="#7c3aed"/>
+    <text x="560" y="152" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="76" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="622" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="90" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="435" y="208" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="15" fill="#9333ea" textAnchor="middle" letterSpacing="4">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
   </svg>
 )
 
