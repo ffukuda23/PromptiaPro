@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import TermosModal from '../components/TermosModal'
 import type { Prompt, UserProfile } from '@/types'
 
 const GROUPS = [
@@ -20,7 +21,7 @@ const GROUPS = [
   { key: 'Novos Idiomas', icon: '🌍', subs: ['Inglês', 'Espanhol', 'Mandarim'] },
   { key: 'Carreira', icon: '🎯', subs: ['Currículo', 'Entrevistas'] },
   { key: 'IA no Trabalho', icon: '🤖', subs: ['Automação', 'Produtividade'] },
-{ key: 'Festas e Eventos', icon: '🎉', subs: ['Confeiteiras', 'Decoradores de Festa'] },
+  { key: 'Festas e Eventos', icon: '🎉', subs: ['Confeiteiras', 'Decoradores de Festa'] },
 ]
 
 export default function DashboardPage() {
@@ -28,17 +29,30 @@ export default function DashboardPage() {
   const [user, setUser] = useState<UserProfile | null>(null)
   const [prompts, setPrompts] = useState<Prompt[]>([])
   const [selectedGroup, setSelectedGroup] = useState(GROUPS[0].key)
-const [selectedSub, setSelectedSub] = useState<string | null>(null)
+  const [selectedSub, setSelectedSub] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
   const [copied, setCopied] = useState(false)
   const [favorites, setFavorites] = useState<string[]>([])
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [showTermos, setShowTermos] = useState(false)
 
   useEffect(() => {
     async function load() {
       const { data: { user: authUser } } = await supabase.auth.getUser()
       if (!authUser) { router.push('/auth/login'); return }
+
+      // Verificar se já aceitou os termos
+      const { data: consent } = await supabase
+        .from('user_consents')
+        .select('id')
+        .eq('user_id', authUser.id)
+        .single()
+
+      if (!consent) {
+        setShowTermos(true)
+      }
+
       const { data: sub } = await supabase.from('subscriptions').select('*').eq('user_id', authUser.id).single()
       setUser({ id: authUser.id, email: authUser.email!, plan: sub?.plan || 'free', subscription: sub })
       const { data: promptsData } = await supabase.from('prompts').select('*').order('created_at', { ascending: false })
@@ -84,6 +98,10 @@ const [selectedSub, setSelectedSub] = useState<string | null>(null)
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg)' }}>
+
+      {/* MODAL DE TERMOS */}
+      {showTermos && <TermosModal onAccept={() => setShowTermos(false)} />}
+
       {/* SIDEBAR */}
       <aside className={`${sidebarOpen ? 'w-56' : 'w-0'} flex-shrink-0 transition-all overflow-hidden border-r`} style={{ background: 'var(--bg2)', borderColor: 'var(--border)' }}>
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
@@ -95,7 +113,7 @@ const [selectedSub, setSelectedSub] = useState<string | null>(null)
         </div>
         <div className="overflow-y-auto h-full pb-20">
           {GROUPS.map(g => (
-            <button key={g.key} onClick={() => { setSelectedGroup(g.key); setSelectedSub(null); }}
+            <button key={g.key} onClick={() => { setSelectedGroup(g.key); setSelectedSub(null) }}
               className="w-full flex items-center gap-3 px-4 py-2.5 text-left text-xs transition-colors"
               style={{ background: selectedGroup === g.key ? 'var(--surface)' : 'transparent', color: selectedGroup === g.key ? '#F0EFF8' : 'var(--muted)', fontWeight: selectedGroup === g.key ? '500' : '400' }}>
               <span>{g.icon}</span>{g.key}
@@ -132,23 +150,21 @@ const [selectedSub, setSelectedSub] = useState<string | null>(null)
 
           {/* SUBGROUP TABS */}
           {currentGroup?.subs && (
-          <div className="flex gap-2 flex-wrap mb-5">
-            <button
-              onClick={() => setSelectedSub(null)}
-              className="text-xs px-3 py-1 rounded-full border transition-colors"
-              style={{ borderColor: selectedSub === null ? 'var(--accent)' : 'var(--border)', color: selectedSub === null ? 'var(--accent2)' : 'var(--muted)', background: selectedSub === null ? 'rgba(124,111,247,0.1)' : 'transparent' }}>
-              Todos
-            </button>
-            {currentGroup.subs.map(s => (
-              <button key={s}
-                onClick={() => setSelectedSub(s)}
+            <div className="flex gap-2 flex-wrap mb-5">
+              <button onClick={() => setSelectedSub(null)}
                 className="text-xs px-3 py-1 rounded-full border transition-colors"
-                style={{ borderColor: selectedSub === s ? 'var(--accent)' : 'var(--border)', color: selectedSub === s ? 'var(--accent2)' : 'var(--muted)', background: selectedSub === s ? 'rgba(124,111,247,0.1)' : 'transparent' }}>
-                {s}
+                style={{ borderColor: selectedSub === null ? 'var(--accent)' : 'var(--border)', color: selectedSub === null ? 'var(--accent2)' : 'var(--muted)', background: selectedSub === null ? 'rgba(124,111,247,0.1)' : 'transparent' }}>
+                Todos
               </button>
-            ))}
-          </div>
-        )}
+              {currentGroup.subs.map(s => (
+                <button key={s} onClick={() => setSelectedSub(s)}
+                  className="text-xs px-3 py-1 rounded-full border transition-colors"
+                  style={{ borderColor: selectedSub === s ? 'var(--accent)' : 'var(--border)', color: selectedSub === s ? 'var(--accent2)' : 'var(--muted)', background: selectedSub === s ? 'rgba(124,111,247,0.1)' : 'transparent' }}>
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
 
           {filtered.length === 0 ? (
             <div className="text-center py-16" style={{ color: 'var(--muted)' }}>
@@ -188,7 +204,7 @@ const [selectedSub, setSelectedSub] = useState<string | null>(null)
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* MODAL PROMPT */}
       {selectedPrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }} onClick={() => setSelectedPrompt(null)}>
           <div className="w-full max-w-lg rounded-2xl border p-6 max-h-[80vh] overflow-y-auto" style={{ background: 'var(--surface)', borderColor: 'var(--border2)' }} onClick={e => e.stopPropagation()}>
