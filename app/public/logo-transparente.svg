@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100" viewBox="0 0 500 100">
+  <g transform="translate(48, 50)">
+    <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" stroke-width="2"/>
+    <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
+    <circle cx="0" cy="0" r="4" fill="#c084fc"/>
+    <circle cx="12" cy="0" r="4" fill="#e879f9"/>
+  </g>
+  <text x="108" y="40" font-family="'Segoe UI', Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">Prompt</text>
+  <rect x="263" y="8" width="56" height="40" rx="6" fill="#7c3aed"/>
+  <text x="291" y="38" font-family="'Segoe UI', Arial, sans-serif" font-size="36" font-weight="800" fill="#f0abfc" text-anchor="middle" letter-spacing="1">IA</text>
+  <text x="328" y="40" font-family="'Segoe UI', Arial, sans-serif" font-size="40" font-weight="700" fill="#c084fc" letter-spacing="-1"> Pro</text>
+</svg>
