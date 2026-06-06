@@ -45,7 +45,7 @@ export default function Home() {
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-12 py-4 border-b" style={{ background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderColor: 'var(--border)' }}>
-        <span className="font-display text-xl font-black tracking-tight">Prompt<span style={{ color: 'var(--accent)' }}>IA</span>Pro</span>
+       <img src="/logo-transparente.svg" alt="PromptIA Pro" height="36" style={{ height: '36px' }} />
         <div className="hidden md:flex gap-8">
           {['Categorias', 'Como funciona', 'Planos', 'FAQ'].map(item => (
             <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-sm transition-colors" style={{ color: 'var(--muted)' }}
