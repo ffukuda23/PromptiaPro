@@ -40,23 +40,58 @@ const faqs = [
   { q: 'Com que frequência chegam prompts novos?', a: 'Todo mês são adicionados pelo menos 30 novos prompts. Assinantes Pro recebem notificação por e-mail.' },
 ]
 
+const LogoNavbar = () => (
+  <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(48,55)">
+      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
+      <circle cx="0" cy="0" r="4" fill="#c084fc"/>
+      <circle cx="12" cy="0" r="4" fill="#e879f9"/>
+    </g>
+    <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+    <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
+    <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+  </svg>
+)
+
+const LogoFooter = () => (
+  <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(48,55)">
+      <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
+      <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
+      <circle cx="0" cy="0" r="4" fill="#c084fc"/>
+      <circle cx="12" cy="0" r="4" fill="#e879f9"/>
+    </g>
+    <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+    <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
+    <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+  </svg>
+)
+
+const LogoHero = () => (
+  <svg width="680" height="260" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(90,95)">
+      <polygon points="0,-52 37,-37 52,0 37,37 0,52 -37,37 -52,0 -37,-37" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2"/>
+      <circle cx="-16" cy="0" r="5" fill="#e879f9"/>
+      <circle cx="0" cy="0" r="5" fill="#c084fc"/>
+      <circle cx="16" cy="0" r="5" fill="#e879f9"/>
+    </g>
+    <text x="165" y="110" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+    <rect x="364" y="65" width="72" height="52" rx="8" fill="#7c3aed"/>
+    <text x="400" y="106" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="46" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="447" y="110" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="305" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="13" fill="#9333ea" textAnchor="middle" letterSpacing="3">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+  </svg>
+)
+
 export default function Home() {
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
       {/* NAV */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-12 py-4 border-b" style={{ background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderColor: 'var(--border)' }}>
-       <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(48,55)">
-    <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
-    <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
-    <circle cx="0" cy="0" r="4" fill="#c084fc"/>
-    <circle cx="12" cy="0" r="4" fill="#e879f9"/>
-  </g>
-  <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
- <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
-<text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-   <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
-</svg>
+        <LogoNavbar />
         <div className="hidden md:flex gap-8">
           {['Categorias', 'Como funciona', 'Planos', 'FAQ'].map(item => (
             <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-sm transition-colors" style={{ color: 'var(--muted)' }}
@@ -76,22 +111,9 @@ export default function Home() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border" style={{ background: 'rgba(124,111,247,0.12)', borderColor: 'rgba(124,111,247,0.3)', color: 'var(--accent2)' }}>
             ✦ Biblioteca profissional de prompts
           </span>
-         <div className="flex flex-col items-center mb-6">
- <div className="flex flex-col items-center mb-6">
-  <svg width="680" height="260" viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(90,90)">
-      <polygon points="0,-52 37,-37 52,0 37,37 0,52 -37,37 -52,0 -37,-37" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2"/>
-      <circle cx="-16" cy="0" r="5" fill="#e879f9"/>
-      <circle cx="0" cy="0" r="5" fill="#c084fc"/>
-      <circle cx="16" cy="0" r="5" fill="#e879f9"/>
-    </g>
-    <text x="165" y="105" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-    <rect x="364" y="60" width="72" height="52" rx="8" fill="#7c3aed"/>
-    <text x="400" y="101" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="46" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="447" y="105" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="52" fontWeight="700" fill="#c084fc"> Pro</text>
-    <text x="305" y="148" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="13" fill="#9333ea" textAnchor="middle" letterSpacing="3">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
-  </svg>
-</div>
+          <div className="flex justify-center mb-6">
+            <LogoHero />
+          </div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
             Mais de 800 prompts testados em finanças, direito, saúde, vendas, idiomas e muito mais. Economize horas todo dia.
           </p>
@@ -105,10 +127,11 @@ export default function Home() {
           </div>
         </div>
 
-<div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
+        <div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
 
-<div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>        
-<div className="flex gap-12 mt-16 flex-wrap justify-center">
+        <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
+
+        <div className="flex gap-12 mt-16 flex-wrap justify-center">
           {[['800+', 'Prompts profissionais'], ['14', 'Áreas de atuação'], ['+30', 'Novos/mês'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl font-black">{num}</div>
@@ -183,7 +206,6 @@ export default function Home() {
         <h2 className="font-display text-4xl font-black tracking-tight mb-3">Invista menos do que 1 hora do seu tempo</h2>
         <p className="mb-12" style={{ color: 'var(--muted)' }}></p>
         <div className="grid md:grid-cols-3 gap-4">
-          {/* FREE */}
           <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Free</div>
             <div className="font-display text-5xl font-black mb-1">R$&nbsp;0</div>
@@ -201,7 +223,6 @@ export default function Home() {
               Criar conta grátis
             </Link>
           </div>
-          {/* PRO MENSAL */}
           <div className="relative p-8 rounded-2xl border-2" style={{ background: 'linear-gradient(145deg, rgba(124,111,247,0.08) 0%, var(--surface) 60%)', borderColor: 'rgba(124,111,247,0.5)' }}>
             <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Mais popular</span>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Mensal</div>
@@ -217,7 +238,6 @@ export default function Home() {
               Assinar agora →
             </Link>
           </div>
-          {/* PRO ANUAL */}
           <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Anual</div>
             <div className="font-display text-5xl font-black mb-1">R$ 12,50</div>
@@ -288,18 +308,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
-       <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(48,55)">
-    <polygon points="0,-40 28,-28 40,0 28,28 0,40 -28,28 -40,0 -28,-28" fill="none" stroke="#a855f7" strokeWidth="2"/>
-    <circle cx="-12" cy="0" r="4" fill="#e879f9"/>
-    <circle cx="0" cy="0" r="4" fill="#c084fc"/>
-    <circle cx="12" cy="0" r="4" fill="#e879f9"/>
-  </g>
-  <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
-  <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
-<text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
-    <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
-</svg>
+        <LogoFooter />
         <div className="flex gap-6">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
           <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
