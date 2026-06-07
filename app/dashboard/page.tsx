@@ -23,6 +23,7 @@ const GROUPS = [
   { key: 'IA no Trabalho', icon: '🤖', subs: ['Automação', 'Produtividade'] },
   { key: 'Festas e Eventos', icon: '🎉', subs: ['Confeiteiras', 'Decoradores de Festa'] },
   { key: 'RH Empresarial', icon: '👥', subs: ['Recrutamento e Seleção', 'Admissão e Onboarding', 'Gestão de Equipe', 'Comunicação Interna', 'Desligamento', 'Cargos e Salários'] },
+  { key: 'Marketing Digital', icon: '📱', subs: ['Redes Sociais', 'Copywriting', 'SEO e Conteúdo', 'Tráfego Pago', 'Análise de Resultados'] },
 ]
 
 export default function DashboardPage() {
