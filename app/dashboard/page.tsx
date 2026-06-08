@@ -24,6 +24,7 @@ const GROUPS = [
   { key: 'Festas e Eventos', icon: '🎉', subs: ['Confeiteiras', 'Decoradores de Festa'] },
   { key: 'RH Empresarial', icon: '👥', subs: ['Recrutamento e Seleção', 'Admissão e Onboarding', 'Gestão de Equipe', 'Comunicação Interna', 'Desligamento', 'Cargos e Salários'] },
   { key: 'Marketing Digital', icon: '📱', subs: ['Redes Sociais', 'Copywriting', 'SEO e Conteúdo', 'Tráfego Pago', 'Análise de Resultados'] },
+  { key: 'Estudantes Universitários', icon: '🎓', subs: ['Teste Vocacional', 'Atividades Remuneradas', 'Vida Acadêmica', 'TCC e Pesquisa', 'Apresentações', 'Produtividade', 'Vida Financeira do Universitário'] },
 ]
 
 export default function DashboardPage() {
