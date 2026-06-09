@@ -27,6 +27,7 @@ const GROUPS = [
   { key: 'Estudantes Universitários', icon: '🎓', subs: ['Teste Vocacional', 'Atividades Remuneradas', 'Vida Acadêmica', 'TCC e Pesquisa', 'Apresentações', 'Produtividade', 'Vida Financeira do Universitário'] },
   { key: 'Compra e Venda de Automóveis', icon: '🚗', subs: ['Comprador', 'Vendedor', 'Gestão e Manutenção'] },
   { key: 'Locação de Imóveis', icon: '🏠', subs: ['Inquilino', 'Proprietário', 'Mudança e Reforma'] },
+  { key: 'Marketing Empresarial', icon: '📣', subs: ['Posicionamento e Marca', 'Plano de Marketing', 'Relacionamento com Cliente', 'Comunicação e Conteúdo'] },
 ]
 
 export default function DashboardPage() {
