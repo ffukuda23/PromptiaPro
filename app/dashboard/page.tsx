@@ -26,6 +26,7 @@ const GROUPS = [
   { key: 'Marketing Digital', icon: '📱', subs: ['Redes Sociais', 'Copywriting', 'SEO e Conteúdo', 'Tráfego Pago', 'Análise de Resultados'] },
   { key: 'Estudantes Universitários', icon: '🎓', subs: ['Teste Vocacional', 'Atividades Remuneradas', 'Vida Acadêmica', 'TCC e Pesquisa', 'Apresentações', 'Produtividade', 'Vida Financeira do Universitário'] },
   { key: 'Compra e Venda de Automóveis', icon: '🚗', subs: ['Comprador', 'Vendedor', 'Gestão e Manutenção'] },
+  { key: 'Locação de Imóveis', icon: '🏠', subs: ['Inquilino', 'Proprietário', 'Mudança e Reforma'] },
 ]
 
 export default function DashboardPage() {
