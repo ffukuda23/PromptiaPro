@@ -8,7 +8,7 @@ import type { Prompt, UserProfile } from '@/types'
 
 const GROUPS = [
   { key: 'Financeiro Pessoal', icon: '💰', subs: ['Controle de Finanças Pessoais', 'Estratégia de Investimentos'] },
-  { key: 'Empresa Varejo', icon: '🏪', subs: ['Fluxo de Caixa', 'Precificação', 'DRE', 'Estratégias de Venda'] },
+  { key: 'Empresa Varejo', icon: '🏪', subs: ['Fluxo de Caixa', 'Precificação', 'Análise de DRE', 'Estratégias de Venda', 'Gestão Operacional'] },
   { key: 'Empresa Atacado', icon: '📦', subs: ['Fluxo de Caixa', 'Precificação', 'DRE', 'Estratégias de Venda'] },
   { key: 'Empresa Indústria', icon: '🏭', subs: ['Fluxo de Caixa', 'Precificação', 'DRE', 'Estratégias de Venda'] },
   { key: 'Empresa Serviços', icon: '🛎️', subs: ['Fluxo de Caixa', 'Precificação', 'DRE', 'Estratégias de Venda'] },
