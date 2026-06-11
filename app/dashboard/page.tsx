@@ -11,7 +11,7 @@ const GROUPS = [
   { key: 'Empresa Varejo', icon: '🏪', subs: ['Fluxo de Caixa', 'Precificação', 'Análise de DRE', 'Estratégias de Venda', 'Gestão Operacional'] },
   { key: 'Empresa Atacado', icon: '🏭', subs: ['Gestão Financeira', 'Precificação e Margem', 'Gestão de Clientes', 'Operações e Logística', 'Crescimento'] },
   { key: 'Empresa Indústria', icon: '⚙️', subs: ['Gestão Financeira', 'Precificação Industrial', 'Produção e Operações', 'Comercial e Clientes', 'Gestão e Crescimento'] },
-  { key: 'Empresa Serviços', icon: '🛎️', subs: ['Fluxo de Caixa', 'Precificação', 'DRE', 'Estratégias de Venda'] },
+  { key: 'Empresa Serviços', icon: '🛠️', subs: ['Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Crescimento'] },
   { key: 'Jurídico', icon: '⚖️', subs: ['Contratos', 'Trabalhista', 'Consumidor'] },
   { key: 'Resumo Econômico', icon: '📈', subs: ['Cenário Brasil', 'Câmbio', 'Internacional'] },
   { key: 'Laudos Médicos', icon: '🩺', subs: ['Exames Laboratoriais', 'Laudos de Imagem', 'Receituários'] },
