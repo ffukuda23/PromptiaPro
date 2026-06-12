@@ -13,7 +13,7 @@ const GROUPS = [
   { key: 'Empresa Indústria', icon: '⚙️', subs: ['Gestão Financeira', 'Precificação Industrial', 'Produção e Operações', 'Comercial e Clientes', 'Gestão e Crescimento'] },
   { key: 'Empresa Serviços', icon: '🛠️', subs: ['Gestão Financeira', 'Gestão Comercial', 'Gestão Operacional', 'Crescimento'] },
   { key: 'Jurídico', icon: '⚖️', subs: ['Contratos', 'Direito do Trabalho', 'Direito do Consumidor', 'Direito Empresarial', 'Direito Civil e Família'] },
-  { key: 'Resumo Econômico', icon: '📈', subs: ['Cenário Brasil', 'Câmbio', 'Internacional'] },
+  { key: 'Resumo Econômico', icon: '📊', subs: ['Cenário Brasil', 'Investimentos e Mercado', 'Cenário Internacional', 'Economia Pessoal e Empresarial'] },
   { key: 'Laudos Médicos', icon: '🩺', subs: ['Exames Laboratoriais', 'Laudos de Imagem', 'Receituários'] },
   { key: 'Receitas Culinárias', icon: '🍳', subs: ['Do Zero', 'Aproveitamento', 'Restrições'] },
   { key: 'Treinos Físicos', icon: '💪', subs: ['Musculação', 'Flexibilidade', 'Cardio'] },
