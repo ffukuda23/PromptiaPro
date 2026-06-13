@@ -185,8 +185,7 @@ export default function Home() {
             ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 29,90.'],
             ['02', 'Encontre o prompt', 'Navegue por categoria ou use a busca para encontrar o prompt ideal.'],
             ['03', 'Personalize e use', 'Copie, preencha os campos entre [colchetes] e cole na IA de sua escolha.'],
-            ['04', 'Novidades todo mês', 'Receba +30 novos prompts por mês sem pagar nada a mais.'],
-          ].map(([num, title, desc]) => (
+                      ].map(([num, title, desc]) => (
             <div key={num} className="p-6 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
               <div className="font-display text-4xl font-black mb-4" style={{ color: 'var(--accent)', opacity: 0.3 }}>{num}</div>
               <div className="font-display text-base font-bold mb-2">{title}</div>
