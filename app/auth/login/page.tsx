@@ -4,14 +4,12 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
-
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
@@ -24,7 +22,6 @@ export default function LoginPage() {
       router.push('/dashboard')
     }
   }
-
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg)' }}>
       <div className="w-full max-w-sm">
@@ -59,6 +56,11 @@ export default function LoginPage() {
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
+          <div className="text-center">
+            <Link href="/auth/forgot-password" className="text-xs hover:underline" style={{ color: 'var(--muted)' }}>
+              Esqueci minha senha
+            </Link>
+          </div>
         </form>
         <p className="text-center text-sm mt-6" style={{ color: 'var(--muted)' }}>
           Não tem conta?{' '}
