@@ -4,20 +4,26 @@ export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 
 const categories = [
-  { icon: '💰', name: 'Financeiro Pessoal', count: '8 prompts', hot: false, isNew: false },
-  { icon: '🏪', name: 'Empresa Varejo', count: '12 prompts', hot: true, isNew: false },
-  { icon: '📦', name: 'Empresa Atacado', count: '10 prompts', hot: false, isNew: false },
-  { icon: '🏭', name: 'Indústria', count: '10 prompts', hot: false, isNew: false },
-  { icon: '🛎️', name: 'Empresa Serviços', count: '10 prompts', hot: false, isNew: false },
-  { icon: '⚖️', name: 'Jurídico', count: '8 prompts', hot: false, isNew: false },
-  { icon: '📈', name: 'Resumo Econômico', count: '6 prompts', hot: false, isNew: false },
-  { icon: '🩺', name: 'Laudos Médicos', count: '8 prompts', hot: false, isNew: false },
-  { icon: '🍳', name: 'Receitas Culinárias', count: '6 prompts', hot: false, isNew: false },
-  { icon: '💪', name: 'Treinos Físicos', count: '8 prompts', hot: false, isNew: true },
-  { icon: '🛒', name: 'Vendas E-commerce', count: '10 prompts', hot: true, isNew: false },
+  { icon: '💰', name: 'Financeiro Pessoal', count: '24 prompts', hot: false, isNew: false },
+  { icon: '🏪', name: 'Empresa Varejo', count: '16 prompts', hot: true, isNew: false },
+  { icon: '🏭', name: 'Empresa Atacado', count: '16 prompts', hot: false, isNew: false },
+  { icon: '⚙️', name: 'Empresa Indústria', count: '16 prompts', hot: false, isNew: false },
+  { icon: '🛠️', name: 'Empresa Serviços', count: '16 prompts', hot: false, isNew: false },
+  { icon: '⚖️', name: 'Jurídico', count: '18 prompts', hot: false, isNew: false },
+  { icon: '📊', name: 'Resumo Econômico', count: '16 prompts', hot: false, isNew: false },
+  { icon: '🏥', name: 'Laudos Médicos', count: '18 prompts', hot: false, isNew: false },
+  { icon: '🛒', name: 'Vendas E-commerce', count: '18 prompts', hot: true, isNew: false },
+  { icon: '👔', name: 'Carreira', count: '18 prompts', hot: false, isNew: true },
+  { icon: '👥', name: 'RH Empresarial', count: '15 prompts', hot: false, isNew: false },
+  { icon: '📱', name: 'Marketing Digital', count: '18 prompts', hot: true, isNew: false },
+  { icon: '🎓', name: 'Estudantes Universitários', count: '24 prompts', hot: false, isNew: false },
+  { icon: '🚗', name: 'Compra e Venda de Automóveis', count: '16 prompts', hot: false, isNew: false },
+  { icon: '🏠', name: 'Locação de Imóveis', count: '18 prompts', hot: false, isNew: false },
+  { icon: '📣', name: 'Marketing Empresarial', count: '20 prompts', hot: false, isNew: false },
+  { icon: '🎨', name: 'Personalização de Produtos', count: '16 prompts', hot: false, isNew: true },
+  { icon: '🧘', name: 'Saúde e Qualidade de Vida', count: '18 prompts', hot: false, isNew: true },
+  { icon: '🎉', name: 'Festas e Eventos', count: '12 prompts', hot: false, isNew: false },
   { icon: '🌍', name: 'Novos Idiomas', count: '8 prompts', hot: false, isNew: false },
-  { icon: '🎯', name: 'Carreira', count: '6 prompts', hot: false, isNew: true },
-  { icon: '🤖', name: 'IA no Trabalho', count: '6 prompts', hot: false, isNew: true },
 ]
 
 const prompts = [
@@ -43,11 +49,11 @@ const faqs = [
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(2, 18) scale(0.32)">
-  <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
-  <circle cx="88" cy="107" r="11" fill="#e879f9"/>
-  <circle cx="110" cy="107" r="11" fill="#c084fc"/>
-  <circle cx="132" cy="107" r="11" fill="#e879f9"/>
-</g>
+      <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
+      <circle cx="88" cy="107" r="11" fill="#e879f9"/>
+      <circle cx="110" cy="107" r="11" fill="#c084fc"/>
+      <circle cx="132" cy="107" r="11" fill="#e879f9"/>
+    </g>
     <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
     <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
     <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
@@ -58,11 +64,11 @@ const LogoNavbar = () => (
 const LogoFooter = () => (
   <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(2, 18) scale(0.32)">
-  <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
-  <circle cx="88" cy="107" r="11" fill="#e879f9"/>
-  <circle cx="110" cy="107" r="11" fill="#c084fc"/>
-  <circle cx="132" cy="107" r="11" fill="#e879f9"/>
-</g>
+      <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
+      <circle cx="88" cy="107" r="11" fill="#e879f9"/>
+      <circle cx="110" cy="107" r="11" fill="#c084fc"/>
+      <circle cx="132" cy="107" r="11" fill="#e879f9"/>
+    </g>
     <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
     <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
     <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
@@ -113,7 +119,7 @@ export default function Home() {
             <LogoHero />
           </div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
-            Mais de 800 prompts testados em finanças, direito, saúde, vendas, idiomas e muito mais. Economize horas todo dia.
+            Mais de 500 prompts profissionais em 20 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Economize horas todo dia.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-medium text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'var(--accent)' }}>
@@ -129,7 +135,7 @@ export default function Home() {
         <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
 
         <div className="flex gap-12 mt-16 flex-wrap justify-center">
-          {[['800+', 'Prompts profissionais'], ['14', 'Áreas de atuação'], ['+30', 'Novos/mês'], ['100%', 'Testados']].map(([num, label]) => (
+          {[['500+', 'Prompts profissionais'], ['20', 'Áreas de atuação'], ['+30', 'Novos/mês'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl font-black">{num}</div>
               <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{label}</div>
@@ -140,7 +146,7 @@ export default function Home() {
 
       <section id="categorias" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Biblioteca completa</div>
-        <h2 className="font-display text-4xl font-black tracking-tight mb-3">14 áreas do conhecimento</h2>
+        <h2 className="font-display text-4xl font-black tracking-tight mb-3">20 áreas do conhecimento</h2>
         <p className="mb-12" style={{ color: 'var(--muted)' }}>Prompts organizados por grupo e subgrupo para encontrar o que precisa em segundos.</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {categories.map(cat => (
@@ -205,7 +211,7 @@ export default function Home() {
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>para sempre gratuito</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
-              {['50 prompts gratuitos', '14 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
+              {['50+ prompts gratuitos', '20 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
               {['Prompts Pro exclusivos', 'Novidades mensais'].map(f => (
@@ -223,7 +229,7 @@ export default function Home() {
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · garantia de 7 dias</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8">
-              {['800+ prompts completos', '14 categorias completas', '+30 novos prompts/mês', 'Busca avançada', 'Favoritos ilimitados', 'Suporte por WhatsApp'].map(f => (
+              {['500+ prompts completos', '20 categorias completas', '+30 novos prompts/mês', 'Busca avançada', 'Favoritos ilimitados', 'Suporte por WhatsApp'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
             </ul>
@@ -285,7 +291,7 @@ export default function Home() {
       <section className="text-center py-24 px-6 border-y" style={{ background: 'var(--bg2)', borderColor: 'var(--border)' }}>
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Comece hoje</div>
         <h2 className="font-display text-5xl font-black tracking-tight mb-4">Pronto para trabalhar<br /><span style={{ color: 'var(--accent)' }}>10x mais rápido?</span></h2>
-        <p className="text-lg mb-10 font-light" style={{ color: 'var(--muted)' }}>Teste gratuitamente com 30 prompts. Sem cartão de crédito.</p>
+        <p className="text-lg mb-10 font-light" style={{ color: 'var(--muted)' }}>Teste gratuitamente com 50+ prompts. Sem cartão de crédito.</p>
         <div className="flex gap-4 justify-center">
           <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-medium text-white hover:opacity-90" style={{ background: 'var(--accent)' }}>
             Criar conta grátis →
