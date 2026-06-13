@@ -185,7 +185,8 @@ export default function Home() {
             ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 29,90.'],
             ['02', 'Encontre o prompt', 'Navegue por categoria ou use a busca para encontrar o prompt ideal.'],
             ['03', 'Personalize e use', 'Copie, preencha os campos entre [colchetes] e cole na IA de sua escolha.'],
-                      ].map(([num, title, desc]) => (
+            ['04', 'Novidades todo mês', 'Receba +30 novos prompts por mês sem pagar nada a mais.'],
+          ].map(([num, title, desc]) => (
             <div key={num} className="p-6 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
               <div className="font-display text-4xl font-black mb-4" style={{ color: 'var(--accent)', opacity: 0.3 }}>{num}</div>
               <div className="font-display text-base font-bold mb-2">{title}</div>
@@ -211,7 +212,7 @@ export default function Home() {
               {['50+ prompts gratuitos', '22 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
-              {['Prompts Pro exclusivos', 'Novidades mensais'].map(f => (
+              {['Prompts Pro exclusivos'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm" style={{ color: 'var(--subtle)' }}><span>✕</span>{f}</li>
               ))}
             </ul>
@@ -234,7 +235,6 @@ export default function Home() {
               {[
                 '500+ prompts completos',
                 '22 categorias completas',
-                '+30 novos prompts/mês inclusos',
                 'Busca avançada',
                 'Favoritos ilimitados',
                 'Acesso vitalício — pague uma vez',
