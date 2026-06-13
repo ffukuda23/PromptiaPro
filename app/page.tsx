@@ -42,8 +42,8 @@ const testimonials = [
 const faqs = [
   { q: 'Os prompts funcionam com qualquer IA?', a: 'Sim. Compatíveis com ChatGPT, Claude, Gemini, Copilot e qualquer IA conversacional. Escritos em português e otimizados para o contexto brasileiro.' },
   { q: 'Preciso de experiência com IA?', a: 'Não. Basta copiar, preencher os campos entre colchetes com seus dados e colar na IA. Sem conhecimento técnico necessário.' },
-  { q: 'Posso cancelar quando quiser?', a: 'Sim, a qualquer momento sem multa. No plano anual, oferecemos garantia de reembolso integral nos primeiros 30 dias.' },
-  { q: 'Com que frequência chegam prompts novos?', a: 'Todo mês são adicionados pelo menos 30 novos prompts. Assinantes Pro recebem notificação por e-mail.' },
+  { q: 'O acesso vitalício é mesmo para sempre?', a: 'Sim. Você paga uma única vez e tem acesso para sempre — incluindo todos os novos prompts adicionados todo mês, sem custo adicional.' },
+  { q: 'Com que frequência chegam prompts novos?', a: 'Todo mês são adicionados pelo menos 30 novos prompts. Usuários Pro recebem notificação por e-mail.' },
 ]
 
 const LogoNavbar = () => (
@@ -115,11 +115,9 @@ export default function Home() {
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border" style={{ background: 'rgba(124,111,247,0.12)', borderColor: 'rgba(124,111,247,0.3)', color: 'var(--accent2)' }}>
             ✦ Biblioteca profissional de prompts
           </span>
-          <div className="w-full">
-            <LogoHero />
-          </div>
+          <div className="w-full"><LogoHero /></div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
-            Mais de 500 prompts profissionais em 20 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Economize horas todo dia.
+            Mais de 500 prompts profissionais em 22 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Economize horas todo dia.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-medium text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'var(--accent)' }}>
@@ -130,12 +128,10 @@ export default function Home() {
             </a>
           </div>
         </div>
-
         <div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
         <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
-
         <div className="flex gap-12 mt-16 flex-wrap justify-center">
-         {[['500+', 'Prompts profissionais'], ['20', 'Áreas de atuação'], ['100%', 'Testados']].map(([num, label]) => (
+          {[['500+', 'Prompts profissionais'], ['22', 'Áreas de atuação'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl font-black">{num}</div>
               <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{label}</div>
@@ -146,7 +142,7 @@ export default function Home() {
 
       <section id="categorias" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Biblioteca completa</div>
-        <h2 className="font-display text-4xl font-black tracking-tight mb-3">20 áreas do conhecimento</h2>
+        <h2 className="font-display text-4xl font-black tracking-tight mb-3">22 áreas do conhecimento</h2>
         <p className="mb-12" style={{ color: 'var(--muted)' }}>Prompts organizados por grupo e subgrupo para encontrar o que precisa em segundos.</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {categories.map(cat => (
@@ -186,7 +182,7 @@ export default function Home() {
         <h2 className="font-display text-4xl font-black tracking-tight mb-12">Do acesso ao resultado em 3 passos</h2>
         <div className="grid md:grid-cols-4 gap-4">
           {[
-            ['01', 'Escolha seu plano', 'Assine o Free para explorar prompts gratuitos ou o Pro para acesso completo.'],
+            ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 29,90.'],
             ['02', 'Encontre o prompt', 'Navegue por categoria ou use a busca para encontrar o prompt ideal.'],
             ['03', 'Personalize e use', 'Copie, preencha os campos entre [colchetes] e cole na IA de sua escolha.'],
             ['04', 'Novidades todo mês', 'Receba +30 novos prompts por mês sem pagar nada a mais.'],
@@ -202,16 +198,18 @@ export default function Home() {
 
       <section id="planos" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Planos e preços</div>
-        <h2 className="font-display text-4xl font-black tracking-tight mb-3">Invista menos do que 1 hora do seu tempo</h2>
-        <p className="mb-12" style={{ color: 'var(--muted)' }}></p>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+        <h2 className="font-display text-4xl font-black tracking-tight mb-3">Simples assim — Free ou Pro</h2>
+        <p className="mb-12" style={{ color: 'var(--muted)' }}>Sem mensalidade. Sem anuidade. O Pro é pague uma vez, use para sempre.</p>
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+          {/* FREE */}
+          <div className="p-8 rounded-2xl border flex flex-col" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Free</div>
-            <div className="font-display text-5xl font-black mb-1">R$&nbsp;0</div>
+            <div className="font-display text-5xl font-black mb-1">R$ 0</div>
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>para sempre gratuito</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
-            <ul className="space-y-3 mb-8">
-              {['50+ prompts gratuitos', '20 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
+            <ul className="space-y-3 mb-8 flex-1">
+              {['50+ prompts gratuitos', '22 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
               {['Prompts Pro exclusivos', 'Novidades mensais'].map(f => (
@@ -222,35 +220,34 @@ export default function Home() {
               Criar conta grátis
             </Link>
           </div>
-          <div className="relative p-8 rounded-2xl border-2" style={{ background: 'linear-gradient(145deg, rgba(124,111,247,0.08) 0%, var(--surface) 60%)', borderColor: 'rgba(124,111,247,0.5)' }}>
-            <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Mais popular</span>
-            <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Mensal</div>
-            <div className="font-display text-5xl font-black mb-1">R$ 19,90</div>
-            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · garantia de 7 dias</div>
+
+          {/* PRO VITALÍCIO */}
+          <div className="relative p-8 rounded-2xl border-2 flex flex-col" style={{ background: 'linear-gradient(145deg, rgba(124,111,247,0.08) 0%, var(--surface) 60%)', borderColor: 'rgba(124,111,247,0.5)' }}>
+            <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Oferta especial</span>
+            <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Vitalício</div>
+            <div className="flex items-baseline gap-3 mb-1">
+              <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 59,90</span>
+              <span className="font-display text-5xl font-black">R$ 29,90</span>
+            </div>
+            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>pagamento único · acesso vitalício</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
-            <ul className="space-y-3 mb-8">
-              {['500+ prompts completos', '20 categorias completas', '+30 novos prompts/mês', 'Busca avançada', 'Favoritos ilimitados', 'Suporte por WhatsApp'].map(f => (
+            <ul className="space-y-3 mb-8 flex-1">
+              {[
+                '500+ prompts completos',
+                '22 categorias completas',
+                '+30 novos prompts/mês inclusos',
+                'Busca avançada',
+                'Favoritos ilimitados',
+                'Acesso vitalício — pague uma vez',
+              ].map(f => (
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
             </ul>
-            <Link href="https://buy.stripe.com/6oU14f26iagy1QfgIU97G00" className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
-              Assinar agora →
-            </Link>
+            <a href="https://buy.stripe.com/5kQaEP9yK3Sa7az3W897G03" className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
+              Garantir acesso vitalício →
+            </a>
           </div>
-          <div className="p-8 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
-            <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Anual</div>
-            <div className="font-display text-5xl font-black mb-1">R$ 12,50</div>
-            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>por mês · R$ 150/ano · economize 37%</div>
-            <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
-            <ul className="space-y-3 mb-8">
-              {['Tudo do Pro Mensal', 'Economia de R$ 89/ano', 'Acesso antecipado a novidades', '1 consultoria de 30 min', 'Garantia de 7 dias'].map(f => (
-                <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
-              ))}
-            </ul>
-            <Link href="https://buy.stripe.com/fZudR1cKWfASbqP64g97G02" className="block w-full text-center py-3 rounded-xl text-sm font-medium border transition-all hover:opacity-80" style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}>
-              Assinar anual →
-            </Link>
-          </div>
+
         </div>
       </section>
 
@@ -292,7 +289,7 @@ export default function Home() {
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Comece hoje</div>
         <h2 className="font-display text-5xl font-black tracking-tight mb-4">Pronto para trabalhar<br /><span style={{ color: 'var(--accent)' }}>10x mais rápido?</span></h2>
         <p className="text-lg mb-10 font-light" style={{ color: 'var(--muted)' }}>Teste gratuitamente com 50+ prompts. Sem cartão de crédito.</p>
-        <div className="flex gap-4 justify-center">
+        <div className="flex gap-4 justify-center flex-wrap">
           <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-medium text-white hover:opacity-90" style={{ background: 'var(--accent)' }}>
             Criar conta grátis →
           </Link>
