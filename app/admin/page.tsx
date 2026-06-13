@@ -22,7 +22,6 @@ type Usuario = {
 }
 
 export default function AdminPage() {
-  const supabase = createClientComponentClient()
   const router = useRouter()
   const [stats, setStats] = useState<Stats | null>(null)
   const [usuarios, setUsuarios] = useState<Usuario[]>([])
@@ -288,4 +287,3 @@ export default function AdminPage() {
     </main>
   )
 }
-
