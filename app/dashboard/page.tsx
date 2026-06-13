@@ -17,7 +17,7 @@ const GROUPS = [
   { key: 'Laudos Médicos', icon: '🏥', subs: ['Exames Laboratoriais', 'Laudos de Imagem', 'Receituários e Medicamentos', 'Orientações de Saúde'] },
   { key: 'Receitas Culinárias', icon: '🍳', subs: ['Do Zero', 'Aproveitamento', 'Restrições'] },
   { key: 'Treinos Físicos', icon: '💪', subs: ['Musculação', 'Flexibilidade', 'Cardio'] },
-  { key: 'Vendas E-commerce', icon: '🛒', subs: ['Fotos Fundo Branco', 'Fotos Ambientadas', 'Descrição', 'Título'] },
+  { key: 'Vendas E-commerce', icon: '🛒', subs: ['Fotos e Visual', 'Copywriting de Produto', 'Anúncios e Tráfego', 'Atendimento e Conversão', 'Gestão da Loja'] },
   { key: 'Novos Idiomas', icon: '🌍', subs: ['Inglês', 'Espanhol', 'Mandarim'] },
   { key: 'Carreira', icon: '🎯', subs: ['Currículo', 'Entrevistas'] },
   { key: 'IA no Trabalho', icon: '🤖', subs: ['Automação', 'Produtividade'] },
