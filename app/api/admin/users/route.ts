@@ -7,10 +7,18 @@ export async function GET() {
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY
 
     if (!url || !key) {
-      return NextResponse.json({ error: 'Missing env vars', url: !!url, key: !!key }, { status: 500 })
+      return NextResponse.json({ error: 'Missing env vars' }, { status: 500 })
     }
 
-    const supabaseAdmin = createClient(url, key)
+    const supabaseAdmin = createClient(url, key, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+      db: {
+        schema: 'public',
+      },
+    })
 
     const { data, error } = await supabaseAdmin
       .from('subscriptions')
@@ -18,7 +26,7 @@ export async function GET() {
       .order('updated_at', { ascending: false })
 
     if (error) {
-      return NextResponse.json({ error: error.message, details: error }, { status: 500 })
+      return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
     return NextResponse.json(data)
