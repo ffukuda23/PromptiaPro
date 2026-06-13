@@ -49,24 +49,22 @@ export default function AdminPage() {
     const inicioSemana = new Date(agora.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
     const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1).toISOString()
 
-    const { data: subs } = await supabase
-      .from('subscriptions')
-      .select('user_id, plan, created_at')
-      .order('created_at', { ascending: false })
+    const res = await fetch('/api/admin/users')
+    const subs = await res.json()
 
-    if (!subs) { setLoading(false); return }
+    if (!subs || !Array.isArray(subs)) { setLoading(false); return }
 
-    const usuariosFormatados: Usuario[] = subs.map(s => ({
+    const usuariosFormatados: Usuario[] = subs.map((s: any) => ({
       id: s.user_id,
       plan: s.plan || 'free',
       created_at: s.created_at,
     }))
 
     const total = subs.length
-    const hoje = subs.filter(s => s.created_at >= inicioHoje).length
-    const semana = subs.filter(s => s.created_at >= inicioSemana).length
-    const mes = subs.filter(s => s.created_at >= inicioMes).length
-    const pro = subs.filter(s => s.plan === 'pro').length
+    const hoje = subs.filter((s: any) => s.created_at >= inicioHoje).length
+    const semana = subs.filter((s: any) => s.created_at >= inicioSemana).length
+    const mes = subs.filter((s: any) => s.created_at >= inicioMes).length
+    const pro = subs.filter((s: any) => s.plan === 'pro').length
     const free = total - pro
 
     setStats({ total, hoje, semana, mes, pro, free })
@@ -287,3 +285,4 @@ export default function AdminPage() {
     </main>
   )
 }
+
