@@ -57,13 +57,13 @@ export default function AdminPage() {
     const usuariosFormatados: Usuario[] = subs.map((s: any) => ({
       id: s.user_id,
       plan: s.plan || 'free',
-      created_at: s.created_at,
+      created_at: s.updated_at,
     }))
 
     const total = subs.length
-    const hoje = subs.filter((s: any) => s.created_at >= inicioHoje).length
-    const semana = subs.filter((s: any) => s.created_at >= inicioSemana).length
-    const mes = subs.filter((s: any) => s.created_at >= inicioMes).length
+    const hoje = subs.filter((s: any) => s.updated_at >= inicioHoje).length
+    const semana = subs.filter((s: any) => s.updated_at >= inicioSemana).length
+    const mes = subs.filter((s: any) => s.updated_at >= inicioMes).length
     const pro = subs.filter((s: any) => s.plan === 'pro').length
     const free = total - pro
 
@@ -96,7 +96,6 @@ export default function AdminPage() {
     <main className="min-h-screen p-6 md:p-10" style={{ background: 'var(--bg)' }}>
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
             <h1 className="text-2xl font-bold" style={{ color: 'var(--foreground)' }}>
@@ -111,17 +110,12 @@ export default function AdminPage() {
             <a href="/dashboard" className="px-4 py-2 rounded-xl text-sm border hover:opacity-80" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>
               ← Dashboard
             </a>
-            <button
-              onClick={carregarDados}
-              className="px-4 py-2 rounded-xl text-sm border hover:opacity-80"
-              style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}
-            >
+            <button onClick={carregarDados} className="px-4 py-2 rounded-xl text-sm border hover:opacity-80" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>
               🔄 Atualizar
             </button>
           </div>
         </div>
 
-        {/* Cards de métricas */}
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
             {[
@@ -141,7 +135,6 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* Barras de distribuição + taxa de conversão */}
         {stats && (
           <div className="grid md:grid-cols-2 gap-4 mb-8">
             <div className="p-6 rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
@@ -149,10 +142,8 @@ export default function AdminPage() {
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-xs w-8 text-right font-medium" style={{ color: 'var(--muted)' }}>Pro</span>
                 <div className="flex-1 h-7 rounded-full overflow-hidden" style={{ background: 'var(--bg)' }}>
-                  <div
-                    className="h-full rounded-full flex items-center justify-end pr-2 transition-all"
-                    style={{ width: `${stats.total > 0 ? Math.max((stats.pro / stats.total) * 100, 2) : 0}%`, background: 'linear-gradient(90deg, #c8a800, #E8C96B)' }}
-                  >
+                  <div className="h-full rounded-full flex items-center justify-end pr-2 transition-all"
+                    style={{ width: `${stats.total > 0 ? Math.max((stats.pro / stats.total) * 100, 2) : 0}%`, background: 'linear-gradient(90deg, #c8a800, #E8C96B)' }}>
                     {stats.pro > 0 && <span className="text-xs font-bold text-black">{stats.pro}</span>}
                   </div>
                 </div>
@@ -163,10 +154,8 @@ export default function AdminPage() {
               <div className="flex items-center gap-3">
                 <span className="text-xs w-8 text-right font-medium" style={{ color: 'var(--muted)' }}>Free</span>
                 <div className="flex-1 h-7 rounded-full overflow-hidden" style={{ background: 'var(--bg)' }}>
-                  <div
-                    className="h-full rounded-full flex items-center justify-end pr-2 transition-all"
-                    style={{ width: `${stats.total > 0 ? Math.max((stats.free / stats.total) * 100, 2) : 0}%`, background: 'linear-gradient(90deg, #5b4fd4, #7C6FF7)' }}
-                  >
+                  <div className="h-full rounded-full flex items-center justify-end pr-2 transition-all"
+                    style={{ width: `${stats.total > 0 ? Math.max((stats.free / stats.total) * 100, 2) : 0}%`, background: 'linear-gradient(90deg, #5b4fd4, #7C6FF7)' }}>
                     {stats.free > 0 && <span className="text-xs font-bold text-white">{stats.free}</span>}
                   </div>
                 </div>
@@ -186,15 +175,12 @@ export default function AdminPage() {
                 {stats.pro} usuário{stats.pro !== 1 ? 's' : ''} Pro de {stats.total} total
               </p>
               <div className="mt-4 p-3 rounded-xl" style={{ background: 'var(--bg)' }}>
-                <p className="text-xs" style={{ color: 'var(--muted)' }}>
-                  💡 Benchmark SaaS: taxa saudável é 2–5% de free para pago
-                </p>
+                <p className="text-xs" style={{ color: 'var(--muted)' }}>💡 Benchmark SaaS: taxa saudável é 2–5% de free para pago</p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Tabela de usuários */}
         <div className="rounded-2xl border overflow-hidden" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="p-4 border-b flex flex-wrap items-center gap-3" style={{ borderColor: 'var(--border)' }}>
             <h2 className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>
@@ -202,27 +188,20 @@ export default function AdminPage() {
             </h2>
             <div className="flex gap-2 ml-auto flex-wrap">
               {(['todos', 'pro', 'free'] as const).map(p => (
-                <button
-                  key={p}
-                  onClick={() => setFiltroPlano(p)}
+                <button key={p} onClick={() => setFiltroPlano(p)}
                   className="px-3 py-1 rounded-full text-xs font-medium border transition-all"
                   style={{
                     borderColor: filtroPlano === p ? 'var(--accent)' : 'var(--border)',
                     background: filtroPlano === p ? 'rgba(124,111,247,0.15)' : 'transparent',
                     color: filtroPlano === p ? 'var(--accent)' : 'var(--muted)',
-                  }}
-                >
+                  }}>
                   {p === 'todos' ? 'Todos' : p === 'pro' ? '⭐ Pro' : '🆓 Free'}
                 </button>
               ))}
-              <input
-                type="text"
-                placeholder="Buscar por ID..."
-                value={busca}
+              <input type="text" placeholder="Buscar por ID..." value={busca}
                 onChange={e => setBusca(e.target.value)}
                 className="px-3 py-1 rounded-lg border text-xs outline-none"
-                style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--foreground)', width: '180px' }}
-              />
+                style={{ background: 'var(--bg)', borderColor: 'var(--border)', color: 'var(--foreground)', width: '180px' }} />
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -237,24 +216,17 @@ export default function AdminPage() {
               </thead>
               <tbody>
                 {usuariosFiltrados.map((u, i) => (
-                  <tr
-                    key={u.id}
-                    style={{ borderBottom: i < usuariosFiltrados.length - 1 ? '1px solid var(--border)' : 'none' }}
-                  >
-                    <td className="px-4 py-3 text-xs" style={{ color: 'var(--muted)' }}>
-                      {i + 1}
-                    </td>
+                  <tr key={u.id} style={{ borderBottom: i < usuariosFiltrados.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                    <td className="px-4 py-3 text-xs" style={{ color: 'var(--muted)' }}>{i + 1}</td>
                     <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--foreground)' }}>
                       {u.id.slice(0, 8)}...{u.id.slice(-6)}
                     </td>
                     <td className="px-4 py-3">
-                      <span
-                        className="px-2 py-0.5 rounded-full text-xs font-semibold"
+                      <span className="px-2 py-0.5 rounded-full text-xs font-semibold"
                         style={{
                           background: u.plan === 'pro' ? 'rgba(232,201,107,0.15)' : 'rgba(124,111,247,0.15)',
                           color: u.plan === 'pro' ? '#E8C96B' : '#7C6FF7',
-                        }}
-                      >
+                        }}>
                         {u.plan === 'pro' ? '⭐ Pro' : '🆓 Free'}
                       </span>
                     </td>
@@ -285,4 +257,3 @@ export default function AdminPage() {
     </main>
   )
 }
-
