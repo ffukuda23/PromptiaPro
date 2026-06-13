@@ -43,7 +43,7 @@ const faqs = [
   { q: 'Os prompts funcionam com qualquer IA?', a: 'Sim. Compatíveis com ChatGPT, Claude, Gemini, Copilot e qualquer IA conversacional. Escritos em português e otimizados para o contexto brasileiro.' },
   { q: 'Preciso de experiência com IA?', a: 'Não. Basta copiar, preencher os campos entre colchetes com seus dados e colar na IA. Sem conhecimento técnico necessário.' },
   { q: 'O acesso vitalício é mesmo para sempre?', a: 'Sim. Você paga uma única vez e tem acesso para sempre — incluindo todos os novos prompts adicionados todo mês, sem custo adicional.' },
-  { q: 'Com que frequência chegam prompts novos?', a: 'Todo mês são adicionados pelo menos 30 novos prompts. Usuários Pro recebem notificação por e-mail.' },
+
 ]
 
 const LogoNavbar = () => (
@@ -310,3 +310,4 @@ export default function Home() {
     </main>
   )
 }
+
