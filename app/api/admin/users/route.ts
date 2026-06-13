@@ -14,8 +14,8 @@ export async function GET() {
 
     const { data, error } = await supabaseAdmin
       .from('subscriptions')
-      .select('user_id, plan, created_at')
-      .order('created_at', { ascending: false })
+      .select('user_id, plan, updated_at')
+      .order('updated_at', { ascending: false })
 
     if (error) {
       return NextResponse.json({ error: error.message, details: error }, { status: 500 })
