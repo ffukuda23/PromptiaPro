@@ -135,7 +135,7 @@ export default function Home() {
         <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
 
         <div className="flex gap-12 mt-16 flex-wrap justify-center">
-          {[['500+', 'Prompts profissionais'], ['20', 'Áreas de atuação'], ['+30', 'Novos/mês'], ['100%', 'Testados']].map(([num, label]) => (
+         {[['500+', 'Prompts profissionais'], ['20', 'Áreas de atuação'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl font-black">{num}</div>
               <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{label}</div>
