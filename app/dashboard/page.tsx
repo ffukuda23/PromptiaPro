@@ -49,14 +49,13 @@ export default function DashboardPage() {
       const { data: { user: authUser } } = await supabase.auth.getUser()
       if (!authUser) { router.push('/auth/login'); return }
 
-      // Verificar se já aceitou os termos
-      const { data: consent } = await supabase
+      // Verificar se já aceitou os termos — sem .single() para evitar erro 406
+      const { data: consentList } = await supabase
         .from('user_consents')
         .select('id')
         .eq('user_id', authUser.id)
-        .single()
 
-      if (!consent) {
+      if (!consentList || consentList.length === 0) {
         setShowTermos(true)
       }
 
@@ -144,6 +143,13 @@ export default function DashboardPage() {
               Upgrade Pro
             </a>
           )}
+          <a href="https://www.instagram.com/hub_promptiapro" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#9ca3af" strokeWidth="1.8"/>
+              <circle cx="12" cy="12" r="4.5" stroke="#9ca3af" strokeWidth="1.8"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="#9ca3af"/>
+            </svg>
+          </a>
           <button onClick={handleLogout} className="text-xs px-3 py-1.5 rounded-lg border" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>Sair</button>
         </header>
 
