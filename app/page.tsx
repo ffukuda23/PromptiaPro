@@ -300,14 +300,22 @@ export default function Home() {
 
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
         <LogoFooter />
-        <div className="flex gap-6">
+        <div className="flex gap-6 items-center">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
           <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
           <a href="/contato" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Contato</a>
+          <a href="https://www.instagram.com/hub_promptiapro" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" title="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#9ca3af" strokeWidth="1.8"/>
+              <circle cx="12" cy="12" r="4.5" stroke="#9ca3af" strokeWidth="1.8"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="#9ca3af"/>
+            </svg>
+          </a>
         </div>
         <span className="text-sm" style={{ color: 'var(--subtle)' }}>© 2025 PromptIAPro</span>
       </footer>
     </main>
   )
 }
+
 
