@@ -29,6 +29,7 @@ const GROUPS = [
   { key: 'Marketing Empresarial', icon: '📣', subs: ['Posicionamento e Marca', 'Plano de Marketing', 'Relacionamento com Cliente', 'Comunicação e Conteúdo'] },
   { key: 'Personalização de Produtos', icon: '🎨', subs: ['Precificação', 'Vendas e Atendimento', 'Produção e Organização', 'Crescimento do Negócio'] },
   { key: 'Saúde e Qualidade de Vida', icon: '🧘', subs: ['Saúde Mental', 'Nutrição', 'Produtividade Pessoal'] },
+  { key: 'Secretária Particular', icon: '🗂️', subs: ['Agenda e Organização', 'Comunicação e Correspondência', 'Viagens e Compromissos', 'Tarefas Administrativas', 'Eventos e Compromissos Sociais'] },
 ]
 
 export default function DashboardPage() {
