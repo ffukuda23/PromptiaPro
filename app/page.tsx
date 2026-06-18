@@ -24,6 +24,7 @@ const categories = [
   { icon: '🧘', name: 'Saúde e Qualidade de Vida', count: '18 prompts', hot: false, isNew: true },
   { icon: '🎉', name: 'Festas e Eventos', count: '12 prompts', hot: false, isNew: false },
   { icon: '🌍', name: 'Novos Idiomas', count: '8 prompts', hot: false, isNew: false },
+  { icon: '🗂️', name: 'Secretária Particular', count: '18 prompts', hot: false, isNew: true },
 ]
 
 const prompts = [
