@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 
-const LINK_VITALICIO = 'https://buy.stripe.com/5kQaEP9yK3Sa7az3W897G03'
+const LINK_VITALICIO = 'https://buy.stripe.com/fZuaEP8uGgEWamL8co97G04'
 
 export default function UpgradePage() {
   return (
@@ -13,7 +13,7 @@ export default function UpgradePage() {
 
       <div className="text-center mb-12">
         <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>Upgrade para Pro</div>
-        <h1 className="font-display text-4xl font-black tracking-tight mb-3">Acesso vitalício por R$ 29,90</h1>
+        <h1 className="font-display text-4xl font-black tracking-tight mb-3">Acesso vitalício por R$ 9,90</h1>
         <p className="text-sm" style={{ color: 'var(--muted)' }}>Pague uma vez. Acesse para sempre. 500+ prompts profissionais.</p>
       </div>
 
@@ -23,11 +23,11 @@ export default function UpgradePage() {
           <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Oferta especial</span>
           <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Vitalício</div>
           <div className="flex items-baseline gap-3 mb-1">
-            <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 59,90</span>
-            <span className="font-display text-5xl font-black">R$ 29,90</span>
+            <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 29,90</span>
+            <span className="font-display text-5xl font-black">R$ 9,90</span>
           </div>
           <div className="text-sm mb-2" style={{ color: 'var(--muted)' }}>pagamento único · acesso vitalício</div>
-          <div className="text-xs mb-6 px-3 py-1.5 rounded-full self-start font-medium" style={{ background: 'rgba(232,201,107,0.12)', color: 'var(--gold)' }}>⭐ Economize 50% — por tempo limitado</div>
+          <div className="text-xs mb-6 px-3 py-1.5 rounded-full self-start font-medium" style={{ background: 'rgba(232,201,107,0.12)', color: 'var(--gold)' }}>⭐ Economize 67% — por tempo limitado</div>
           <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
           <ul className="flex flex-col gap-3 mb-8 flex-1">
             {[
