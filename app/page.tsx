@@ -118,7 +118,7 @@ export default function Home() {
           </span>
           <div className="w-full"><LogoHero /></div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
-            Mais de 500 prompts profissionais em 22 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Economize horas todo dia.
+            Mais de 500 prompts profissionais em 22 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Saiba o que perguntar e Economize horas todo dia.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-medium text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'var(--accent)' }}>
@@ -181,12 +181,11 @@ export default function Home() {
       <section id="como-funciona" className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Como funciona</div>
         <h2 className="font-display text-4xl font-black tracking-tight mb-12">Do acesso ao resultado em 3 passos</h2>
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
           {[
-            ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 29,90.'],
+            ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 9,90.'],
             ['02', 'Encontre o prompt', 'Navegue por categoria ou use a busca para encontrar o prompt ideal.'],
             ['03', 'Personalize e use', 'Copie, preencha os campos entre [colchetes] e cole na IA de sua escolha.'],
-            ['04', 'Novidades todo mês', 'Receba +30 novos prompts por mês sem pagar nada a mais.'],
           ].map(([num, title, desc]) => (
             <div key={num} className="p-6 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
               <div className="font-display text-4xl font-black mb-4" style={{ color: 'var(--accent)', opacity: 0.3 }}>{num}</div>
@@ -227,8 +226,8 @@ export default function Home() {
             <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Oferta especial</span>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Vitalício</div>
             <div className="flex items-baseline gap-3 mb-1">
-              <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 59,90</span>
-              <span className="font-display text-5xl font-black">R$ 29,90</span>
+              <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 29,90</span>
+              <span className="font-display text-5xl font-black">R$ 9,90</span>
             </div>
             <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>pagamento único · acesso vitalício</div>
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
@@ -318,5 +317,3 @@ export default function Home() {
     </main>
   )
 }
-
-
