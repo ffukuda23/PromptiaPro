@@ -242,7 +242,7 @@ export default function Home() {
                 <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
               ))}
             </ul>
-            <a href="https://buy.stripe.com/5kQaEP9yK3Sa7az3W897G03" className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
+            <a href="https://buy.stripe.com/fZuaEP8uGgEWamL8co97G04" className="block w-full text-center py-3 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
               Garantir acesso vitalício →
             </a>
           </div>
