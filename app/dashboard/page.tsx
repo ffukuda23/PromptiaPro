@@ -179,8 +179,13 @@ export default function DashboardPage() {
 
   // Extrai variáveis únicas entre colchetes: [Nome do cliente] → ["Nome do cliente"]
   function extractVars(body: string): string[] {
-    const matches = [...body.matchAll(/\[([^\]]+)\]/g)]
-    return [...new Set(matches.map(m => m[1]))]
+    const re = /\[([^\]]+)\]/g
+    const seen: string[] = []
+    let m: RegExpExecArray | null
+    while ((m = re.exec(body)) !== null) {
+      if (!seen.includes(m[1])) seen.push(m[1])
+    }
+    return seen
   }
 
   // Substitui [variável] pelos valores preenchidos
