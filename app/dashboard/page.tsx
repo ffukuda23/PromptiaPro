@@ -123,6 +123,7 @@ export default function DashboardPage() {
   const [favorites,      setFavorites]      = useState<string[]>([])
   const [sidebarOpen,    setSidebarOpen]    = useState(true)
   const [showTermos,     setShowTermos]     = useState(false)
+  const [favoritesView,  setFavoritesView]  = useState(false)
 
   // Carrega dados ao montar
   useEffect(() => {
@@ -161,6 +162,7 @@ export default function DashboardPage() {
       await supabase.from('favorites').delete().eq('user_id', user.id).eq('prompt_id', promptId)
       setFavorites(f => f.filter(id => id !== promptId))
     } else {
+      if (favorites.length >= 20) return // limite de 20 favoritos
       await supabase.from('favorites').insert({ user_id: user.id, prompt_id: promptId })
       setFavorites(f => [...f, promptId])
     }
@@ -171,6 +173,11 @@ export default function DashboardPage() {
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
+
+  // Prompts favoritados (até 20)
+  const favoritedPrompts = useMemo(() =>
+    prompts.filter(p => favorites.includes(p.id)).slice(0, 20),
+  [prompts, favorites])
 
   // Estado derivado
   const fc         = FORMAT_CONFIG[format]
@@ -206,12 +213,14 @@ export default function DashboardPage() {
 
   // Navegação
   function selectCategory(key: string) {
+    setFavoritesView(false)
     setSelCategory(key)
     setSelTema(null)
     setExpanded(prev => { const s = new Set(prev); s.add(key); return s })
   }
 
   function selectTema(temaKey: string, catKey: string) {
+    setFavoritesView(false)
     setSelCategory(catKey)
     setSelTema(temaKey)
     setExpanded(prev => { const s = new Set(prev); s.add(catKey); return s })
@@ -224,6 +233,7 @@ export default function DashboardPage() {
   }
 
   function changeFormat(f: Format) {
+    setFavoritesView(false)
     setFormat(f)
     setSelCategory(null)
     setSelTema(null)
@@ -232,10 +242,11 @@ export default function DashboardPage() {
   }
 
   // Qual view mostrar no main
-  const showSearch   = !!search && !selTema
-  const showPrompts  = !!selTema
-  const showTemas    = !!selCategory && !selTema && !search
-  const showWelcome  = !selCategory && !search
+  const showFavorites = favoritesView && !search
+  const showSearch    = !!search && !selTema && !favoritesView
+  const showPrompts   = !!selTema && !favoritesView
+  const showTemas     = !!selCategory && !selTema && !search && !favoritesView
+  const showWelcome   = !selCategory && !search && !favoritesView
 
   // ─── Render ──────────────────────────────────────────────────────────────────
   return (
@@ -263,8 +274,44 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Favoritos */}
+        <div className="px-2 pt-2 pb-1 flex-shrink-0">
+          <button
+            onClick={() => {
+              setFavoritesView(true)
+              setSelCategory(null)
+              setSelTema(null)
+              setSearch('')
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-colors"
+            style={{
+              background:  favoritesView ? 'rgba(248,113,113,0.12)' : 'transparent',
+              color:       favoritesView ? '#F87171' : 'var(--muted)',
+              fontWeight:  favoritesView ? '600' : '400',
+              border:      `1px solid ${favoritesView ? 'rgba(248,113,113,0.3)' : 'transparent'}`,
+            }}
+          >
+            <span>{favoritesView ? '♥' : '♡'}</span>
+            <span className="flex-1 text-left">Favoritos</span>
+            <span
+              className="text-[9px] px-1.5 py-0.5 rounded"
+              style={{
+                background: favorites.length >= 20
+                  ? 'rgba(248,113,113,0.2)'
+                  : 'rgba(255,255,255,0.06)',
+                color: favorites.length >= 20 ? '#F87171' : 'var(--subtle)',
+              }}
+            >
+              {favorites.length}/20
+            </span>
+          </button>
+        </div>
+
+        {/* Separador */}
+        <div className="mx-3 mb-1" style={{ height: '1px', background: 'var(--border)' }} />
+
         {/* Árvore de categorias */}
-        <div className="overflow-y-auto flex-1 py-2">
+        <div className="overflow-y-auto flex-1 py-1">
           {categories.map(cat => {
             const isActive   = selCategory === cat.key
             const isExpanded = expanded.has(cat.key)
@@ -446,6 +493,55 @@ export default function DashboardPage() {
 
         {/* CONTEÚDO PRINCIPAL */}
         <div className="flex-1 overflow-y-auto p-5">
+
+          {/* ── Favoritos ── */}
+          {showFavorites && (
+            <>
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-1">
+                  <h1 className="font-display text-xl font-bold">Meus Favoritos</h1>
+                  <span
+                    className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{
+                      background: favorites.length >= 20 ? 'rgba(248,113,113,0.15)' : 'rgba(255,255,255,0.07)',
+                      color:      favorites.length >= 20 ? '#F87171' : 'var(--muted)',
+                    }}
+                  >
+                    {favorites.length}/20
+                  </span>
+                </div>
+                <p className="text-sm" style={{ color: 'var(--muted)' }}>
+                  {favorites.length === 0
+                    ? 'Marque prompts com ♡ para salvá-los aqui.'
+                    : favorites.length >= 20
+                    ? 'Limite atingido. Remova um favorito para adicionar outro.'
+                    : `${favorites.length} prompt${favorites.length !== 1 ? 's' : ''} salvos · limite de 20.`}
+                </p>
+              </div>
+
+              {favoritedPrompts.length === 0 ? (
+                <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
+                  <div className="text-5xl mb-4">♡</div>
+                  <p className="text-sm font-medium mb-1">Nenhum favorito ainda</p>
+                  <p className="text-xs">Clique no ♡ em qualquer prompt para salvá-lo aqui.</p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {favoritedPrompts.map(p => (
+                    <PromptCard
+                      key={p.id}
+                      p={p}
+                      user={user}
+                      favorites={favorites}
+                      accentColor="#F87171"
+                      onView={setSelectedPrompt}
+                      onFavorite={toggleFavorite}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
 
           {/* ── Resultados de busca ── */}
           {showSearch && (
@@ -783,3 +879,4 @@ function PromptCard({
     </div>
   )
 }
+
