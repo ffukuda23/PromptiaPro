@@ -154,7 +154,7 @@ export default function Home() {
       */}
       <section id="categorias" className="max-w-5xl mx-auto px-6 pt-4 pb-14">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Biblioteca completa</div>
-        <h2 className="font-display text-4xl font-black tracking-wide mb-3 uppercase">22 áreas do conhecimento</h2>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-3 uppercase">22 áreas do conhecimento</h2>
         <p className="mb-10" style={{ color: 'var(--muted)' }}>Prompts organizados por grupo e subgrupo para encontrar o que precisa em segundos.</p>
         {/* Cards clicáveis — levam ao cadastro */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -182,7 +182,7 @@ export default function Home() {
       {/* ── EXEMPLOS ───────────────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-8">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Exemplos da biblioteca</div>
-        <h2 className="font-display text-4xl font-black tracking-wide mb-10 uppercase">Prompts que entregam resultados reais</h2>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-10 uppercase">Prompts que entregam resultados reais</h2>
         <div className="flex flex-col gap-3">
           {prompts.map(p => (
             <div key={p.title} className="grid grid-cols-[auto_1fr_auto] gap-4 items-start p-5 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
@@ -208,7 +208,7 @@ export default function Home() {
       */}
       <section id="como-funciona" className="max-w-5xl mx-auto px-6 py-14">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Como funciona</div>
-        <h2 className="font-display text-4xl font-black tracking-wide mb-10 uppercase">Do acesso ao resultado em 3 passos</h2>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-10 uppercase">Do acesso ao resultado em 3 passos</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {[
             ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 9,90.'],
@@ -227,7 +227,7 @@ export default function Home() {
       {/* ── PLANOS ─────────────────────────────────────────────────────────── */}
       <section id="planos" className="max-w-5xl mx-auto px-6 py-14">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Planos e preços</div>
-        <h2 className="font-display text-4xl font-black tracking-wide mb-3 uppercase">Simples assim — Free ou Pro</h2>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-3 uppercase">Simples assim — Free ou Pro</h2>
         <p className="mb-10" style={{ color: 'var(--muted)' }}>Sem mensalidade. Sem anuidade. O Pro é pague uma vez, use para sempre.</p>
         <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {/* FREE */}
@@ -353,4 +353,5 @@ export default function Home() {
     </main>
   )
 }
+
 
