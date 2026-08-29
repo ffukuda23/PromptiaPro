@@ -1,547 +1,359 @@
 'use client'
 export const dynamic = 'force-dynamic'
-import { useEffect, useState, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
-import TermosModal from '../components/TermosModal'
-import type { Prompt, UserProfile } from '@/types'
-
-// ─── Tipos e configuração de formato ─────────────────────────────────────────
-type Format = 'texto' | 'imagem' | 'video'
-
-const FORMAT_CONFIG = {
-  texto:  { label: 'Texto',  color: '#7C6FF7', bg: 'rgba(124,111,247,0.15)', border: 'rgba(124,111,247,0.35)' },
-  imagem: { label: 'Imagem', color: '#E040FB', bg: 'rgba(224,64,251,0.12)',  border: 'rgba(224,64,251,0.30)'  },
-  video:  { label: 'Vídeo',  color: '#FF7043', bg: 'rgba(255,112,67,0.12)',  border: 'rgba(255,112,67,0.30)'  },
-} as const
-
-// ─── Árvore de temas ──────────────────────────────────────────────────────────
-interface TemaConfig     { key: string; isNew?: boolean; isEnriquecida?: boolean }
-interface CategoryConfig { key: string; icon: string; isNew?: boolean; temas: TemaConfig[] }
-
-const TREE: Record<Format, CategoryConfig[]> = {
-  texto: [
-    {
-      key: 'Trabalho e Produtividade', icon: '💼', isNew: true,
-      temas: [
-        { key: 'E-mails e comunicação profissional',  isNew: true },
-        { key: 'Reuniões e atas',                     isNew: true },
-        { key: 'Priorização e gestão de tempo',       isNew: true },
-        { key: 'Delegação e gestão de equipes',       isNew: true },
-        { key: 'Feedback e avaliação de desempenho',  isNew: true },
-        { key: 'Apresentações e slides',              isNew: true },
-        { key: 'Relatórios e documentos corporativos',isNew: true },
-        { key: 'Produtividade pessoal e rotina',      isNew: true },
-      ],
-    },
-    {
-      key: 'Pequenos Negócios e Empreendedorismo', icon: '🚀',
-      temas: [
-        { key: 'Marketing Digital' },
-        { key: 'Marketing Empresarial' },
-        { key: 'Personalização de Produtos' },
-        { key: 'Vendas E-commerce' },
-        { key: 'Locação de Imóveis' },
-        { key: 'Compra e Venda de Automóveis' },
-        { key: 'Festas e Eventos' },
-      ],
-    },
-    {
-      key: 'Carreira', icon: '👔',
-      temas: [
-        { key: 'Carreira' },
-        { key: 'RH Empresarial' },
-        { key: 'Secretária Particular' },
-        { key: 'Estudantes Universitários' },
-        { key: 'Novos Idiomas' },
-      ],
-    },
-    {
-      key: 'Financeiro Pessoal', icon: '💰',
-      temas: [
-        { key: 'Financeiro Pessoal' },
-        { key: 'Resumo Econômico' },
-      ],
-    },
-    {
-      key: 'Empresas por Segmento e Gestão', icon: '🏢',
-      temas: [
-        { key: 'Empresa Varejo' },
-        { key: 'Empresa Atacado' },
-        { key: 'Empresa Indústria' },
-        { key: 'Empresa Serviços' },
-      ],
-    },
-    {
-      key: 'Vendas e Documentos Especializados', icon: '📄',
-      temas: [
-        { key: 'Jurídico' },
-      ],
-    },
-    {
-      key: 'Saúde e Qualidade de Vida', icon: '🧘',
-      temas: [
-        { key: 'Laudos Médicos' },
-        { key: 'Saúde e Qualidade de Vida' },
-        { key: 'Treinos Físicos' },
-        { key: 'Receitas Culinárias' },
-      ],
-    },
-  ],
-  imagem: [
-    { key: 'Redes Sociais e Marketing Visual', icon: '📸', isNew: true,
-      temas: [{ key: 'Posts para Instagram', isNew: true }, { key: 'Stories e Reels', isNew: true }, { key: 'Capas de YouTube', isNew: true }] },
-    { key: 'Design e Identidade Visual', icon: '🎨', isNew: true,
-      temas: [{ key: 'Logotipos e Marcas', isNew: true }, { key: 'Apresentações Visuais', isNew: true }] },
-    { key: 'Produtos e E-commerce', icon: '🛍️', isNew: true,
-      temas: [{ key: 'Fotos de Produto', isNew: true }, { key: 'Banners Promocionais', isNew: true }] },
-    { key: 'Arte e Criatividade', icon: '🖼️', isNew: true,
-      temas: [{ key: 'Ilustrações', isNew: true }, { key: 'Arte Conceitual', isNew: true }] },
-  ],
-  video: [
-    { key: 'Marketing em Vídeo', icon: '🎥', isNew: true,
-      temas: [{ key: 'Anúncios e Ads', isNew: true }, { key: 'Vídeos para Redes Sociais', isNew: true }] },
-    { key: 'Educação e Tutoriais', icon: '📚', isNew: true,
-      temas: [{ key: 'Aulas Online', isNew: true }, { key: 'Tutoriais Práticos', isNew: true }] },
-    { key: 'Storytelling e Narrativa', icon: '🎬', isNew: true,
-      temas: [{ key: 'Shorts e Reels', isNew: true }, { key: 'Documentários Curtos', isNew: true }] },
-  ],
-}
-
-// ─── Componente principal ─────────────────────────────────────────────────────
-export default function DashboardPage() {
-  const router = useRouter()
-  const [user,           setUser]           = useState<UserProfile | null>(null)
-  const [prompts,        setPrompts]        = useState<Prompt[]>([])
-  const [format,         setFormat]         = useState<Format>('texto')
-  const [selCategory,    setSelCategory]    = useState<string | null>(null)
-  const [selTema,        setSelTema]        = useState<string | null>(null)
-  const [expanded,       setExpanded]       = useState<Set<string>>(new Set())
-  const [search,         setSearch]         = useState('')
-  const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
-  const [copied,         setCopied]         = useState(false)
-  const [favorites,      setFavorites]      = useState<string[]>([])
-  const [sidebarOpen,    setSidebarOpen]    = useState(true)
-  const [showTermos,     setShowTermos]     = useState(false)
-  const [favoritesView,  setFavoritesView]  = useState(false)
-
-  // Carrega dados ao montar
-  useEffect(() => {
-    async function load() {
-      const { data: { user: authUser } } = await supabase.auth.getUser()
-      if (!authUser) { router.push('/auth/login'); return }
-
-      const { data: consentList } = await supabase
-        .from('user_consents').select('id').eq('user_id', authUser.id)
-      if (!consentList || consentList.length === 0) setShowTermos(true)
-
-      const { data: sub } = await supabase
-        .from('subscriptions').select('*').eq('user_id', authUser.id).single()
-      setUser({ id: authUser.id, email: authUser.email!, plan: sub?.plan || 'free', subscription: sub })
-
-      const { data: promptsData } = await supabase
-        .from('prompts').select('*').order('created_at', { ascending: false })
-      setPrompts(promptsData || [])
-
-      const { data: favsData } = await supabase
-        .from('favorites').select('prompt_id').eq('user_id', authUser.id)
-      setFavorites(favsData?.map((f: { prompt_id: string }) => f.prompt_id) || [])
-    }
-    load()
-  }, [router])
-
-  // Handlers de auth
-  async function handleLogout() {
-    await supabase.auth.signOut()
-    router.push('/')
-  }
-
-  async function toggleFavorite(promptId: string) {
-    if (!user) return
-    if (favorites.includes(promptId)) {
-      await supabase.from('favorites').delete().eq('user_id', user.id).eq('prompt_id', promptId)
-      setFavorites(f => f.filter(id => id !== promptId))
-    } else {
-      if (favorites.length >= 20) return // limite de 20 favoritos
-      await supabase.from('favorites').insert({ user_id: user.id, prompt_id: promptId })
-      setFavorites(f => [...f, promptId])
-    }
-  }
-
-  function copyPrompt(body: string) {
-    navigator.clipboard.writeText(body)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  // Prompts favoritados (até 20)
-  const favoritedPrompts = useMemo(() =>
-    prompts.filter(p => favorites.includes(p.id)).slice(0, 20),
-  [prompts, favorites])
-
-  // Estado derivado
-  const fc         = FORMAT_CONFIG[format]
-  const categories = TREE[format]
-  const curCat     = categories.find(c => c.key === selCategory)
-  const curTema    = curCat?.temas.find(t => t.key === selTema)
-
-  const countByGroup = useMemo(() => {
-    const m: Record<string, number> = {}
-    prompts.forEach(p => { m[p.group_name] = (m[p.group_name] || 0) + 1 })
-    return m
-  }, [prompts])
-
-  // Prompts filtrados pelo tema selecionado
-  const filteredPrompts = useMemo(() => {
-    if (!selTema) return []
-    const q = search.toLowerCase()
-    return prompts.filter(p => {
-      if (p.group_name !== selTema) return false
-      if (q) return p.title.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q)
-      return true
-    })
-  }, [prompts, selTema, search])
-
-  // Resultados de busca global (sem tema selecionado)
-  const searchResults = useMemo(() => {
-    if (!search || selTema) return []
-    const q = search.toLowerCase()
-    return prompts.filter(p =>
-      p.title.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q)
-    )
-  }, [prompts, search, selTema])
-
-  // Navegação
-  function selectCategory(key: string) {
-    setFavoritesView(false)
-    setSelCategory(key)
-    setSelTema(null)
-    setExpanded(prev => { const s = new Set(prev); s.add(key); return s })
-  }
-
-  function selectTema(temaKey: string, catKey: string) {
-    setFavoritesView(false)
-    setSelCategory(catKey)
-    setSelTema(temaKey)
-    setExpanded(prev => { const s = new Set(prev); s.add(catKey); return s })
-    setSearch('')
-  }
-
-  function toggleExpand(key: string, e: React.MouseEvent) {
-    e.stopPropagation()
-    setExpanded(prev => { const s = new Set(prev); s.has(key) ? s.delete(key) : s.add(key); return s })
-  }
-
-  function changeFormat(f: Format) {
-    setFavoritesView(false)
-    setFormat(f)
-    setSelCategory(null)
-    setSelTema(null)
-    setSearch('')
-    setExpanded(new Set())
-  }
-
-  // Qual view mostrar no main
-  const showFavorites = favoritesView && !search
-  const showSearch    = !!search && !selTema && !favoritesView
-  const showPrompts   = !!selTema && !favoritesView
-  const showTemas     = !!selCategory && !selTema && !search && !favoritesView
-  const showWelcome   = !selCategory && !search && !favoritesView
-
-  // ─── Render ──────────────────────────────────────────────────────────────────
+import Link from 'next/link'
+const categories = [
+  { icon: '💰', name: 'Financeiro Pessoal', count: '24 prompts', hot: false, isNew: false },
+  { icon: '🏪', name: 'Empresa Varejo', count: '16 prompts', hot: true, isNew: false },
+  { icon: '🏭', name: 'Empresa Atacado', count: '16 prompts', hot: false, isNew: false },
+  { icon: '⚙️', name: 'Empresa Indústria', count: '16 prompts', hot: false, isNew: false },
+  { icon: '🛠️', name: 'Empresa Serviços', count: '16 prompts', hot: false, isNew: false },
+  { icon: '⚖️', name: 'Jurídico', count: '18 prompts', hot: false, isNew: false },
+  { icon: '📊', name: 'Resumo Econômico', count: '16 prompts', hot: false, isNew: false },
+  { icon: '🏥', name: 'Laudos Médicos', count: '18 prompts', hot: false, isNew: false },
+  { icon: '🛒', name: 'Vendas E-commerce', count: '18 prompts', hot: true, isNew: false },
+  { icon: '👔', name: 'Carreira', count: '18 prompts', hot: false, isNew: true },
+  { icon: '👥', name: 'RH Empresarial', count: '15 prompts', hot: false, isNew: false },
+  { icon: '📱', name: 'Marketing Digital', count: '18 prompts', hot: true, isNew: false },
+  { icon: '🎓', name: 'Estudantes Universitários', count: '24 prompts', hot: false, isNew: false },
+  { icon: '🚗', name: 'Compra e Venda de Automóveis', count: '16 prompts', hot: false, isNew: false },
+  { icon: '🏠', name: 'Locação de Imóveis', count: '18 prompts', hot: false, isNew: false },
+  { icon: '📣', name: 'Marketing Empresarial', count: '20 prompts', hot: false, isNew: false },
+  { icon: '🎨', name: 'Personalização de Produtos', count: '16 prompts', hot: false, isNew: true },
+  { icon: '🧘', name: 'Saúde e Qualidade de Vida', count: '18 prompts', hot: false, isNew: true },
+  { icon: '🎉', name: 'Festas e Eventos', count: '12 prompts', hot: false, isNew: false },
+  { icon: '🌍', name: 'Novos Idiomas', count: '8 prompts', hot: false, isNew: false },
+  { icon: '🗂️', name: 'Secretária Particular', count: '18 prompts', hot: false, isNew: true },
+]
+const prompts = [
+  { icon: '💰', title: 'Diagnóstico financeiro pessoal', desc: 'Analisa renda, despesas e metas. Entrega diagnóstico completo e 3 ações prioritárias.', cat: 'Financeiro Pessoal', plan: 'free' },
+  { icon: '🏪', title: 'Cálculo de markup e preço de venda', desc: 'Calcula o preço correto incluindo impostos, comissão, cartão e despesas fixas.', cat: 'Empresa Varejo', plan: 'free' },
+  { icon: '⚖️', title: 'Revisão de cláusulas contratuais', desc: 'Analisa contratos identificando riscos, lacunas e pontos de renegociação.', cat: 'Jurídico', plan: 'pro' },
+  { icon: '🛒', title: 'Descrição persuasiva para marketplace', desc: 'Redige descrição otimizada para SEO e conversão em Mercado Livre, Shopee ou Amazon.', cat: 'Vendas E-commerce', plan: 'free' },
+]
+const testimonials = [
+  { initials: 'RM', name: 'Ricardo M.', role: 'Contador · São Paulo, SP', text: 'O que eu demorava 2 horas para interpretar agora levo 10 minutos. Meus clientes ficam impressionados com a clareza dos relatórios.' },
+  { initials: 'AS', name: 'Ana S.', role: 'E-commerce · Curitiba, PR', text: 'Minha taxa de conversão subiu 40% em 3 semanas depois que comecei a usar os prompts de descrição de produto.' },
+  { initials: 'LF', name: 'Luiza F.', role: 'Advogada · Rio de Janeiro, RJ', text: 'Os prompts jurídicos são incríveis para primeiras análises de contratos. O tempo de triagem caiu pela metade.' },
+]
+const faqs = [
+  { q: 'Os prompts funcionam com qualquer IA?', a: 'Sim. Compatíveis com ChatGPT, Claude, Gemini, Copilot e qualquer IA conversacional. Escritos em português e otimizados para o contexto brasileiro.' },
+  { q: 'Preciso de experiência com IA?', a: 'Não. Basta copiar, preencher os campos entre colchetes com seus dados e colar na IA. Sem conhecimento técnico necessário.' },
+  { q: 'O acesso vitalício é mesmo para sempre?', a: 'Sim. Você paga uma única vez e tem acesso para sempre — incluindo todos os novos prompts adicionados todo mês, sem custo adicional.' },
+]
+const LogoNavbar = () => (
+  <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(2, 18) scale(0.32)">
+      <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
+      <circle cx="88" cy="107" r="11" fill="#e879f9"/>
+      <circle cx="110" cy="107" r="11" fill="#c084fc"/>
+      <circle cx="132" cy="107" r="11" fill="#e879f9"/>
+    </g>
+    <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+    <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
+    <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+  </svg>
+)
+const LogoFooter = () => (
+  <svg width="140" height="28" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(2, 18) scale(0.32)">
+      <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="none" stroke="#a855f7" strokeWidth="5"/>
+      <circle cx="88" cy="107" r="11" fill="#e879f9"/>
+      <circle cx="110" cy="107" r="11" fill="#c084fc"/>
+      <circle cx="132" cy="107" r="11" fill="#e879f9"/>
+    </g>
+    <text x="108" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#ffffff" letterSpacing="-1">Prompt</text>
+    <rect x="263" y="33" width="56" height="42" rx="6" fill="#7c3aed"/>
+    <text x="291" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="36" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="328" y="68" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="40" fontWeight="700" fill="#c084fc"> Pro</text>
+  </svg>
+)
+const LogoHero = () => (
+  <svg width="100%" height="auto" viewBox="0 0 820 300" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: '860px', margin: '0 auto', display: 'block' }}>
+    <g transform="translate(10, 45)">
+      <polygon points="55,30 110,30 155,50 175,105 155,160 100,185 45,165 25,105" fill="#1a0a2e" stroke="#a855f7" strokeWidth="2.5"/>
+      <circle cx="88" cy="107" r="9" fill="#e879f9"/>
+      <circle cx="110" cy="107" r="9" fill="#c084fc"/>
+      <circle cx="132" cy="107" r="9" fill="#e879f9"/>
+    </g>
+    <text x="200" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="90" fontWeight="700" fill="#ffffff" letterSpacing="-3">Prompt</text>
+    <rect x="508" y="88" width="105" height="82" rx="10" fill="#7c3aed"/>
+    <text x="560" y="152" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="76" fontWeight="800" fill="#f0abfc" textAnchor="middle">IA</text>
+    <text x="622" y="155" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="90" fontWeight="700" fill="#c084fc"> Pro</text>
+    <text x="435" y="208" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="15" fill="#9333ea" textAnchor="middle" letterSpacing="4">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
+  </svg>
+)
+export default function Home() {
   return (
-    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg)' }}>
+    <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
 
-      {/* Modal de termos */}
-      {showTermos && <TermosModal onAccept={() => setShowTermos(false)} />}
-
-      {/* ── SIDEBAR ── */}
-      <aside
-        className={`${sidebarOpen ? 'w-60' : 'w-0'} flex-shrink-0 transition-all duration-200 overflow-hidden border-r flex flex-col`}
-        style={{ background: 'var(--bg2)', borderColor: 'var(--border)' }}
-      >
-        {/* Logo + plano */}
-        <div className="p-4 border-b flex-shrink-0" style={{ borderColor: 'var(--border)' }}>
-          <div className="font-display text-base font-black">
-            Prompt<span style={{ color: fc.color }}>IA</span>Pro
-          </div>
-          <div className="text-xs mt-1 flex items-center gap-1.5" style={{ color: 'var(--muted)' }}>
-            <span
-              className="w-1.5 h-1.5 rounded-full inline-block"
-              style={{ background: user?.plan === 'pro' ? '#4ADE80' : 'var(--muted)' }}
-            />
-            {user?.plan === 'pro' ? 'Plano Pro' : 'Plano Free'}
-          </div>
+      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b" style={{ background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderColor: 'var(--border)' }}>
+        <LogoNavbar />
+        <div className="hidden md:flex gap-8">
+          {['Categorias', 'Como funciona', 'Planos', 'FAQ'].map(item => (
+            <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} className="text-sm transition-colors" style={{ color: 'var(--muted)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#F0EFF8')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}>{item}</a>
+          ))}
         </div>
-
-        {/* Favoritos */}
-        <div className="px-2 pt-2 pb-1 flex-shrink-0">
-          <button
-            onClick={() => {
-              setFavoritesView(true)
-              setSelCategory(null)
-              setSelTema(null)
-              setSearch('')
-            }}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-colors"
-            style={{
-              background:  favoritesView ? 'rgba(248,113,113,0.12)' : 'transparent',
-              color:       favoritesView ? '#F87171' : 'var(--muted)',
-              fontWeight:  favoritesView ? '600' : '400',
-              border:      `1px solid ${favoritesView ? 'rgba(248,113,113,0.3)' : 'transparent'}`,
-            }}
-          >
-            <span>{favoritesView ? '♥' : '♡'}</span>
-            <span className="flex-1 text-left">Favoritos</span>
-            <span
-              className="text-[9px] px-1.5 py-0.5 rounded"
-              style={{
-                background: favorites.length >= 20
-                  ? 'rgba(248,113,113,0.2)'
-                  : 'rgba(255,255,255,0.06)',
-                color: favorites.length >= 20 ? '#F87171' : 'var(--subtle)',
-              }}
-            >
-              {favorites.length}/20
-            </span>
-          </button>
+        {/* Dois CTAs: login secundário + cadastro primário */}
+        <div className="flex items-center gap-3">
+          <Link href="/auth/login" className="hidden sm:block text-sm font-medium transition-opacity hover:opacity-70" style={{ color: 'var(--muted)' }}>
+            Entrar
+          </Link>
+          <Link href="/auth/register" className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-85 whitespace-nowrap" style={{ background: 'var(--accent)' }}>
+            Começar grátis →
+          </Link>
         </div>
+      </nav>
 
-        {/* Separador */}
-        <div className="mx-3 mb-1" style={{ height: '1px', background: 'var(--border)' }} />
-
-        {/* Árvore de categorias */}
-        <div className="overflow-y-auto flex-1 py-1">
-          {categories.map(cat => {
-            const isActive   = selCategory === cat.key
-            const isExpanded = expanded.has(cat.key)
-
-            return (
-              <div key={cat.key}>
-                {/* Linha da categoria */}
-                <button
-                  onClick={() => selectCategory(cat.key)}
-                  className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-xs transition-colors"
-                  style={{
-                    background:  isActive ? fc.bg : 'transparent',
-                    color:       isActive ? fc.color : 'var(--muted)',
-                    fontWeight:  isActive ? '600' : '400',
-                    borderLeft:  `2px solid ${isActive ? fc.color : 'transparent'}`,
-                  }}
-                >
-                  <span className="text-sm flex-shrink-0">{cat.icon}</span>
-                  <span className="flex-1 leading-tight">{cat.key}</span>
-                  {cat.isNew && (
-                    <span
-                      className="text-[9px] font-bold px-1.5 py-0.5 rounded flex-shrink-0"
-                      style={{ background: fc.bg, color: fc.color }}
-                    >
-                      NOVO
-                    </span>
-                  )}
-                  {/* Chevron — toggle expand sem mudar seleção */}
-                  <span
-                    className="flex-shrink-0 text-[10px] cursor-pointer px-1"
-                    style={{ color: 'var(--subtle)' }}
-                    onClick={e => toggleExpand(cat.key, e)}
-                  >
-                    {isExpanded ? '▾' : '›'}
-                  </span>
-                </button>
-
-                {/* Lista de temas expandida */}
-                {isExpanded && (
-                  <div className="ml-4 border-l" style={{ borderColor: 'var(--border)' }}>
-                    {cat.temas.map(tema => {
-                      const isTemaActive = selTema === tema.key
-                      const count        = countByGroup[tema.key] || 0
-                      return (
-                        <button
-                          key={tema.key}
-                          onClick={() => count > 0 && selectTema(tema.key, cat.key)}
-                          className="w-full flex items-center gap-2 pl-3 pr-2 py-1.5 text-left text-xs transition-colors"
-                          style={{
-                            background: isTemaActive ? fc.bg : 'transparent',
-                            color: isTemaActive
-                              ? fc.color
-                              : count === 0 ? 'var(--subtle)' : 'var(--muted)',
-                            fontWeight:  isTemaActive ? '500' : '400',
-                            cursor: count === 0 ? 'default' : 'pointer',
-                          }}
-                        >
-                          <span className="flex-1 leading-tight">{tema.key}</span>
-                          {tema.isNew && count === 0 && (
-                            <span
-                              className="text-[9px] font-bold px-1 py-0.5 rounded flex-shrink-0"
-                              style={{ background: fc.bg, color: fc.color }}
-                            >
-                              EM BREVE
-                            </span>
-                          )}
-                          {count > 0 && (
-                            <span className="text-[9px] flex-shrink-0" style={{ color: 'var(--subtle)' }}>
-                              {count}
-                            </span>
-                          )}
-                        </button>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      </aside>
-
-      {/* ── MAIN ── */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-
-        {/* TOPBAR */}
-        <header
-          className="flex items-center gap-3 px-4 py-3 border-b flex-shrink-0"
-          style={{ borderColor: 'var(--border)' }}
-        >
-          {/* Toggle sidebar */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-lg hover:bg-surface text-sm flex-shrink-0"
-            style={{ color: 'var(--muted)' }}
-          >
-            ☰
-          </button>
-
-          {/* Abas de formato */}
-          <div
-            className="flex items-center gap-1 rounded-xl p-1 flex-shrink-0"
-            style={{ background: 'var(--surface)' }}
-          >
-            {(Object.keys(FORMAT_CONFIG) as Format[]).map(f => {
-              const cfg    = FORMAT_CONFIG[f]
-              const active = format === f
-              return (
-                <button
-                  key={f}
-                  onClick={() => changeFormat(f)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                  style={active
-                    ? { background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }
-                    : { color: 'var(--muted)', border: '1px solid transparent' }
-                  }
-                >
-                  {cfg.label}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Busca */}
-          <div
-            className="flex-1 flex items-center gap-2 px-3 py-2 rounded-xl border text-sm"
-            style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
-          >
-            <span style={{ color: 'var(--muted)' }}>🔍</span>
-            <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Buscar tema — ex: currículo, Instagram…"
-              className="flex-1 bg-transparent outline-none text-sm"
-              style={{ color: '#F0EFF8' }}
-            />
-            {search && (
-              <button onClick={() => setSearch('')} className="text-lg leading-none" style={{ color: 'var(--muted)' }}>
-                ×
-              </button>
-            )}
-          </div>
-
-          {/* Upgrade */}
-          {user?.plan !== 'pro' && (
-            <a
-              href="/upgrade"
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-white whitespace-nowrap flex-shrink-0"
-              style={{ background: fc.color }}
-            >
-              Upgrade Pro
+      {/* ── HERO ───────────────────────────────────────────────────────────── */}
+      {/*
+        pb-14 (56px) em vez de pb-20 (80px):
+        junto com o pt-4 da seção de categorias, o gap visual total entre
+        o bloco de estatísticas e o título "22 áreas" fica em ~72 px —
+        respira bem sem parecer tela em branco.
+      */}
+      <section className="flex flex-col items-center justify-center text-center pt-32 pb-14 px-6 relative overflow-hidden">
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(ellipse, rgba(124,111,247,0.15) 0%, transparent 70%)' }} />
+        <div className="animate-fade-up w-full">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border" style={{ background: 'rgba(124,111,247,0.12)', borderColor: 'rgba(124,111,247,0.3)', color: 'var(--accent2)' }}>
+            ✦ Biblioteca profissional de prompts
+          </span>
+          <div className="w-full"><LogoHero /></div>
+          <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
+            Mais de 500 prompts profissionais em 22 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Saiba o que perguntar e economize horas todo dia.
+          </p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-semibold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'var(--accent)' }}>
+              Começar grátis →
+            </Link>
+            <a href="#planos" className="px-8 py-4 rounded-xl text-base font-medium transition-all border" style={{ color: '#F0EFF8', borderColor: 'var(--border2)', background: 'transparent' }}>
+              Ver planos
             </a>
-          )}
+          </div>
+        </div>
+        <div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
+        <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
+        <div className="flex gap-12 mt-12 flex-wrap justify-center">
+          {[['500+', 'Prompts profissionais'], ['22', 'Áreas de atuação'], ['100%', 'Testados']].map(([num, label]) => (
+            <div key={label} className="text-center">
+              <div className="font-display text-3xl font-black">{num}</div>
+              <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          {/* Instagram */}
-          <a
-            href="https://www.instagram.com/hub_promptiapro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-80 transition-opacity flex-shrink-0"
-            title="Instagram"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      {/* ── CATEGORIAS ─────────────────────────────────────────────────────── */}
+      {/*
+        pt-4 (16px) em vez de pt-20 (80px): o hero já entrega o pb-14,
+        então o gap total hero→categorias é 56+16 = 72 px. Sem buraco.
+        pb-14 mantém respiro antes da próxima seção.
+      */}
+      <section id="categorias" className="max-w-5xl mx-auto px-6 pt-4 pb-14">
+        <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Biblioteca completa</div>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-3 uppercase">22 áreas do conhecimento</h2>
+        <p className="mb-10" style={{ color: 'var(--muted)' }}>Prompts organizados por grupo e subgrupo para encontrar o que precisa em segundos.</p>
+        {/* Cards clicáveis — levam ao cadastro */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {categories.map(cat => (
+            <Link
+              key={cat.name}
+              href="/auth/register"
+              className="relative p-4 rounded-xl border transition-all hover:-translate-y-1 hover:border-[rgba(124,111,247,0.4)] hover:shadow-[0_4px_20px_rgba(124,111,247,0.12)] cursor-pointer block"
+              style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
+            >
+              {cat.hot && !cat.isNew && (
+                <span className="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(248,113,113,0.12)', color: '#F87171' }}>🔥 Top</span>
+              )}
+              {cat.isNew && (
+                <span className="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(74,222,128,0.12)', color: '#4ADE80' }}>Novo</span>
+              )}
+              <div className="text-2xl mb-2">{cat.icon}</div>
+              <div className="font-display text-sm font-bold mb-1">{cat.name}</div>
+              <div className="text-xs" style={{ color: 'var(--muted)' }}>{cat.count}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ── EXEMPLOS ───────────────────────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-8">
+        <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Exemplos da biblioteca</div>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-10 uppercase">Prompts que entregam resultados reais</h2>
+        <div className="flex flex-col gap-3">
+          {prompts.map(p => (
+            <div key={p.title} className="grid grid-cols-[auto_1fr_auto] gap-4 items-start p-5 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style={{ background: 'rgba(124,111,247,0.12)' }}>{p.icon}</div>
+              <div>
+                <div className="font-display text-sm font-bold mb-1">{p.title}</div>
+                <div className="text-xs leading-relaxed mb-1" style={{ color: 'var(--muted)' }}>{p.desc}</div>
+                <div className="text-xs" style={{ color: 'var(--subtle)' }}>{p.cat}</div>
+              </div>
+              <span className="text-xs font-semibold px-3 py-1 rounded-full self-center whitespace-nowrap" style={p.plan === 'free' ? { background: 'rgba(74,222,128,0.12)', color: '#4ADE80' } : { background: 'rgba(232,201,107,0.12)', color: 'var(--gold)' }}>
+                {p.plan === 'free' ? 'Gratuito' : 'Pro'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── COMO FUNCIONA ──────────────────────────────────────────────────── */}
+      {/*
+        py-14 (56px) em vez de py-20 (80px):
+        gap entre "Exemplos" (py-8 = 32px bottom) e "Como funciona" (pt-14) = 88 px total.
+        gap entre "Como funciona" (pb-14) e "Planos" (pt-14) = 112 px — sem buraco.
+      */}
+      <section id="como-funciona" className="max-w-5xl mx-auto px-6 py-14">
+        <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Como funciona</div>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-10 uppercase">Do acesso ao resultado em 3 passos</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 9,90.'],
+            ['02', 'Encontre o prompt', 'Navegue por categoria ou use a busca para encontrar o prompt ideal.'],
+            ['03', 'Personalize e use', 'Copie, preencha os campos entre [colchetes] e cole na IA de sua escolha.'],
+          ].map(([num, title, desc]) => (
+            <div key={num} className="p-6 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="font-display text-4xl font-black mb-4" style={{ color: 'var(--accent)', opacity: 0.3 }}>{num}</div>
+              <div className="font-display text-base font-bold mb-2">{title}</div>
+              <div className="text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>{desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PLANOS ─────────────────────────────────────────────────────────── */}
+      <section id="planos" className="max-w-5xl mx-auto px-6 py-14">
+        <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Planos e preços</div>
+        <h2 className="font-display text-4xl font-extrabold tracking-normal mb-3 uppercase">Simples assim — Free ou Pro</h2>
+        <p className="mb-10" style={{ color: 'var(--muted)' }}>Sem mensalidade. Sem anuidade. O Pro é pague uma vez, use para sempre.</p>
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          {/* FREE */}
+          <div className="p-8 rounded-2xl border flex flex-col" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+            <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Free</div>
+            <div className="font-display text-5xl font-black mb-1">R$ 0</div>
+            <div className="text-sm mb-6" style={{ color: 'var(--muted)' }}>para sempre gratuito</div>
+            <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
+            <ul className="space-y-3 mb-8 flex-1">
+              {['50+ prompts gratuitos', '22 categorias (seleção)', 'Busca e filtros básicos', 'Copiar e usar imediatamente'].map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
+              ))}
+              {['Prompts Pro exclusivos'].map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm" style={{ color: 'var(--subtle)' }}><span>✕</span>{f}</li>
+              ))}
+            </ul>
+            <Link href="/auth/register" className="block w-full text-center py-3 rounded-xl text-sm font-medium border transition-all hover:opacity-80" style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}>
+              Começar grátis
+            </Link>
+          </div>
+          {/* PRO VITALÍCIO */}
+          <div className="relative p-8 rounded-2xl border-2 flex flex-col" style={{ background: 'linear-gradient(145deg, rgba(124,111,247,0.08) 0%, var(--surface) 60%)', borderColor: 'rgba(124,111,247,0.5)' }}>
+            <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Oferta especial</span>
+            <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Vitalício</div>
+            <div className="flex items-baseline gap-3 mb-1">
+              <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 29,90</span>
+              <span className="font-display text-5xl font-black">R$ 9,90</span>
+            </div>
+            <div className="text-sm mb-2" style={{ color: 'var(--muted)' }}>pagamento único · acesso vitalício</div>
+            <div className="text-xs mb-6 px-3 py-1.5 rounded-full self-start font-medium" style={{ background: 'rgba(232,201,107,0.12)', color: 'var(--gold)' }}>⭐ menos de R$ 0,02 por prompt, para sempre</div>
+            <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
+            <ul className="space-y-3 mb-8 flex-1">
+              {[
+                '500+ prompts completos',
+                '22 categorias completas',
+                'Busca avançada',
+                'Favoritos ilimitados',
+                'Acesso vitalício — pague uma vez',
+              ].map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm"><span style={{ color: '#4ADE80' }}>✓</span>{f}</li>
+              ))}
+            </ul>
+            <a href="https://buy.stripe.com/fZuaEP8uGgEWamL8co97G04" className="block w-full text-center py-3 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90" style={{ background: 'var(--accent)' }}>
+              Garantir acesso vitalício →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEPOIMENTOS ────────────────────────────────────────────────────── */}
+      {/*
+        py-8 (32px) em vez de py-10 (40px):
+        gap entre Planos (pb-14=56px) e Depoimentos (pt-8=32px) = 88 px — ok.
+      */}
+      <section className="max-w-5xl mx-auto px-6 py-8">
+        <h2 className="font-display text-4xl font-black tracking-tight mb-10">Quem já usa</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          {testimonials.map(t => (
+            <div key={t.name} className="p-6 rounded-xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <div className="text-sm mb-4" style={{ color: 'var(--gold)' }}>★★★★★</div>
+              <p className="text-sm leading-relaxed mb-4 italic font-light">&ldquo;{t.text}&rdquo;</p>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center font-display text-sm font-bold" style={{ background: 'var(--surface2)', color: 'var(--accent2)' }}>{t.initials}</div>
+                <div>
+                  <div className="text-sm font-medium">{t.name}</div>
+                  <div className="text-xs" style={{ color: 'var(--muted)' }}>{t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
+      <section id="faq" className="max-w-5xl mx-auto px-6 py-14">
+        <h2 className="font-display text-4xl font-black tracking-tight mb-10">Dúvidas frequentes</h2>
+        <div className="flex flex-col gap-2">
+          {faqs.map(faq => (
+            <details key={faq.q} className="group rounded-xl border overflow-hidden" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+              <summary className="flex justify-between items-center p-5 text-sm font-medium cursor-pointer list-none">
+                {faq.q}
+                <span className="text-xl font-light transition-transform group-open:rotate-45" style={{ color: 'var(--muted)' }}>+</span>
+              </summary>
+              <p className="px-5 pb-5 text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CTA FINAL ──────────────────────────────────────────────────────── */}
+      <section className="text-center py-24 px-6 border-y" style={{ background: 'var(--bg2)', borderColor: 'var(--border)' }}>
+        <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Comece hoje</div>
+        <h2 className="font-display text-5xl font-black tracking-tight mb-4">Pronto para trabalhar<br /><span style={{ color: 'var(--accent)' }}>10x mais rápido?</span></h2>
+        <p className="text-lg mb-10 font-light" style={{ color: 'var(--muted)' }}>Teste gratuitamente com 50+ prompts. Sem cartão de crédito.</p>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-semibold text-white hover:opacity-90" style={{ background: 'var(--accent)' }}>
+            Começar grátis →
+          </Link>
+          <a href="#planos" className="px-8 py-4 rounded-xl text-base border hover:opacity-80" style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}>
+            Ver planos
+          </a>
+        </div>
+      </section>
+
+      {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
+      <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
+        <LogoFooter />
+        <div className="flex gap-6 items-center">
+          <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
+          <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
+          <a href="/contato" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Contato</a>
+          <a href="https://www.instagram.com/hub_promptiapro" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" title="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#9ca3af" strokeWidth="1.8"/>
               <circle cx="12" cy="12" r="4.5" stroke="#9ca3af" strokeWidth="1.8"/>
               <circle cx="17.5" cy="6.5" r="1" fill="#9ca3af"/>
             </svg>
           </a>
+        </div>
+        <span className="text-sm" style={{ color: 'var(--subtle)' }}>© 2025 PromptIAPro</span>
+      </footer>
 
-          {/* Sair */}
-          <button
-            onClick={handleLogout}
-            className="text-xs px-3 py-1.5 rounded-lg border flex-shrink-0"
-            style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}
-          >
-            Sair
-          </button>
-        </header>
+    </main>
+  )
+}
 
-        {/* CONTEÚDO PRINCIPAL */}
-        <div className="flex-1 overflow-y-auto p-5">
-
-          {/* ── Favoritos ── */}
-          {showFavorites && (
-            <>
-              <div className="mb-6">
-                <div className="flex items-center gap-3 mb-1">
-                  <h1 className="font-display text-xl font-bold">Meus Favoritos</h1>
-                  <span
-                    className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                    style={{
-                      background: favorites.length >= 20 ? 'rgba(248,113,113,0.15)' : 'rgba(255,255,255,0.07)',
-                      color:      favorites.length >= 20 ? '#F87171' : 'var(--muted)',
-                    }}
-                  >
-                    {favorites.length}/20
-                  </span>
-                </div>
-                <p className="text-sm" style={{ color: 'var(--muted)' }}>
-                  {favorites.length === 0
-                    ? 'Marque prompts com ♡ para salvá-los aqui.'
-                    : favorites.length >= 20
-                    ? 'Limite atingido. Remova um favorito para adicionar outro.'
-                    : `${favorites.length} prompt${favorites.length !== 1 ? 's' : ''} salvos · limite de 20.`}
-                </p>
-              </div>
-
-              {favoritedPrompts.length === 0 ? (
-                <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
-                  <div className="text-5xl mb-4">♡</div>
-                  <p className="text-sm font-medium mb-1">Nenhum favorito ainda</p>
-                  <p className="text-xs">Clique no ♡ em qualquer prompt para salvá-lo aqui.</p>
-                </div>
-              ) : (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {favoritedPrompts.map(p => (
-                    <PromptCard
-                      key={p.id}
-                      p={p}
-                      user={user}
-                      favorites={favorites}
-                      accentColor="#F87171"
-                      onView={setSelectedPrompt}
-                      onFavorite={toggleFavorite}
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
 
           {/* ── Resultados de busca ── */}
           {showSearch && (
