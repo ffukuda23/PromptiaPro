@@ -124,6 +124,9 @@ export default function DashboardPage() {
   const [sidebarOpen,    setSidebarOpen]    = useState(true)
   const [showTermos,     setShowTermos]     = useState(false)
   const [favoritesView,  setFavoritesView]  = useState(false)
+  const [personalizing,  setPersonalizing]  = useState(false)
+  const [varValues,      setVarValues]      = useState<Record<string, string>>({})
+  const [personalizedBody, setPersonalizedBody] = useState<string | null>(null)
 
   // Carrega dados ao montar
   useEffect(() => {
@@ -172,6 +175,40 @@ export default function DashboardPage() {
     navigator.clipboard.writeText(body)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  // Extrai variáveis únicas entre colchetes: [Nome do cliente] → ["Nome do cliente"]
+  function extractVars(body: string): string[] {
+    const matches = [...body.matchAll(/\[([^\]]+)\]/g)]
+    return [...new Set(matches.map(m => m[1]))]
+  }
+
+  // Substitui [variável] pelos valores preenchidos
+  function buildPersonalized(body: string, vals: Record<string, string>): string {
+    return body.replace(/\[([^\]]+)\]/g, (_, key) => vals[key]?.trim() || `[${key}]`)
+  }
+
+  function openPersonalizar(body: string) {
+    const vars = extractVars(body)
+    const initial: Record<string, string> = {}
+    vars.forEach(v => { initial[v] = '' })
+    setVarValues(initial)
+    setPersonalizedBody(null)
+    setPersonalizing(true)
+  }
+
+  function closeModal() {
+    setSelectedPrompt(null)
+    setPersonalizing(false)
+    setPersonalizedBody(null)
+    setVarValues({})
+  }
+
+  function openPrompt(p: Prompt) {
+    setSelectedPrompt(p)
+    setPersonalizing(false)
+    setPersonalizedBody(null)
+    setVarValues({})
   }
 
   // Prompts favoritados (até 20)
@@ -577,7 +614,7 @@ export default function DashboardPage() {
                       user={user}
                       favorites={favorites}
                       accentColor="#F87171"
-                      onView={setSelectedPrompt}
+                      onView={openPrompt}
                       onFavorite={toggleFavorite}
                     />
                   ))}
@@ -606,7 +643,7 @@ export default function DashboardPage() {
                       user={user}
                       favorites={favorites}
                       accentColor={fc.color}
-                      onView={setSelectedPrompt}
+                      onView={openPrompt}
                       onFavorite={toggleFavorite}
                     />
                   ))}
@@ -796,7 +833,7 @@ export default function DashboardPage() {
                       user={user}
                       favorites={favorites}
                       accentColor={fc.color}
-                      onView={setSelectedPrompt}
+                      onView={openPrompt}
                       onFavorite={toggleFavorite}
                     />
                   ))}
@@ -808,58 +845,175 @@ export default function DashboardPage() {
       </div>
 
       {/* ── MODAL DO PROMPT ── */}
-      {selectedPrompt && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
-          onClick={() => setSelectedPrompt(null)}
-        >
+      {selectedPrompt && (() => {
+        const vars        = extractVars(selectedPrompt.body)
+        const hasVars     = vars.length > 0
+        const bodyToShow  = personalizedBody ?? selectedPrompt.body
+
+        return (
           <div
-            className="w-full max-w-lg rounded-2xl border p-6 max-h-[80vh] overflow-y-auto"
-            style={{ background: 'var(--surface)', borderColor: 'var(--border2)' }}
-            onClick={e => e.stopPropagation()}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }}
+            onClick={closeModal}
           >
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h2 className="font-display text-base font-bold">{selectedPrompt.title}</h2>
-                <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                  {selectedPrompt.group_name}
-                  {selectedPrompt.subgroup ? ` › ${selectedPrompt.subgroup}` : ''}
-                </p>
-              </div>
-              <button
-                onClick={() => setSelectedPrompt(null)}
-                className="text-lg ml-4 leading-none"
-                style={{ color: 'var(--muted)' }}
-              >
-                ×
-              </button>
-            </div>
+            {/* ── MODAL PRINCIPAL ── */}
             <div
-              className="p-4 rounded-xl text-xs leading-relaxed font-mono mb-4 whitespace-pre-wrap"
-              style={{ background: 'var(--bg)', color: 'var(--muted)' }}
+              className="w-full max-w-lg rounded-2xl border p-6 max-h-[85vh] overflow-y-auto"
+              style={{ background: 'var(--surface)', borderColor: 'var(--border2)' }}
+              onClick={e => e.stopPropagation()}
             >
-              {selectedPrompt.body}
-            </div>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setSelectedPrompt(null)}
-                className="px-4 py-2 rounded-lg text-sm border"
-                style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}
+              {/* Cabeçalho */}
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1 min-w-0 pr-3">
+                  <h2 className="font-display text-base font-bold leading-tight">{selectedPrompt.title}</h2>
+                  <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
+                    {selectedPrompt.group_name}
+                    {selectedPrompt.subgroup ? ` › ${selectedPrompt.subgroup}` : ''}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {/* Botão Personalizar — só aparece se há variáveis */}
+                  {hasVars && !personalizedBody && (
+                    <button
+                      onClick={() => openPersonalizar(selectedPrompt.body)}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all hover:opacity-80"
+                      style={{ borderColor: fc.border, color: fc.color, background: fc.bg }}
+                      title="Preencher campos do prompt"
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                      </svg>
+                      Personalizar
+                    </button>
+                  )}
+                  {/* Reset personalização */}
+                  {personalizedBody && (
+                    <button
+                      onClick={() => { setPersonalizedBody(null); setVarValues({}) }}
+                      className="text-xs px-2.5 py-1.5 rounded-lg border transition-colors hover:opacity-70"
+                      style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}
+                    >
+                      ↺ Original
+                    </button>
+                  )}
+                  <button onClick={closeModal} className="text-xl leading-none" style={{ color: 'var(--muted)' }}>×</button>
+                </div>
+              </div>
+
+              {/* Badge "personalizado" */}
+              {personalizedBody && (
+                <div
+                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg mb-3"
+                  style={{ background: 'rgba(74,222,128,0.1)', color: '#4ADE80' }}
+                >
+                  <span>✓</span>
+                  <span>Prompt personalizado com seus dados</span>
+                </div>
+              )}
+
+              {/* Corpo do prompt */}
+              <div
+                className="p-4 rounded-xl text-xs leading-relaxed font-mono mb-4 whitespace-pre-wrap"
+                style={{ background: 'var(--bg)', color: 'var(--muted)' }}
               >
-                Fechar
-              </button>
-              <button
-                onClick={() => copyPrompt(selectedPrompt.body)}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-white"
-                style={{ background: copied ? '#4ADE80' : fc.color }}
-              >
-                {copied ? '✓ Copiado!' : '📋 Copiar prompt'}
-              </button>
+                {/* Destaca os campos não preenchidos em laranja */}
+                {bodyToShow.split(/(\[[^\]]+\])/g).map((part, i) =>
+                  /^\[[^\]]+\]$/.test(part)
+                    ? <mark key={i} style={{ background: 'rgba(255,112,67,0.18)', color: '#FF7043', borderRadius: '3px', padding: '0 2px' }}>{part}</mark>
+                    : <span key={i}>{part}</span>
+                )}
+              </div>
+
+              {/* Rodapé */}
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 rounded-lg text-sm border"
+                  style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}
+                >
+                  Fechar
+                </button>
+                <button
+                  onClick={() => copyPrompt(bodyToShow)}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-white"
+                  style={{ background: copied ? '#4ADE80' : fc.color }}
+                >
+                  {copied ? '✓ Copiado!' : '📋 Copiar prompt'}
+                </button>
+              </div>
             </div>
+
+            {/* ── MODAL DE PERSONALIZAÇÃO ── */}
+            {personalizing && (
+              <div
+                className="fixed inset-0 flex items-center justify-center p-4"
+                style={{ zIndex: 60, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(2px)' }}
+                onClick={() => setPersonalizing(false)}
+              >
+                <div
+                  className="w-full max-w-md rounded-2xl border p-6 max-h-[85vh] overflow-y-auto"
+                  style={{ background: 'var(--bg2)', borderColor: 'var(--border2)' }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  {/* Cabeçalho do modal de personalização */}
+                  <div className="flex items-start justify-between mb-1">
+                    <h3 className="font-display text-base font-bold">Personalizar Prompt</h3>
+                    <button onClick={() => setPersonalizing(false)} className="text-xl leading-none" style={{ color: 'var(--muted)' }}>×</button>
+                  </div>
+                  <p className="text-xs mb-5" style={{ color: 'var(--muted)' }}>
+                    Preencha os campos abaixo para personalizar o prompt com seus dados.
+                  </p>
+
+                  {/* Campos dinâmicos */}
+                  <div className="flex flex-col gap-4">
+                    {vars.map(v => (
+                      <div key={v}>
+                        <label className="block text-xs font-medium mb-1.5" style={{ color: '#F0EFF8' }}>
+                          {v}
+                        </label>
+                        <input
+                          type="text"
+                          value={varValues[v] || ''}
+                          onChange={e => setVarValues(prev => ({ ...prev, [v]: e.target.value }))}
+                          placeholder={`Ex.: ${v}`}
+                          className="w-full px-3 py-2.5 rounded-xl text-sm outline-none border transition-colors"
+                          style={{
+                            background: 'var(--surface)',
+                            borderColor: varValues[v] ? fc.border : 'var(--border)',
+                            color: '#F0EFF8',
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Botões */}
+                  <div className="flex gap-3 mt-6">
+                    <button
+                      onClick={() => setPersonalizing(false)}
+                      className="flex-1 py-2.5 rounded-xl text-sm border"
+                      style={{ borderColor: 'var(--border2)', color: 'var(--muted)' }}
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      onClick={() => {
+                        setPersonalizedBody(buildPersonalized(selectedPrompt.body, varValues))
+                        setPersonalizing(false)
+                      }}
+                      className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white"
+                      style={{ background: fc.color }}
+                    >
+                      Aplicar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )
+      })()}
     </div>
   )
 }
