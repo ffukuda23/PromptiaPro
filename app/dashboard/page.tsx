@@ -961,6 +961,19 @@ export default function DashboardPage() {
                 )}
               </div>
 
+              {/* Dica de uso */}
+              <div
+                className="flex items-start gap-2.5 px-3.5 py-3 rounded-xl mb-4 text-xs leading-relaxed"
+                style={{ background: 'rgba(124,111,247,0.08)', border: '1px solid rgba(124,111,247,0.18)' }}
+              >
+                <span className="text-base flex-shrink-0 mt-0.5">💡</span>
+                <span style={{ color: 'var(--muted)' }}>
+                  <strong style={{ color: '#A99DF8' }}>Dica: </strong>
+                  você pode tirar uma foto do documento, produto ou laudo e colar junto com o prompt na IA — não é obrigatório preencher todos os campos manualmente.
+                  Cole o prompt na IA de sua preferência e aproveite!
+                </span>
+              </div>
+
               {/* Rodapé */}
               <div className="flex gap-3 justify-end">
                 <button
@@ -1126,6 +1139,3 @@ function PromptCard({
     </div>
   )
 }
-
-
-
