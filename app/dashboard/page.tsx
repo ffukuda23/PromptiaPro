@@ -15,6 +15,9 @@ const FORMAT_CONFIG = {
   video:  { label: 'Vídeo',  color: '#FF7043', bg: 'rgba(255,112,67,0.12)',  border: 'rgba(255,112,67,0.30)'  },
 } as const
 
+// ─── Tipos de variáveis do prompt ────────────────────────────────────────────
+interface VarField { fieldKey: string; varName: string; label: string }
+
 // ─── Árvore de temas ──────────────────────────────────────────────────────────
 interface TemaConfig     { key: string; isNew?: boolean; isEnriquecida?: boolean }
 interface CategoryConfig { key: string; icon: string; isNew?: boolean; temas: TemaConfig[] }
@@ -124,8 +127,9 @@ export default function DashboardPage() {
   const [sidebarOpen,    setSidebarOpen]    = useState(true)
   const [showTermos,     setShowTermos]     = useState(false)
   const [favoritesView,  setFavoritesView]  = useState(false)
-  const [personalizing,  setPersonalizing]  = useState(false)
-  const [varValues,      setVarValues]      = useState<Record<string, string>>({})
+  const [personalizing,    setPersonalizing]    = useState(false)
+  const [varFields,        setVarFields]        = useState<VarField[]>([])
+  const [varValues,        setVarValues]        = useState<Record<string, string>>({})
   const [personalizedBody, setPersonalizedBody] = useState<string | null>(null)
 
   // Carrega dados ao montar
@@ -177,26 +181,52 @@ export default function DashboardPage() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // Extrai variáveis únicas entre colchetes: [Nome do cliente] → ["Nome do cliente"]
-  function extractVars(body: string): string[] {
+  // Extrai cada ocorrência de [campo] com label contextual (texto da linha anterior)
+  function extractVarFields(body: string): VarField[] {
     const re = /\[([^\]]+)\]/g
-    const seen: string[] = []
+    const fields: VarField[] = []
+    const counts: Record<string, number> = {}
     let m: RegExpExecArray | null
     while ((m = re.exec(body)) !== null) {
-      if (!seen.includes(m[1])) seen.push(m[1])
+      const varName = m[1]
+      const idx = counts[varName] !== undefined ? counts[varName] : 0
+      counts[varName] = idx + 1
+      const fieldKey = varName + '::' + idx
+      // Pega até 60 chars antes do colchete para extrair contexto da linha
+      const before = body.substring(Math.max(0, m.index - 60), m.index)
+      const lines = before.split('\n')
+      const lastLine = lines[lines.length - 1]
+        .replace(/^[\s\-–—*•]+/, '')   // remove marcadores
+        .replace(/[:\s\-–—R$]+$/, '')   // remove sufixos como "R$"
+        .trim()
+      const label = lastLine.length > 2 ? lastLine : varName
+      fields.push({ fieldKey, varName, label })
     }
-    return seen
+    return fields
   }
 
-  // Substitui [variável] pelos valores preenchidos
-  function buildPersonalized(body: string, vals: Record<string, string>): string {
-    return body.replace(/\[([^\]]+)\]/g, (_, key) => vals[key]?.trim() || `[${key}]`)
+  // Substitui cada ocorrência na ordem, usando o fieldKey posicional
+  function buildPersonalized(body: string, vals: Record<string, string>, fields: VarField[]): string {
+    const counts: Record<string, number> = {}
+    return body.replace(/\[([^\]]+)\]/g, (match, varName) => {
+      const idx = counts[varName] !== undefined ? counts[varName] : 0
+      counts[varName] = idx + 1
+      const fieldKey = varName + '::' + idx
+      const val = vals[fieldKey]?.trim()
+      return val || match
+    })
+  }
+
+  // Verifica se o body tem ao menos um [campo]
+  function hasVarFields(body: string): boolean {
+    return /\[([^\]]+)\]/.test(body)
   }
 
   function openPersonalizar(body: string) {
-    const vars = extractVars(body)
+    const fields = extractVarFields(body)
     const initial: Record<string, string> = {}
-    vars.forEach(v => { initial[v] = '' })
+    fields.forEach(f => { initial[f.fieldKey] = '' })
+    setVarFields(fields)
     setVarValues(initial)
     setPersonalizedBody(null)
     setPersonalizing(true)
@@ -207,6 +237,7 @@ export default function DashboardPage() {
     setPersonalizing(false)
     setPersonalizedBody(null)
     setVarValues({})
+    setVarFields([])
   }
 
   function openPrompt(p: Prompt) {
@@ -214,6 +245,7 @@ export default function DashboardPage() {
     setPersonalizing(false)
     setPersonalizedBody(null)
     setVarValues({})
+    setVarFields([])
   }
 
   // Prompts favoritados (até 20)
@@ -851,9 +883,8 @@ export default function DashboardPage() {
 
       {/* ── MODAL DO PROMPT ── */}
       {selectedPrompt && (() => {
-        const vars        = extractVars(selectedPrompt.body)
-        const hasVars     = vars.length > 0
-        const bodyToShow  = personalizedBody ?? selectedPrompt.body
+        const hasVars    = hasVarFields(selectedPrompt.body)
+        const bodyToShow = personalizedBody ?? selectedPrompt.body
 
         return (
           <div
@@ -970,31 +1001,45 @@ export default function DashboardPage() {
                     Preencha os campos abaixo para personalizar o prompt com seus dados.
                   </p>
 
-                  {/* Campos dinâmicos */}
-                  <div className="flex flex-col gap-4">
-                    {vars.map(v => (
-                      <div key={v}>
-                        <label className="block text-xs font-medium mb-1.5" style={{ color: '#F0EFF8' }}>
-                          {v}
-                        </label>
-                        <input
-                          type="text"
-                          value={varValues[v] || ''}
-                          onChange={e => setVarValues(prev => ({ ...prev, [v]: e.target.value }))}
-                          placeholder={`Ex.: ${v}`}
-                          className="w-full px-3 py-2.5 rounded-xl text-sm outline-none border transition-colors"
-                          style={{
-                            background: 'var(--surface)',
-                            borderColor: varValues[v] ? fc.border : 'var(--border)',
-                            color: '#F0EFF8',
-                          }}
-                        />
-                      </div>
-                    ))}
+                  {/* Campos dinâmicos com contexto */}
+                  <div className="flex flex-col gap-3">
+                    {varFields.map((f, i) => {
+                      const isFilled = !!varValues[f.fieldKey]?.trim()
+                      // Mostrar separador visual quando mudar o varName
+                      const prevVarName = i > 0 ? varFields[i - 1].varName : null
+                      const showDivider = i > 0 && f.varName !== prevVarName
+                      return (
+                        <div key={f.fieldKey}>
+                          {showDivider && (
+                            <div className="my-1" style={{ height: '1px', background: 'var(--border)' }} />
+                          )}
+                          <label className="block text-xs font-medium mb-1" style={{ color: isFilled ? '#F0EFF8' : 'var(--muted)' }}>
+                            {f.label}
+                          </label>
+                          <input
+                            type="text"
+                            value={varValues[f.fieldKey] || ''}
+                            onChange={e => setVarValues(prev => ({ ...prev, [f.fieldKey]: e.target.value }))}
+                            placeholder={f.varName !== f.label ? f.varName : `Preencha aqui…`}
+                            className="w-full px-3 py-2 rounded-xl text-sm outline-none border transition-colors"
+                            style={{
+                              background: 'var(--surface)',
+                              borderColor: isFilled ? fc.border : 'var(--border)',
+                              color: '#F0EFF8',
+                            }}
+                          />
+                        </div>
+                      )
+                    })}
                   </div>
 
+                  {/* Contador de campos */}
+                  <p className="text-xs mt-3" style={{ color: 'var(--subtle)' }}>
+                    {Object.values(varValues).filter(v => v.trim()).length} de {varFields.length} campo{varFields.length !== 1 ? 's' : ''} preenchido{varFields.length !== 1 ? 's' : ''}
+                  </p>
+
                   {/* Botões */}
-                  <div className="flex gap-3 mt-6">
+                  <div className="flex gap-3 mt-4">
                     <button
                       onClick={() => setPersonalizing(false)}
                       className="flex-1 py-2.5 rounded-xl text-sm border"
@@ -1004,7 +1049,7 @@ export default function DashboardPage() {
                     </button>
                     <button
                       onClick={() => {
-                        setPersonalizedBody(buildPersonalized(selectedPrompt.body, varValues))
+                        setPersonalizedBody(buildPersonalized(selectedPrompt.body, varValues, varFields))
                         setPersonalizing(false)
                       }}
                       className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white"
@@ -1081,5 +1126,6 @@ function PromptCard({
     </div>
   )
 }
+
 
 
