@@ -466,20 +466,63 @@ export default function DashboardPage() {
             </a>
           )}
 
-          {/* Instagram */}
-          <a
-            href="https://www.instagram.com/hub_promptiapro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:opacity-80 transition-opacity flex-shrink-0"
-            title="Instagram"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#9ca3af" strokeWidth="1.8"/>
-              <circle cx="12" cy="12" r="4.5" stroke="#9ca3af" strokeWidth="1.8"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="#9ca3af"/>
-            </svg>
-          </a>
+          {/* Links para IAs */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* ChatGPT */}
+            <a
+              href="https://chat.openai.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+              title="ChatGPT"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M22.28 9.98a5.6 5.6 0 0 0-.48-4.6 5.75 5.75 0 0 0-6.19-2.76A5.65 5.65 0 0 0 11.34 1a5.74 5.74 0 0 0-5.47 3.98 5.65 5.65 0 0 0-3.77 2.74 5.74 5.74 0 0 0 .71 6.72 5.6 5.6 0 0 0 .48 4.6 5.75 5.75 0 0 0 6.19 2.76A5.65 5.65 0 0 0 12.66 23a5.74 5.74 0 0 0 5.47-3.98 5.65 5.65 0 0 0 3.77-2.74 5.74 5.74 0 0 0-.62-6.3ZM12.66 21.5a4.24 4.24 0 0 1-2.72-.99l.13-.08 4.52-2.61a.75.75 0 0 0 .37-.64v-6.38l1.91 1.1a.07.07 0 0 1 .04.05v5.28a4.26 4.26 0 0 1-4.25 4.27Zm-9.14-3.91a4.24 4.24 0 0 1-.51-2.85l.14.08 4.52 2.61a.75.75 0 0 0 .74 0l5.52-3.19V16.1a.07.07 0 0 1-.03.06l-4.57 2.64a4.26 4.26 0 0 1-5.81-1.21Zm-1.19-9.87a4.24 4.24 0 0 1 2.22-1.87v5.37a.75.75 0 0 0 .37.64l5.51 3.18-1.91 1.1a.07.07 0 0 1-.07 0L3.9 13.5a4.26 4.26 0 0 1-.57-5.78Zm15.69 3.66-5.52-3.19 1.91-1.1a.07.07 0 0 1 .07 0l4.54 2.62a4.26 4.26 0 0 1-.66 7.68V12.02a.75.75 0 0 0-.34-.64Zm1.9-2.88-.14-.08-4.51-2.62a.75.75 0 0 0-.75 0L9 9.99V8.04a.07.07 0 0 1 .03-.06l4.57-2.64a4.26 4.26 0 0 1 6.32 4.41v.1Zm-11.97 3.94-1.91-1.1a.07.07 0 0 1-.04-.06V6a4.26 4.26 0 0 1 6.99-3.27l-.14.08-4.52 2.61a.75.75 0 0 0-.37.64l-.01 6.38Zm1.04-2.24 2.46-1.42 2.46 1.42v2.83l-2.46 1.42-2.46-1.42V12.2Z" fill="#9ca3af"/>
+              </svg>
+            </a>
+
+            {/* Claude */}
+            <a
+              href="https://claude.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+              title="Claude"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4.8 21.6 12 2.4l7.2 19.2H4.8Z" fill="none" stroke="#9ca3af" strokeWidth="1.8" strokeLinejoin="round"/>
+                <path d="M7.2 15.6h9.6" stroke="#9ca3af" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            </a>
+
+            {/* Gemini */}
+            <a
+              href="https://gemini.google.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+              title="Gemini"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C12 2 14.5 9.5 22 12C14.5 14.5 12 22 12 22C12 22 9.5 14.5 2 12C9.5 9.5 12 2 12 2Z" fill="#9ca3af"/>
+              </svg>
+            </a>
+
+            {/* Instagram */}
+            <a
+              href="https://www.instagram.com/hub_promptiapro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+              title="Instagram"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#9ca3af" strokeWidth="1.8"/>
+                <circle cx="12" cy="12" r="4.5" stroke="#9ca3af" strokeWidth="1.8"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="#9ca3af"/>
+              </svg>
+            </a>
+          </div>
 
           {/* Sair */}
           <button
@@ -879,4 +922,5 @@ function PromptCard({
     </div>
   )
 }
+
 
