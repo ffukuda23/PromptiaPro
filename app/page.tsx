@@ -334,7 +334,11 @@ export default function Home() {
 
       {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
       <footer className="flex flex-wrap items-center justify-between gap-4 px-12 py-8 border-t" style={{ borderColor: 'var(--border)' }}>
-        <LogoFooter />
+        <div className="flex flex-col gap-1">
+          <LogoFooter />
+          <span className="text-xs" style={{ color: 'var(--subtle)' }}>F Mitsuo Fukuda</span>
+          <span className="text-xs" style={{ color: 'var(--subtle)' }}>CNPJ: 29.751.016/0001-18</span>
+        </div>
         <div className="flex gap-6 items-center">
           <a href="/termos" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Termos de Uso</a>
           <a href="/privacidade" className="text-sm hover:opacity-80" style={{ color: 'var(--subtle)' }}>Política de Privacidade</a>
@@ -353,8 +357,6 @@ export default function Home() {
     </main>
   )
 }
-
-
 
 
 
