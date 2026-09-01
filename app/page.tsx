@@ -211,7 +211,7 @@ export default function Home() {
         <h2 className="font-display text-4xl font-extrabold tracking-normal mb-10 uppercase">Do acesso ao resultado em 3 passos</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {[
-            ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 9,90.'],
+            ['01', 'Escolha seu plano', 'Comece grátis ou garanta o acesso vitalício Pro por apenas R$ 29,90.'],
             ['02', 'Encontre o prompt', 'Navegue por categoria ou use a busca para encontrar o prompt ideal.'],
             ['03', 'Personalize e use', 'Copie, preencha os campos entre [colchetes] e cole na IA de sua escolha.'],
           ].map(([num, title, desc]) => (
@@ -253,8 +253,8 @@ export default function Home() {
             <span className="absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full text-white" style={{ background: 'var(--accent)' }}>Oferta especial</span>
             <div className="text-sm font-medium mb-4" style={{ color: 'var(--muted)' }}>Pro Vitalício</div>
             <div className="flex items-baseline gap-3 mb-1">
-              <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 29,90</span>
-              <span className="font-display text-5xl font-black">R$ 9,90</span>
+              <span className="font-display text-2xl line-through" style={{ color: 'var(--muted)' }}>R$ 99,90</span>
+              <span className="font-display text-5xl font-black">R$ 29,90</span>
             </div>
             <div className="text-sm mb-2" style={{ color: 'var(--muted)' }}>pagamento único · acesso vitalício</div>
             <div className="text-xs mb-6 px-3 py-1.5 rounded-full self-start font-medium" style={{ background: 'rgba(232,201,107,0.12)', color: 'var(--gold)' }}>⭐ menos de R$ 0,02 por prompt, para sempre</div>
