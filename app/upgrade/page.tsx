@@ -2,7 +2,7 @@
 export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 
-const LINK_VITALICIO = 'https://buy.stripe.com/fZuaEP8uGgEWamL8co97G04'
+const LINK_VITALICIO = 'https://buy.stripe.com/5kQaEP9yK3Sa7az3W897G03'
 
 export default function UpgradePage() {
   return (
@@ -85,3 +85,4 @@ export default function UpgradePage() {
     </div>
   )
 }
+
