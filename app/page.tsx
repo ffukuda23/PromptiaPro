@@ -1,6 +1,16 @@
 'use client'
-export const dynamic = 'force-dynamic'
+// NOTA: 'use client' é necessário por causa dos event handlers (onMouseEnter/Leave)
+// e do SVG de logo. O Next.js ainda faz SSR deste componente — o H1 e o JSON-LD
+// aparecem no HTML entregue ao Google normalmente.
+
+// ─── force-dynamic REMOVIDO ────────────────────────────────────────────────
+// A homepage não tem nenhum dado dinâmico por usuário; não há razão para
+// desabilitar o cache. Remover force-dynamic permite que o Next.js faça
+// static generation (SSG) ou ISR, melhorando TTFB e Core Web Vitals.
+// Se precisar de dados do Supabase na home no futuro, use revalidate em vez disso.
+
 import Link from 'next/link'
+
 const categories = [
   { icon: '💰', name: 'Financeiro Pessoal', count: '24 prompts', hot: false, isNew: false },
   { icon: '🏪', name: 'Empresa Varejo', count: '16 prompts', hot: true, isNew: false },
@@ -35,11 +45,41 @@ const testimonials = [
   { initials: 'AS', name: 'Ana S.', role: 'E-commerce · Curitiba, PR', text: 'Minha taxa de conversão subiu 40% em 3 semanas depois que comecei a usar os prompts de descrição de produto.' },
   { initials: 'LF', name: 'Luiza F.', role: 'Advogada · Rio de Janeiro, RJ', text: 'Os prompts jurídicos são incríveis para primeiras análises de contratos. O tempo de triagem caiu pela metade.' },
 ]
+
+// ── FAQs ─────────────────────────────────────────────────────────────────────
+// Usados tanto no render quanto no JSON-LD (FAQPage schema)
 const faqs = [
-  { q: 'Os prompts funcionam com qualquer IA?', a: 'Sim. Compatíveis com ChatGPT, Claude, Gemini, Copilot e qualquer IA conversacional. Escritos em português e otimizados para o contexto brasileiro.' },
-  { q: 'Preciso de experiência com IA?', a: 'Não. Basta copiar, preencher os campos entre colchetes com seus dados e colar na IA. Sem conhecimento técnico necessário.' },
-  { q: 'O acesso vitalício é mesmo para sempre?', a: 'Sim. Você paga uma única vez e tem acesso para sempre — incluindo todos os novos prompts adicionados todo mês, sem custo adicional.' },
+  {
+    q: 'Os prompts funcionam com qualquer IA?',
+    a: 'Sim. Compatíveis com ChatGPT, Claude, Gemini, Copilot e qualquer IA conversacional. Escritos em português e otimizados para o contexto brasileiro.',
+  },
+  {
+    q: 'Preciso de experiência com IA?',
+    a: 'Não. Basta copiar, preencher os campos entre colchetes com seus dados e colar na IA. Sem conhecimento técnico necessário.',
+  },
+  {
+    q: 'O acesso vitalício é mesmo para sempre?',
+    a: 'Sim. Você paga uma única vez e tem acesso para sempre — incluindo todos os novos prompts adicionados todo mês, sem custo adicional.',
+  },
 ]
+
+// ── JSON-LD: FAQPage ──────────────────────────────────────────────────────────
+// Habilita rich snippets no Google para as perguntas frequentes.
+// O Google exige que o conteúdo do schema seja visível na página — e está,
+// na seção de FAQ abaixo (os mesmos objetos `faqs`).
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: a,
+    },
+  })),
+}
+
 const LogoNavbar = () => (
   <svg width="180" height="36" viewBox="0 0 500 110" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(2, 18) scale(0.32)">
@@ -83,9 +123,16 @@ const LogoHero = () => (
     <text x="435" y="208" fontFamily="'Segoe UI',Arial,sans-serif" fontSize="15" fill="#9333ea" textAnchor="middle" letterSpacing="4">PLATAFORMA DE PROMPTS PROFISSIONAIS</text>
   </svg>
 )
+
 export default function Home() {
   return (
     <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
+
+      {/* ── JSON-LD: FAQPage ──────────────────────────────────────────────── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
 
       {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 border-b" style={{ background: 'rgba(10,10,15,0.9)', backdropFilter: 'blur(12px)', borderColor: 'var(--border)' }}>
@@ -97,7 +144,6 @@ export default function Home() {
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}>{item}</a>
           ))}
         </div>
-        {/* Dois CTAs: login secundário + cadastro primário */}
         <div className="flex items-center gap-3">
           <Link href="/auth/login" className="hidden sm:block text-sm font-medium transition-opacity hover:opacity-70" style={{ color: 'var(--muted)' }}>
             Entrar
@@ -109,15 +155,22 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ───────────────────────────────────────────────────────────── */}
-      {/*
-        pb-14 (56px) em vez de pb-20 (80px):
-        junto com o pt-4 da seção de categorias, o gap visual total entre
-        o bloco de estatísticas e o título "22 áreas" fica em ~72 px —
-        respira bem sem parecer tela em branco.
-      */}
       <section className="flex flex-col items-center justify-center text-center pt-32 pb-14 px-6 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(ellipse, rgba(124,111,247,0.15) 0%, transparent 70%)' }} />
         <div className="animate-fade-up w-full">
+          {/*
+            ── H1 REAL ───────────────────────────────────────────────────────
+            Anteriormente o "título" da página era um SVG — texto invisível
+            para o Google. Este <h1> é o heading semântico principal.
+            A classe "sr-only" o mantém visualmente oculto para não duplicar
+            o logotipo SVG na tela, mas ele está no DOM e é lido pelos crawlers.
+            Se preferir exibir o H1 visivelmente, remova a classe sr-only e
+            ajuste a tipografia conforme o design.
+          */}
+          <h1 className="sr-only">
+            Biblioteca de Prompts Profissionais para IA em Português — ChatGPT, Claude e Gemini
+          </h1>
+
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6 border" style={{ background: 'rgba(124,111,247,0.12)', borderColor: 'rgba(124,111,247,0.3)', color: 'var(--accent2)' }}>
             ✦ Biblioteca profissional de prompts
           </span>
@@ -147,16 +200,10 @@ export default function Home() {
       </section>
 
       {/* ── CATEGORIAS ─────────────────────────────────────────────────────── */}
-      {/*
-        pt-4 (16px) em vez de pt-20 (80px): o hero já entrega o pb-14,
-        então o gap total hero→categorias é 56+16 = 72 px. Sem buraco.
-        pb-14 mantém respiro antes da próxima seção.
-      */}
       <section id="categorias" className="max-w-5xl mx-auto px-6 pt-4 pb-14">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Biblioteca completa</div>
         <h2 className="font-display text-4xl font-extrabold tracking-normal mb-3 uppercase">22 áreas do conhecimento</h2>
         <p className="mb-10" style={{ color: 'var(--muted)' }}>Prompts organizados por grupo e subgrupo para encontrar o que precisa em segundos.</p>
-        {/* Cards clicáveis — levam ao cadastro */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {categories.map(cat => (
             <Link
@@ -201,11 +248,6 @@ export default function Home() {
       </section>
 
       {/* ── COMO FUNCIONA ──────────────────────────────────────────────────── */}
-      {/*
-        py-14 (56px) em vez de py-20 (80px):
-        gap entre "Exemplos" (py-8 = 32px bottom) e "Como funciona" (pt-14) = 88 px total.
-        gap entre "Como funciona" (pb-14) e "Planos" (pt-14) = 112 px — sem buraco.
-      */}
       <section id="como-funciona" className="max-w-5xl mx-auto px-6 py-14">
         <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--accent)' }}>Como funciona</div>
         <h2 className="font-display text-4xl font-extrabold tracking-normal mb-10 uppercase">Do acesso ao resultado em 3 passos</h2>
@@ -278,10 +320,6 @@ export default function Home() {
       </section>
 
       {/* ── DEPOIMENTOS ────────────────────────────────────────────────────── */}
-      {/*
-        py-8 (32px) em vez de py-10 (40px):
-        gap entre Planos (pb-14=56px) e Depoimentos (pt-8=32px) = 88 px — ok.
-      */}
       <section className="max-w-5xl mx-auto px-6 py-8">
         <h2 className="font-display text-4xl font-black tracking-tight mb-10">Quem já usa</h2>
         <div className="grid md:grid-cols-3 gap-4">
