@@ -1,16 +1,13 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
-// ── metadataBase ─────────────────────────────────────────────────────────────
-// Necessário para que o Next.js resolva URLs relativas em OG/canonical.
-// Sem isso as canonical tags ficam inválidas.
 const SITE_URL = 'https://www.promptiapro.com.br'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-
-  // Este é o título/description da homepage (e fallback de todo o site).
-  // Páginas internas devem ter seu próprio metadata em layout.tsx local.
+  verification: {
+    google: 'dBeHrzHKuOaiPmrpV62zwgPxgFN_pZvHXrF39SMm_To',
+  },
   title: {
     default: 'PromptIAPro — Biblioteca de Prompts Profissionais para IA em Português',
     template: '%s | PromptIAPro',
@@ -18,10 +15,6 @@ export const metadata: Metadata = {
   description:
     'Mais de 500 prompts profissionais testados em finanças, direito, saúde, vendas, carreira e muito mais. ' +
     'Compatíveis com ChatGPT, Claude e Gemini. Copie, personalize e use em segundos.',
-
-  // Canonical automático: Next.js gera <link rel="canonical"> para cada rota
-  // desde que metadataBase esteja definido (já está acima).
-
   openGraph: {
     title: 'PromptIAPro — Biblioteca de Prompts Profissionais para IA',
     description:
@@ -32,29 +25,25 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.png', // adicione uma imagem 1200×630 no /public futuramente
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'PromptIAPro — Biblioteca de Prompts Profissionais',
       },
     ],
   },
-
   twitter: {
     card: 'summary_large_image',
     title: 'PromptIAPro — Prompts profissionais para IA em português',
     description:
       'Mais de 500 prompts prontos para ChatGPT, Claude e Gemini. Economize horas todo dia.',
   },
-
-  // Evita que o Google indexe rotas de auth e dashboard
   robots: {
     index: true,
     follow: true,
   },
 }
 
-// ── JSON-LD: Organization + WebSite (sitelinks search box) ───────────────────
 const organizationJsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -110,4 +99,3 @@ export default function RootLayout({
     </html>
   )
 }
-
