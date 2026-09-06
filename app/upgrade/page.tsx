@@ -14,7 +14,7 @@ export default function UpgradePage() {
       <div className="text-center mb-12">
         <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>Upgrade para Pro</div>
         <h1 className="font-display text-4xl font-black tracking-tight mb-3">Acesso vitalício por R$ 29,90</h1>
-        <p className="text-sm" style={{ color: 'var(--muted)' }}>Pague uma vez. Acesse para sempre. 500+ prompts profissionais.</p>
+        <p className="text-sm" style={{ color: 'var(--muted)' }}>Pague uma vez. Acesse para sempre. 2500+ prompts profissionais.</p>
       </div>
 
       <div className="w-full max-w-md">
@@ -31,7 +31,7 @@ export default function UpgradePage() {
           <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
           <ul className="flex flex-col gap-3 mb-8 flex-1">
             {[
-              '500+ prompts profissionais completos',
+              '2500+ prompts profissionais completos',
               '22 categorias completas',
               'Novos prompts adicionados todo mês',
               'Busca avançada por categoria',
