@@ -176,7 +176,7 @@ export default function Home() {
           </span>
           <div className="w-full"><LogoHero /></div>
           <p className="text-lg md:text-xl max-w-xl mx-auto mb-10 font-light leading-relaxed" style={{ color: 'var(--muted)' }}>
-            Mais de 500 prompts profissionais em 22 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Saiba o que perguntar e economize horas todo dia.
+            Mais de 2500 prompts profissionais em 22 categorias — finanças, direito, saúde, vendas, carreira e muito mais. Saiba o que perguntar e economize horas todo dia.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/auth/register" className="px-8 py-4 rounded-xl text-base font-semibold text-white transition-all hover:opacity-90 hover:-translate-y-0.5" style={{ background: 'var(--accent)' }}>
@@ -190,7 +190,7 @@ export default function Home() {
         <div className="w-full mt-8 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(124,111,247,0.12)', border: '1px solid rgba(124,111,247,0.3)', color: 'var(--accent2)', letterSpacing: '0.1em' }}>⚡ Economize tempo e otimize suas atividades com prompts prontos e testados!</div>
         <div className="w-full mt-3 py-3 px-6 rounded-2xl text-center font-display text-sm font-bold uppercase" style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.25)', color: '#4ADE80', letterSpacing: '0.1em' }}>🤖 Use os prompts na IA de sua preferência — ChatGPT, Claude, Gemini e muito mais!</div>
         <div className="flex gap-12 mt-12 flex-wrap justify-center">
-          {[['500+', 'Prompts profissionais'], ['22', 'Áreas de atuação'], ['100%', 'Testados']].map(([num, label]) => (
+          {[['2500+', 'Prompts profissionais'], ['22', 'Áreas de atuação'], ['100%', 'Testados']].map(([num, label]) => (
             <div key={label} className="text-center">
               <div className="font-display text-3xl font-black">{num}</div>
               <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{label}</div>
@@ -303,7 +303,7 @@ export default function Home() {
             <div className="h-px mb-6" style={{ background: 'var(--border)' }} />
             <ul className="space-y-3 mb-8 flex-1">
               {[
-                '500+ prompts completos',
+                '2500+ prompts completos',
                 '22 categorias completas',
                 'Busca avançada',
                 'Favoritos ilimitados',
