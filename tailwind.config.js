@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Syne', 'sans-serif'],
+        display: ['Inter', 'sans-serif'],
         body: ['DM Sans', 'sans-serif'],
       },
       colors: {
