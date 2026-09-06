@@ -13,12 +13,12 @@ export const metadata: Metadata = {
     template: '%s | PromptIAPro',
   },
   description:
-    'Mais de 500 prompts profissionais testados em finanças, direito, saúde, vendas, carreira e muito mais. ' +
+    'Mais de 2500 prompts profissionais testados em finanças, direito, saúde, vendas, carreira e muito mais. ' +
     'Compatíveis com ChatGPT, Claude e Gemini. Copie, personalize e use em segundos.',
   openGraph: {
     title: 'PromptIAPro — Biblioteca de Prompts Profissionais para IA',
     description:
-      'Mais de 500 prompts prontos para ChatGPT, Claude e Gemini em português. Finanças, direito, saúde, carreira e muito mais.',
+      'Mais de 2500 prompts prontos para ChatGPT, Claude e Gemini em português. Finanças, direito, saúde, carreira e muito mais.',
     url: SITE_URL,
     siteName: 'PromptIAPro',
     locale: 'pt_BR',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'PromptIAPro — Prompts profissionais para IA em português',
     description:
-      'Mais de 500 prompts prontos para ChatGPT, Claude e Gemini. Economize horas todo dia.',
+      'Mais de 2500 prompts prontos para ChatGPT, Claude e Gemini. Economize horas todo dia.',
   },
   robots: {
     index: true,
