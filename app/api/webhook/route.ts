@@ -46,7 +46,7 @@ function emailBoasVindas(email: string) {
                 <tr><td>
                   <p style="margin:0 0 16px;color:#9ca3af;font-size:13px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">O que você desbloqueou</p>
                   <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr><td style="padding:8px 0;color:#d1d5db;font-size:15px;">⭐ 500+ prompts exclusivos Pro</td></tr>
+                    <tr><td style="padding:8px 0;color:#d1d5db;font-size:15px;">⭐ 2500+ prompts exclusivos Pro</td></tr>
                     <tr><td style="padding:8px 0;color:#d1d5db;font-size:15px;">📂 22 categorias profissionais completas</td></tr>
                     <tr><td style="padding:8px 0;color:#d1d5db;font-size:15px;">🔄 Novos prompts todo mês — sem custo adicional</td></tr>
                     <tr><td style="padding:8px 0;color:#d1d5db;font-size:15px;">♾️ Acesso vitalício — pague uma vez, use sempre</td></tr>
