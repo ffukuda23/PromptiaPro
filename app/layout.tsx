@@ -1,12 +1,18 @@
 import type { Metadata } from 'next'
+
+import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const SITE_URL = 'https://www.promptiapro.com.br'
-
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  verification: {
-    google: 'dBeHrzHKuOaiPmrpV62zwgPxgFN_pZvHXrF39SMm_To',
+    verification: {
+    google: [
+      'dBeHrzHKuOaiPmrpV62zwgPxgFN_pZvHXrF39SMm_To',
+      'iW6Yuwtn6rw-VfECCvsV3VjKcr8VW2OsrbbFrv67QoE',
+    ],
   },
   title: {
     default: 'PromptIAPro — Biblioteca de Prompts Profissionais para IA em Português',
@@ -90,12 +96,31 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
           rel="stylesheet"
         />
-        <script
+               <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
       </head>
-      <body className="font-body bg-bg text-white antialiased">{children}</body>
+      <body className="font-body bg-bg text-white antialiased">
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
