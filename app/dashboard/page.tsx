@@ -47,6 +47,7 @@ const TREE: Record<Format, CategoryConfig[]> = {
         { key: 'Locação de Imóveis' },
         { key: 'Compra e Venda de Automóveis' },
         { key: 'Festas e Eventos' },
+        { key: 'Profissionais de Festa', isNew: true },
       ],
     },
     {
@@ -115,7 +116,6 @@ const TREE: Record<Format, CategoryConfig[]> = {
 export default function DashboardPage() {
   const router = useRouter()
   const [user,           setUser]           = useState<UserProfile | null>(null)
-  const [prompts,        setPrompts]        = useState<Prompt[]>([])
   const [format,         setFormat]         = useState<Format>('texto')
   const [selCategory,    setSelCategory]    = useState<string | null>(null)
   const [selTema,        setSelTema]        = useState<string | null>(null)
@@ -132,6 +132,32 @@ export default function DashboardPage() {
   const [varValues,        setVarValues]        = useState<Record<string, string>>({})
   const [personalizedBody, setPersonalizedBody] = useState<string | null>(null)
 
+  // Contagem de prompts por categoria (vem de uma view agregada — nunca
+  // carrega a tabela inteira, o tamanho da resposta não cresce com o
+  // catálogo, só com o número de categorias/subcategorias).
+  const [groupCounts, setGroupCounts] = useState<Record<string, number>>({})
+
+  // Prompts da categoria aberta (busca sob demanda, paginada)
+  const [temaPrompts, setTemaPrompts] = useState<Prompt[]>([])
+  const [temaHasMore, setTemaHasMore] = useState(false)
+  const [temaLoading, setTemaLoading] = useState(false)
+
+  // Resultado da busca global (sob demanda, com debounce)
+  const [searchPrompts, setSearchPrompts] = useState<Prompt[]>([])
+  const [searchTotal,   setSearchTotal]   = useState(0)
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+
+  // Prompts favoritados (busca só os IDs favoritados, no máximo 20)
+  const [favPrompts, setFavPrompts] = useState<Prompt[]>([])
+
+  const PAGE_SIZE = 60
+
+  // Remove caracteres que quebrariam a sintaxe do filtro .or() do PostgREST
+  function sanitizeSearch(q: string) {
+    return q.replace(/[%,()]/g, ' ').trim()
+  }
+
   // Carrega dados ao montar
   useEffect(() => {
     async function load() {
@@ -146,9 +172,15 @@ export default function DashboardPage() {
         .from('subscriptions').select('*').eq('user_id', authUser.id).single()
       setUser({ id: authUser.id, email: authUser.email!, plan: sub?.plan || 'free', subscription: sub })
 
-      const { data: promptsData } = await supabase
-        .from('prompts').select('*').order('created_at', { ascending: false })
-      setPrompts(promptsData || [])
+      // Contagem por categoria via view `prompt_counts` (group_name, subgroup, total) —
+      // sempre poucas dezenas/centenas de linhas, nunca a tabela `prompts` inteira.
+      const { data: countsData } = await supabase
+        .from('prompt_counts').select('group_name, total')
+      const counts: Record<string, number> = {}
+      ;(countsData || []).forEach((r: { group_name: string; total: number }) => {
+        counts[r.group_name] = (counts[r.group_name] || 0) + r.total
+      })
+      setGroupCounts(counts)
 
       const { data: favsData } = await supabase
         .from('favorites').select('prompt_id').eq('user_id', authUser.id)
@@ -156,6 +188,79 @@ export default function DashboardPage() {
     }
     load()
   }, [router])
+
+  // Debounce da busca (evita 1 consulta por tecla digitada)
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search.trim()), 300)
+    return () => clearTimeout(t)
+  }, [search])
+
+  // Busca os prompts favoritados só pelos IDs (no máximo 20 — nunca carrega a tabela toda)
+  useEffect(() => {
+    let cancelled = false
+    async function loadFavorited() {
+      if (favorites.length === 0) { setFavPrompts([]); return }
+      const { data } = await supabase.from('prompts').select('*').in('id', favorites)
+      if (!cancelled) setFavPrompts(data || [])
+    }
+    loadFavorited()
+    return () => { cancelled = true }
+  }, [favorites])
+
+  // Busca os prompts da categoria selecionada (paginado, filtrado no servidor)
+  useEffect(() => {
+    let cancelled = false
+    async function loadTema() {
+      if (!selTema) { setTemaPrompts([]); setTemaHasMore(false); return }
+      setTemaLoading(true)
+      let q = supabase.from('prompts').select('*').eq('group_name', selTema)
+      const term = sanitizeSearch(debouncedSearch)
+      if (term) q = q.or(`title.ilike.%${term}%,description.ilike.%${term}%`)
+      const { data } = await q.order('created_at', { ascending: false }).range(0, PAGE_SIZE - 1)
+      if (cancelled) return
+      setTemaPrompts(data || [])
+      setTemaHasMore((data?.length || 0) === PAGE_SIZE)
+      setTemaLoading(false)
+    }
+    loadTema()
+    return () => { cancelled = true }
+  }, [selTema, debouncedSearch])
+
+  async function loadMoreTema() {
+    if (!selTema || temaLoading) return
+    setTemaLoading(true)
+    let q = supabase.from('prompts').select('*').eq('group_name', selTema)
+    const term = sanitizeSearch(debouncedSearch)
+    if (term) q = q.or(`title.ilike.%${term}%,description.ilike.%${term}%`)
+    const { data } = await q
+      .order('created_at', { ascending: false })
+      .range(temaPrompts.length, temaPrompts.length + PAGE_SIZE - 1)
+    setTemaPrompts(prev => [...prev, ...(data || [])])
+    setTemaHasMore((data?.length || 0) === PAGE_SIZE)
+    setTemaLoading(false)
+  }
+
+  // Busca global (só roda quando não há tema selecionado)
+  useEffect(() => {
+    let cancelled = false
+    async function runSearch() {
+      const term = sanitizeSearch(debouncedSearch)
+      if (!term || selTema) { setSearchPrompts([]); setSearchTotal(0); return }
+      setSearchLoading(true)
+      const { data, count } = await supabase
+        .from('prompts')
+        .select('*', { count: 'exact' })
+        .or(`title.ilike.%${term}%,description.ilike.%${term}%`)
+        .order('created_at', { ascending: false })
+        .limit(PAGE_SIZE)
+      if (cancelled) return
+      setSearchPrompts(data || [])
+      setSearchTotal(count || 0)
+      setSearchLoading(false)
+    }
+    runSearch()
+    return () => { cancelled = true }
+  }, [debouncedSearch, selTema])
 
   // Handlers de auth
   async function handleLogout() {
@@ -248,42 +353,11 @@ export default function DashboardPage() {
     setVarFields([])
   }
 
-  // Prompts favoritados (até 20)
-  const favoritedPrompts = useMemo(() =>
-    prompts.filter(p => favorites.includes(p.id)).slice(0, 20),
-  [prompts, favorites])
-
   // Estado derivado
   const fc         = FORMAT_CONFIG[format]
   const categories = TREE[format]
   const curCat     = categories.find(c => c.key === selCategory)
   const curTema    = curCat?.temas.find(t => t.key === selTema)
-
-  const countByGroup = useMemo(() => {
-    const m: Record<string, number> = {}
-    prompts.forEach(p => { m[p.group_name] = (m[p.group_name] || 0) + 1 })
-    return m
-  }, [prompts])
-
-  // Prompts filtrados pelo tema selecionado
-  const filteredPrompts = useMemo(() => {
-    if (!selTema) return []
-    const q = search.toLowerCase()
-    return prompts.filter(p => {
-      if (p.group_name !== selTema) return false
-      if (q) return p.title.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q)
-      return true
-    })
-  }, [prompts, selTema, search])
-
-  // Resultados de busca global (sem tema selecionado)
-  const searchResults = useMemo(() => {
-    if (!search || selTema) return []
-    const q = search.toLowerCase()
-    return prompts.filter(p =>
-      p.title.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q)
-    )
-  }, [prompts, search, selTema])
 
   // Navegação
   function selectCategory(key: string) {
@@ -428,7 +502,7 @@ export default function DashboardPage() {
                   <div className="ml-4 border-l" style={{ borderColor: 'var(--border)' }}>
                     {cat.temas.map(tema => {
                       const isTemaActive = selTema === tema.key
-                      const count        = countByGroup[tema.key] || 0
+                      const count        = groupCounts[tema.key] || 0
                       return (
                         <button
                           key={tema.key}
@@ -636,7 +710,7 @@ export default function DashboardPage() {
                 </p>
               </div>
 
-              {favoritedPrompts.length === 0 ? (
+              {favPrompts.length === 0 ? (
                 <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
                   <div className="text-5xl mb-4">♡</div>
                   <p className="text-sm font-medium mb-1">Nenhum favorito ainda</p>
@@ -644,7 +718,7 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {favoritedPrompts.map(p => (
+                  {favPrompts.map(p => (
                     <PromptCard
                       key={p.id}
                       p={p}
@@ -664,16 +738,18 @@ export default function DashboardPage() {
           {showSearch && (
             <>
               <p className="text-xs mb-4" style={{ color: 'var(--muted)' }}>
-                {searchResults.length} resultado{searchResults.length !== 1 ? 's' : ''} para &quot;{search}&quot;
+                {searchLoading
+                  ? 'Buscando…'
+                  : `${searchTotal} resultado${searchTotal !== 1 ? 's' : ''} para "${search}"`}
               </p>
-              {searchResults.length === 0 ? (
+              {!searchLoading && searchPrompts.length === 0 ? (
                 <div className="text-center py-16" style={{ color: 'var(--muted)' }}>
                   <div className="text-4xl mb-3">🔍</div>
                   <p className="text-sm">Nenhum prompt encontrado.</p>
                 </div>
               ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {searchResults.map(p => (
+                  {searchPrompts.map(p => (
                     <PromptCard
                       key={p.id}
                       p={p}
@@ -706,7 +782,7 @@ export default function DashboardPage() {
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {categories.map(cat => {
-                  const count = cat.temas.reduce((n, t) => n + (countByGroup[t.key] || 0), 0)
+                  const count = cat.temas.reduce((n, t) => n + (groupCounts[t.key] || 0), 0)
                   return (
                     <button
                       key={cat.key}
@@ -769,7 +845,7 @@ export default function DashboardPage() {
               {/* Grade de temas */}
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {curCat.temas.map(tema => {
-                  const count   = countByGroup[tema.key] || 0
+                  const count   = groupCounts[tema.key] || 0
                   const isEmpty = count === 0
                   return (
                     <button
@@ -853,28 +929,45 @@ export default function DashboardPage() {
                 )}
               </div>
               <p className="text-xs mb-5" style={{ color: 'var(--muted)' }}>
-                {filteredPrompts.length} prompt{filteredPrompts.length !== 1 ? 's' : ''} disponíveis
+                {(() => {
+                  const total = groupCounts[selTema!] ?? temaPrompts.length
+                  return `${total} prompt${total !== 1 ? 's' : ''} disponíve${total !== 1 ? 'is' : 'l'}`
+                })()}
               </p>
 
-              {filteredPrompts.length === 0 ? (
+              {temaPrompts.length === 0 && !temaLoading ? (
                 <div className="text-center py-16" style={{ color: 'var(--muted)' }}>
                   <div className="text-4xl mb-3">✨</div>
                   <p className="text-sm">Prompts chegando em breve!</p>
                 </div>
               ) : (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {filteredPrompts.map(p => (
-                    <PromptCard
-                      key={p.id}
-                      p={p}
-                      user={user}
-                      favorites={favorites}
-                      accentColor={fc.color}
-                      onView={openPrompt}
-                      onFavorite={toggleFavorite}
-                    />
-                  ))}
-                </div>
+                <>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {temaPrompts.map(p => (
+                      <PromptCard
+                        key={p.id}
+                        p={p}
+                        user={user}
+                        favorites={favorites}
+                        accentColor={fc.color}
+                        onView={openPrompt}
+                        onFavorite={toggleFavorite}
+                      />
+                    ))}
+                  </div>
+                  {(temaHasMore || temaLoading) && (
+                    <div className="flex justify-center mt-5">
+                      <button
+                        onClick={loadMoreTema}
+                        disabled={temaLoading}
+                        className="px-4 py-2 rounded-lg text-xs font-medium border transition-all hover:opacity-80 disabled:opacity-50"
+                        style={{ borderColor: 'var(--border2)', color: '#F0EFF8' }}
+                      >
+                        {temaLoading ? 'Carregando…' : 'Carregar mais'}
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}
